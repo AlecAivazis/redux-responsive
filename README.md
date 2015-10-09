@@ -1,5 +1,5 @@
 # alt-responsive
-A flux store for easily creating responsive designs in an alt application
+A redux reducer for managing the responsive state of your application
 
 # Why Use a Flux Store for Responsive Behavior?
 
