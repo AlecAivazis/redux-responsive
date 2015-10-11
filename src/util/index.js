@@ -1,7 +1,7 @@
-import triggerResponsiveStateManager from './triggerResponsiveStateManager'
+import addResponsiveHandlers from './addResponsiveHandlers'
 import createResponsiveStateReducer from './createResponsiveStateReducer'
 
 export default {
-    triggerResponsiveStateManager,
+    addResponsiveHandlers,
     createResponsiveStateReducer,
 }

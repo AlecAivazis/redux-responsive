@@ -1,11 +1,11 @@
 // local imports
 import triggerResponsiveStateManager from './util/triggerResponsiveStateManager'
-import createResponsiveStateReducer from './util/createResponsiveStateReducer'
+import addResponsiveHandlers from './util/addResponsiveHandlers'
 
 
 export default {
     triggerResponsiveStateManager,
-    createResponsiveStateReducer,
+    addResponsiveHandlers,
     // provide the default responsive state reducer
-    responsiveStateReducer: createResponsiveStateReducer(),
+    responsiveStateReducer: addResponsiveHandlers(),
 }
