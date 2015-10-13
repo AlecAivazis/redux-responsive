@@ -4,11 +4,11 @@ import isFunction from 'lodash/lang/isFunction'
 import createResponsiveStateReducer from 'util/createResponsiveStateReducer'
 
 
-const possible_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
+const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
 function randomString(length) {
     let result = ''
     for (var i = 0; i < length; i++) {
-        result += possible_chars[Math.floor(possible_chars.length * Math.random())]
+        result += possibleChars[Math.floor(possibleChars.length * Math.random())]
     }
     return result
 }
@@ -33,11 +33,11 @@ describe('createResponsiveStateReducer', function () {
 
     describe('with custom breakpoints', function () {
         // number of breakpoints to randomly generate
-        const num_breakpoints = Math.floor(10 * Math.random())
+        const numBreakpoints = Math.floor(10 * Math.random())
         // maximum length of randomly generated media type strings
-        const media_type_max_length = 50
+        const mediaTypeMaxLength = 50
         // maximum value for randomly generated breakpoint values
-        const breakpoint_max_value = 10000
+        const breakpointMaxValue = 10000
 
         // assigned in `beforeEach`
         let reducer
@@ -47,11 +47,11 @@ describe('createResponsiveStateReducer', function () {
         beforeEach(function () {
             // randomly generate breakpoints object
             breakpoints = {}
-            for (var i = 0; i < num_breakpoints; i++) {
-                const media_type = randomString(Math.ceil(media_type_max_length * Math.random()))
-                const breakpoint = Math.floor(breakpoint_max_value * Math.random())
+            for (var i = 0; i < numBreakpoints; i++) {
+                const mediaType = randomString(Math.ceil(mediaTypeMaxLength * Math.random()))
+                const breakpoint = Math.floor(breakpointMaxValue * Math.random())
 
-                breakpoints[media_type] = breakpoint
+                breakpoints[mediaType] = breakpoint
             }
             // create reducer based on random breakpoints
             reducer = createResponsiveStateReducer(breakpoints)
@@ -60,7 +60,7 @@ describe('createResponsiveStateReducer', function () {
 
         describe('the reducer', function () {
             // maximum length of randomly generated action type strings
-            const action_type_max_length = 50
+            const actionTypeMaxLength = 50
 
 
             it('is a function', function () {
@@ -71,7 +71,7 @@ describe('createResponsiveStateReducer', function () {
             it('returns the input state for unknown actions and state !== undefined', function () {
                 // randomly generate an action
                 const action = {
-                    type: randomString(Math.ceil(action_type_max_length * Math.random()))
+                    type: randomString(Math.ceil(actionTypeMaxLength * Math.random()))
                 }
                 // non-undefined input state
                 const state = Math.random()

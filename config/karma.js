@@ -5,19 +5,19 @@
  */
 
 // local imports
-var project_paths = require('./project_paths')
-var webpack_config = require(project_paths.webpack_config)
+var projectPaths = require('./projectPaths')
+var webpackConfig = require(projectPaths.webpackConfig)
 
 
 // annoying hack to be able to dynamically set keys on object
 var preprocessors = {}
-preprocessors[project_paths.tests_glob] = ['webpack', 'sourcemap']
+preprocessors[projectPaths.testsGlob] = ['webpack', 'sourcemap']
 
 
 module.exports = function (config) {
     config.set({
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: project_paths.root_dir,
+        basePath: projectPaths.rootDir,
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -28,7 +28,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            project_paths.tests_glob,
+            projectPaths.testsGlob,
         ],
 
         // // list of files to exclude
@@ -42,9 +42,9 @@ module.exports = function (config) {
         // configure webpack using settings from development webpack config
         webpack: {
             module: {
-                loaders: webpack_config.module.loaders
+                loaders: webpackConfig.module.loaders
             },
-            resolve: webpack_config.resolve,
+            resolve: webpackConfig.resolve,
             devtool: 'inline-source-map',
         },
 

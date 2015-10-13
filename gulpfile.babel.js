@@ -6,17 +6,17 @@ import named from 'vinyl-named'
 import env from 'gulp-env'
 import karma from 'karma'
 // local imports
-import project_paths from './config/project_paths'
+import projectPaths from './config/projectPaths'
 
 
 /**
  * Build entry point.
  */
 gulp.task('build', ['clean'], () => {
-    return gulp.src(project_paths.entry)
+    return gulp.src(projectPaths.entry)
                .pipe(named())
-               .pipe(webpack(require(project_paths.webpack_config)))
-               .pipe(gulp.dest(project_paths.build_dir))
+               .pipe(webpack(require(projectPaths.webpack_config)))
+               .pipe(gulp.dest(projectPaths.build_dir))
 })
 
 
@@ -25,14 +25,14 @@ gulp.task('build', ['clean'], () => {
  */
 gulp.task('watch', ['clean'], () => {
     const config = {
-        ...require(project_paths.webpack_config),
+        ...require(projectPaths.webpack_config),
         watch: true,
     }
 
-    return gulp.src(project_paths.entry)
+    return gulp.src(projectPaths.entry)
                .pipe(named())
                .pipe(webpack(config))
-               .pipe(gulp.dest(project_paths.build_dir))
+               .pipe(gulp.dest(projectPaths.build_dir))
 })
 
 
@@ -47,10 +47,10 @@ gulp.task('build-production', ['clean'], () => {
         },
     })
     // build the client
-    return gulp.src(project_paths.entry)
+    return gulp.src(projectPaths.entry)
                .pipe(named())
-               .pipe(webpack(require(project_paths.webpack_config)))
-               .pipe(gulp.dest(project_paths.build_dir))
+               .pipe(webpack(require(projectPaths.webpack_config)))
+               .pipe(gulp.dest(projectPaths.build_dir))
 })
 
 
@@ -58,7 +58,7 @@ gulp.task('build-production', ['clean'], () => {
  * Remove all ouptut files from previous builds.
  */
 gulp.task('clean', () => {
-    del.sync(project_paths.build_dir)
+    del.sync(projectPaths.build_dir)
 })
 
 
@@ -67,7 +67,7 @@ gulp.task('clean', () => {
  */
 gulp.task('test', (cb) => {
     const server = new karma.Server({
-        configFile: project_paths.karma_config,
+        configFile: projectPaths.karma_config,
         singleRun: true
     }, () => cb())
 
@@ -80,7 +80,7 @@ gulp.task('test', (cb) => {
  */
 gulp.task('tdd', () => {
     const server = new karma.Server({
-        configFile: project_paths.karma_config,
+        configFile: projectPaths.karma_config,
     })
 
     server.start()

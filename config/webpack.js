@@ -5,7 +5,7 @@
 // webpack imports
 var webpack = require('webpack')
 // local imports
-var project_paths = require('./project_paths')
+var projectPaths = require('./projectPaths')
 
 
 // default to using development configuration
@@ -30,7 +30,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'eslint',
-                include: project_paths.source_dir,
+                include: projectPaths.sourceDir,
             },
         ],
         loaders: [
@@ -38,8 +38,8 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel',
                 include: [
-                    project_paths.source_dir,
-                    project_paths.tests_dir,
+                    projectPaths.sourceDir,
+                    projectPaths.testsDir,
                 ],
                 query: {stage: 0},
             },
@@ -47,10 +47,10 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js'],
-        root: [project_paths.source_dir],
+        root: [projectPaths.sourceDir],
     },
     eslint: {
-        configFile: project_paths.eslint_config,
+        configFile: projectPaths.eslintConfig,
         failOnError: true,
     },
     output: {

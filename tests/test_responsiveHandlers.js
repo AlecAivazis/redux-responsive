@@ -13,12 +13,12 @@ describe('addResponsiveHandlers', function () {
 
 
     it('calls the dispatch property of the store arg', function () {
-        const dispatch_spy = sinon.spy()
+        const dispatchSpy = sinon.spy()
 
-        addResponsiveHandlers({dispatch: dispatch_spy})
+        addResponsiveHandlers({dispatch: dispatchSpy})
 
         // should have triggered our dispatch spy exactly once
-        expect(dispatch_spy).to.have.been.calledOnce
+        expect(dispatchSpy).to.have.been.calledOnce
     })
 
 
