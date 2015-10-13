@@ -1,6 +1,6 @@
 {
   "name": "redux-responsive",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "build/index.js",
   "repository": {
@@ -11,6 +11,10 @@
   "contributors": [
     "Monte Mishkin"
   ],
+  "scripts": {
+    "test": "gulp test",
+    "prepublish" : "gulp build-production"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^5.8.25",
