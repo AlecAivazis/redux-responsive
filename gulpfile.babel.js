@@ -15,8 +15,8 @@ import projectPaths from './config/projectPaths'
 gulp.task('build', ['clean'], () => {
     return gulp.src(projectPaths.entry)
                .pipe(named())
-               .pipe(webpack(require(projectPaths.webpack_config)))
-               .pipe(gulp.dest(projectPaths.build_dir))
+               .pipe(webpack(require(projectPaths.webpackConfig)))
+               .pipe(gulp.dest(projectPaths.buildDir))
 })
 
 
@@ -25,14 +25,14 @@ gulp.task('build', ['clean'], () => {
  */
 gulp.task('watch', ['clean'], () => {
     const config = {
-        ...require(projectPaths.webpack_config),
+        ...require(projectPaths.webpackConfig),
         watch: true,
     }
 
     return gulp.src(projectPaths.entry)
                .pipe(named())
                .pipe(webpack(config))
-               .pipe(gulp.dest(projectPaths.build_dir))
+               .pipe(gulp.dest(projectPaths.buildDir))
 })
 
 
@@ -49,8 +49,8 @@ gulp.task('build-production', ['clean'], () => {
     // build the client
     return gulp.src(projectPaths.entry)
                .pipe(named())
-               .pipe(webpack(require(projectPaths.webpack_config)))
-               .pipe(gulp.dest(projectPaths.build_dir))
+               .pipe(webpack(require(projectPaths.webpackConfig)))
+               .pipe(gulp.dest(projectPaths.buildDir))
 })
 
 
@@ -58,7 +58,7 @@ gulp.task('build-production', ['clean'], () => {
  * Remove all ouptut files from previous builds.
  */
 gulp.task('clean', () => {
-    del.sync(projectPaths.build_dir)
+    del.sync(projectPaths.buildDir)
 })
 
 
@@ -67,7 +67,7 @@ gulp.task('clean', () => {
  */
 gulp.task('test', (cb) => {
     const server = new karma.Server({
-        configFile: projectPaths.karma_config,
+        configFile: projectPaths.karmaConfig,
         singleRun: true
     }, () => cb())
 
@@ -80,7 +80,7 @@ gulp.task('test', (cb) => {
  */
 gulp.task('tdd', () => {
     const server = new karma.Server({
-        configFile: projectPaths.karma_config,
+        configFile: projectPaths.karmaConfig,
     })
 
     server.start()
