@@ -7,5 +7,5 @@ export default {
     createResponsiveStateReducer,
     addResponsiveHandlers,
     // provide the default responsive state reducer
-    responsiveStateReducer: addResponsiveHandlers(),
+    responsiveStateReducer: createResponsiveStateReducer(),
 }
