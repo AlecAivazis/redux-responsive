@@ -1,4 +1,4 @@
-# alt-responsive
+# redux-responsive
 A redux reducer for managing the responsive state of your application
 
 # Why Use a Flux Store for Responsive Behavior?
