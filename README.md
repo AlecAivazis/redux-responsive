@@ -27,7 +27,7 @@ export default combineReducers({
 })
 ```
 
-Second, you must add the resize handlers by passing your store to `addResponsiveHandlers`.
+Second, you must add the resize handlers to the window.  To do this, simply pass your store to `addResponsiveHandlers`.
 
 ```js
 // store.js
