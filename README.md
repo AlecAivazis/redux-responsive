@@ -1,76 +1,143 @@
 # redux-responsive
+
 A redux reducer for managing the responsive state of your application
 
-# Why Use a Flux Store for Responsive Behavior?
+
+# Why Use Redux for Responsive Behavior?
+
+redux-responsive **does not require that you use React as your view library**.  However, since that is what we use, the explanation of our motivation mentions React.
 
 There are many solutions for cleanly handling responsive designs in React applications. One common approach is to wrap a component in another component which is responsible for handling the behavior and passing the information down as a prop. While this at first seems good and the "react way", as the behavior gets more complicated, this quickly leads to a lot of boilerplate code in a single component. Also, depending on the implementation, it is possible that many copies of the responsive wrapper would create many different resize handlers.
 
-Using a flux store not only reduces the overall noise in a component, but also guarantees that only a single event listener is waiting for resize.
+Using redux not only reduces the overall noise in a component, but also guarantees that only a single event listener is waiting for resize.
 
-# Creating the Store
 
-All you need to do is wrap the ResponsiveStore in your alt instance's createStore method.
+# Setup
 
-```javascript
-// stores/ResponsiveStore.js
+First, add the reducer somewhere in your reducer tree.  It's just a reducer!  Put it wherever you want.  For example, you could put it in your top level call to `combineReducers`.
 
-// import your singleton alt instance
-import alt from 'my-alt-import'
-// import our factory
-import ResponsiveStore from 'alt-responsive'
+```js
+// reducer.js
 
-// pass the store class to alt's wrapper
-export default alt.createStore(ResponsiveStore)
+import {combineReducers} from 'redux'
+import {responsiveStateReducer} from 'redux-responsive'
+
+export default combineReducers({
+    browser: responsiveStateReducer,
+})
 ```
 
-Now your store is ready to use. The store's default breakpoints match common device sizes and are accessible by the following names which are used to indentify them in your view:
+Second, you must add the resize handlers by passing your store to `addResponsiveHandlers`.
 
+```js
+// store.js
+
+import {createStore} from 'redux'
+import {addResponsiveHandlers} from 'redux-responsive'
+import reducer from './reducer'
+
+const store = createStore(reducers)
+
+// adds window resize event handler
+addResponsiveHandlers(store)
+
+export default store
 ```
-const default_breakpoints = {
-    extra_small: 480,
+
+Now your store is ready to use. The store's default breakpoints match common device sizes and are accessible by the following names which are used to identify them in your view:
+
+```js
+const defaultBreakpoints = {
+    extraSmall: 480,
     small: 768,
     medium: 992,
     large: 1200,
 }
 ```
 
+
 ## Using Custom Breakpoints
 
-To use custom breakpoints, import the `create_responsive_store` factory, and pass it an object with the new names and values.
+You can also create your own reducer based on custom breakpoints:
 
-```javascript
-// stores/ResponsiveStore.js
+```js
+// reducer.js
 
-// import your singleton alt instance
-import alt from 'my-alt-import'
-// import our factory
-import {create_responsive_store} from 'alt-responsive'
+import {combineReducers} from 'redux'
+import {createResponsiveStateReducer} from 'redux-responsive'
 
-// define your own breakpoints
-const breakpoints = {
-    small: 320,
-    medium: 640,
-    big: 960,
-    huge: 1024,
-}
-
-// pass your breakpoints to the store factory
-let ResponsiveStore = create_responsive_store(breakpoints)
-
-// pass the store class to alt's wrapper
-export default alt.createStore(ResponsiveStoreClass)
+export default combineReducers({
+    browser: createResponsiveStateReducer({
+        extraSmall: 500,
+        small: 700,
+        medium: 1000,
+        large: 1280,
+        extraLarge: 1400,
+    }),
+})
 ```
 
-Now your store is ready to use with custom breakpoints.
 
-Responding to Browser Width
+## The Responsive State
 
-The ReponsiveStore provides three attributes to handle responsive behavior (passed in as props to the particular component):
+The `responsiveStateReducer` (and the reducer returned by `createResponsiveStateReducer`) adds an object with the following keys to the store:
 
-current_media_type: (string) The largest breakpoint category that the browser satisfies.
-browser_less_than: (object) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
-browser_greater_than: (object) An object of booleans that indicate whether the browser is currently greater than a particular breakpoint.
-For example,
+- `width`: (*number*) The browser width.
+- `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
+- `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
+- `greaterThan`: (*object*) An object of booleans that indicate whether the browser is currently greater than a particular breakpoint.
+
+For example, if you put the responsive state under the key `browser` (as is done in the examples above) then you can access the browser's width and current media type, and determine if the browser is wider than the medium breakpoint like so
+
+```js
+// get the current state from the store
+const state = store.getState()
+
+// browser width (e.g. 1400)
+state.browser.width
+// browser media type (e.g. "large")
+state.browser.mediaType
+// true if browser width is greater than the "medium" breakpoint
+state.browser.greaterThan.medium
+```
 
 
+## Example Usage with React (and react-redux)
+
+```js
+// MyComponent.js
+
+import React from 'react'
+import {connect} from 'react-redux'
+
+// grab only the responsive state from the store
+// (assuming you have put the `responsiveStateReducer` under
+//  the key `browser` in your state tree)
+function browserSelector({browser}) {
+    return {browser}
 }
+
+@connect(browserSelector)
+class MyComponent extends React.Component {
+    render() {
+        // grab the responsive state off of props
+        const {browser} = this.props
+
+        let message = `The viewport's current media type is: ${browser.mediaType}.`
+
+        if (browser.lessThan.small) {
+            message += 'Secret message for viewports smaller than than the "small" breakpoint!'
+        } else if (browser.lessThan.medium) {
+            message += 'Secret message for viewports between the "small" and "medium" breakpoints!'
+        } else {
+            message += 'Message for viewports greater than the "medium" breakpoint.'
+        }
+
+        return (
+            <p>
+                {message}
+            </p>
+        )
+    }
+}
+```
