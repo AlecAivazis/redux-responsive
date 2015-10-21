@@ -78,7 +78,7 @@ export default combineReducers({
 ```
 
 
-## The Responsive State
+# The Responsive State
 
 The `responsiveStateReducer` (and the reducer returned by `createResponsiveStateReducer`) adds an object with the following keys to the store:
 
@@ -102,7 +102,7 @@ state.browser.greaterThan.medium
 ```
 
 
-## Example Usage with React (and react-redux)
+# Example Usage with React (and react-redux)
 
 ```js
 // MyComponent.js
