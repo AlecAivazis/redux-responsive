@@ -1,6 +1,7 @@
 // third party imports
 import MediaQuery from 'mediaquery'
 import transform from 'lodash/object/transform'
+import reduce from 'lodash/collection/reduce'
 // local imports
 import CALCULATE_RESPONSIVE_STATE from '../actions/types/CALCULATE_RESPONSIVE_STATE'
 
@@ -72,15 +73,11 @@ function getMediaType(matchMedia, mediaQueries) {
     }
 
     // there is a window, so compute the true media type
-    return transform(mediaQueries, (result, query, type) => {
-        // if the browser matches the media query
-        if (matchMedia(query).matches) {
-            // use the current media type
-            /* eslint-disable no-param-reassign */
-            result = type
-            /* eslint-enable no-param-reassign */
-        }
-    })
+    return reduce(mediaQueries, (result, query, type) => {
+        // return the new type if the query matches otherwise the previous one
+        return matchMedia(query).matches ? type : result
+    // use the default media type
+    }, defaultMediaType)
 }
 
 
