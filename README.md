@@ -44,7 +44,7 @@ addResponsiveHandlers(store)
 export default store
 ```
 
-Now your store is ready to use. The store's default breakpoints match common device sizes and are accessible by the following names which are used to identify them in your view:
+Now your store is ready to use. The store's default breakpoints match common device sizes and are accessible by the following names in your view:
 
 ```js
 const defaultBreakpoints = {
