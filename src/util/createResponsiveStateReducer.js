@@ -25,12 +25,13 @@ const defaultMediaType = 'infinity'
  * keys of the breakpoints object.  The value for each key indicates whether
  * or not the browser width is less than the breakpoint.
  */
-function getLessThan(browserWidth, breakpoints) {
+function getLessThan(browserWidth, breakpoints, currentMediaType) {
     return transform(breakpoints, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
             // store wether or not it is less than the breakpoint
-            result[mediaType] = browserWidth < breakpoint
+            result[mediaType] = browserWidth < breakpoint && mediaType !== currentMediaType
+        // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
         }
@@ -93,12 +94,14 @@ export default (breakpoints = defaultBreakpoints) => {
     return (state, action) => {
         // if told to recalculate state or state has not yet been initialized
         if (action.type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
+            // the current media type
+            const mediaType = getMediaType(action.matchMedia, mediaQueries)
             // return calculated state
             return {
                 width: action.innerWidth,
-                lessThan: getLessThan(action.innerWidth, breakpoints),
+                lessThan: getLessThan(action.innerWidth, breakpoints, mediaType),
                 greaterThan: getGreaterThan(action.innerWidth, breakpoints),
-                mediaType: getMediaType(action.matchMedia, mediaQueries),
+                mediaType,
             }
         }
         // otherwise return the previous state
