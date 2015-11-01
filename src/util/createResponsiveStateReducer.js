@@ -91,16 +91,16 @@ export default (breakpoints = defaultBreakpoints) => {
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
     // return reducer for handling the responsive state
-    return (state, action) => {
+    return (state, {type, matchMedia}) => {
         // if told to recalculate state or state has not yet been initialized
-        if (action.type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
+        if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
-            const mediaType = getMediaType(action.matchMedia, mediaQueries)
+            const mediaType = getMediaType(matchMedia, mediaQueries)
             // return calculated state
             return {
-                width: action.innerWidth,
-                lessThan: getLessThan(action.innerWidth, breakpoints, mediaType),
-                greaterThan: getGreaterThan(action.innerWidth, breakpoints),
+                width: innerWidth,
+                lessThan: getLessThan(innerWidth, breakpoints, mediaType),
+                greaterThan: getGreaterThan(innerWidth, breakpoints),
                 mediaType,
             }
         }
