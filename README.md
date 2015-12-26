@@ -102,7 +102,7 @@ state.browser.greaterThan.medium
 ```
 
 
-# Example Usage with React (and react-redux)
+# Example Usage
 
 ```js
 // MyComponent.js
