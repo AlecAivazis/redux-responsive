@@ -14,7 +14,7 @@ Using a specialized store not only reduces the overall noise in a component, but
 
 # Setup
 
-First, add the reducer somewhere in your reducer tree.  It's just a reducer so you can put it wherever you want. For example, you could put it in your top level call to `combineReducers`.
+First, add the reducer somewhere in your reducer tree.  It's just a reducer so you can put it wherever you want! For example, you could put it in your top level call to `combineReducers`.
 
 ```js
 // reducer.js
