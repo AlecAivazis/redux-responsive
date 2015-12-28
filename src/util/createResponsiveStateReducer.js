@@ -15,7 +15,8 @@ const defaultBreakpoints = {
 }
 // media type to default to when no `window` present
 const defaultMediaType = 'infinity'
-
+// orientation to default to when no `window` present
+const defaultOrientation = null
 
 /**
  * Compute the `lessThan` object based on the browser width.
@@ -82,6 +83,32 @@ function getMediaType(matchMedia, mediaQueries) {
 }
 
 
+/**
+ * Gets the current media type from the global `window`.
+ * @arg {object} mediaQueries - The media queries object.
+ * @returns {string} The window's current media type.  This is the key of the
+ * breakpoint that is the next breakpoint larger than the window.
+ */
+function getOrientation(matchMedia) {
+    // if there's no window
+    if (typeof matchMedia === 'undefined') {
+        // return the default
+        return defaultOrientation
+    }
+
+    const mediaQueries = {
+        portrait: '(orientation: portrait)',
+        landscape: '(orientation: landscape)',
+    }
+
+    // there is a window, so compute the true orientation
+    return reduce(mediaQueries, (result, query, type) => {
+        // return the new type if the query matches otherwise the previous one
+        return matchMedia(query).matches ? type : result
+    // use the default orientation
+    }, defaultOrientation)
+}
+
 
 // export the reducer factory
 export default (breakpoints = defaultBreakpoints) => {
@@ -91,17 +118,21 @@ export default (breakpoints = defaultBreakpoints) => {
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
     // return reducer for handling the responsive state
-    return (state, {type, matchMedia, innerWidth}) => {
+    return (state, {type, matchMedia, innerWidth, innerHeight}) => {
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
             const mediaType = getMediaType(matchMedia, mediaQueries)
+            // the current orientation
+            const orientation = getOrientation(matchMedia)
             // return calculated state
             return {
                 width: innerWidth,
+                height: innerHeight,
                 lessThan: getLessThan(innerWidth, breakpoints, mediaType),
                 greaterThan: getGreaterThan(innerWidth, breakpoints),
                 mediaType,
+                orientation,
             }
         }
         // otherwise return the previous state
