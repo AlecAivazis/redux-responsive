@@ -84,6 +84,7 @@ The `responsiveStateReducer` (and the reducer returned by `createResponsiveState
 
 - `width`: (*number*) The browser width.
 - `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
+- `orientation`: (*string*) The browsers orientation. Has three possible values: "portrait", "landscape", or `null`. 
 - `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
 - `greaterThan`: (*object*) An object of booleans that indicate whether the browser is currently greater than a particular breakpoint.
 
@@ -97,6 +98,8 @@ const state = store.getState()
 state.browser.width
 // browser media type (e.g. "large")
 state.browser.mediaType
+// browser orientation (takes a null value on desktops)
+state.browser.orientation
 // true if browser width is greater than the "medium" breakpoint
 state.browser.greaterThan.medium
 ```
