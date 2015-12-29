@@ -5,7 +5,7 @@ A redux reducer for managing the responsive state of your application
 
 # Why Use a Flux Store for Responsive Behavior?
 
-redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used with redux, this documentation uses common React patterns.
+redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used alongside redux, this documentation employs common React patterns.
 
 There are many solutions for cleanly handling responsive designs in React applications. One common approach is to wrap a component in another component which is responsible for handling the behavior and passing the information down as a prop. While this at first seems good and the "react way", as the behavior gets more complicated, this quickly leads to a lot of boilerplate code in a single component. Also, depending on the implementation, it is possible that many copies of the responsive wrapper would create many different resize handlers.
 
@@ -18,7 +18,7 @@ First, add the reducer somewhere in your reducer tree.  It's just a reducer so y
 
 ```js
 // reducer.js
-
+u
 import {combineReducers} from 'redux'
 import {responsiveStateReducer} from 'redux-responsive'
 
@@ -83,6 +83,7 @@ export default combineReducers({
 The `responsiveStateReducer` (and the reducer returned by `createResponsiveStateReducer`) adds an object with the following keys to the store:
 
 - `width`: (*number*) The browser width.
+- `height`: (*number*) The browser height.
 - `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
 - `orientation`: (*string*) The browser orientation. Has three possible values: "portrait", "landscape", or `null`. 
 - `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
@@ -96,6 +97,8 @@ const state = store.getState()
 
 // browser width (e.g. 1400)
 state.browser.width
+// browser height (e.g. 700)
+state.browser.height
 // browser media type (e.g. "large")
 state.browser.mediaType
 // browser orientation (takes a null value on desktops)
