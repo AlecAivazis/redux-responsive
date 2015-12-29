@@ -18,7 +18,6 @@ First, add the reducer somewhere in your reducer tree.  It's just a reducer so y
 
 ```js
 // reducer.js
-u
 import {combineReducers} from 'redux'
 import {responsiveStateReducer} from 'redux-responsive'
 
