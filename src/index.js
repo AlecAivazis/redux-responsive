@@ -1,11 +1,11 @@
 // local imports
 import createResponsiveStateReducer from './util/createResponsiveStateReducer'
-import addResponsiveHandlers from './util/addResponsiveHandlers'
+import addEventHandlers from './util/addEventHandlers'
 
 
 export default {
     createResponsiveStateReducer,
-    addResponsiveHandlers,
+    addEventHandlers,
     // provide the default responsive state reducer
     responsiveStateReducer: createResponsiveStateReducer(),
 }

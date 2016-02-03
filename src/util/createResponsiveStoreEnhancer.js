@@ -1,5 +1,5 @@
 // local imports
-import addResponsiveHandlers from './addResponsiveHandlers'
+import addEventHandlers from './addEventHandlers'
 
 /**
  * Creates a store enhancer based off an (optional) throttle time.
@@ -14,4 +14,4 @@ export default (throttleTime = 100) =>
         // return enhanced version of `createStore`
         (...args) =>
             // return store after adding event handlers
-            addResponsiveHandlers(createStore(...args), throttleTime)
+            addEventHandlers(createStore(...args), throttleTime)

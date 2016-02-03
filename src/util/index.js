@@ -1,7 +1,7 @@
-import addResponsiveHandlers from './addResponsiveHandlers'
+import addEventHandlers from './addEventHandlers'
 import createResponsiveStateReducer from './createResponsiveStateReducer'
 
 export default {
-    addResponsiveHandlers,
+    addEventHandlers,
     createResponsiveStateReducer,
 }
