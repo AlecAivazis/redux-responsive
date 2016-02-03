@@ -26,19 +26,18 @@ export default combineReducers({
 })
 ```
 
-Second, you must add the resize handlers to the window.  To do this, simply pass your store to `addResponsiveHandlers`.
+Second, you must add the resize handlers to the window.  To do this, use the provided store enhancer.
 
 ```js
 // store.js
 
 import {createStore} from 'redux'
-import {addResponsiveHandlers} from 'redux-responsive'
+import {responsiveStoreEnhancer} from 'redux-responsive'
 import reducer from './reducer'
 
-const store = createStore(reducers)
-
-// adds window resize event handler
-addResponsiveHandlers(store)
+const store = createStore(reducer, responsiveStoreEnhancer)
+// or, if you have an initial state for the store
+// const store = createStore(reducer, initialState, responsiveStoreEnhancer)
 
 export default store
 ```
@@ -84,7 +83,7 @@ The `responsiveStateReducer` (and the reducer returned by `createResponsiveState
 - `width`: (*number*) The browser width.
 - `height`: (*number*) The browser height.
 - `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
-- `orientation`: (*string*) The browser orientation. Has three possible values: "portrait", "landscape", or `null`. 
+- `orientation`: (*string*) The browser orientation. Has three possible values: "portrait", "landscape", or `null`.
 - `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
 - `greaterThan`: (*object*) An object of booleans that indicate whether the browser is currently greater than a particular breakpoint.
 
