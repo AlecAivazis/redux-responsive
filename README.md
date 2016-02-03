@@ -36,8 +36,37 @@ import {responsiveStoreEnhancer} from 'redux-responsive'
 import reducer from './reducer'
 
 const store = createStore(reducer, responsiveStoreEnhancer)
+
 // or, if you have an initial state for the store
-// const store = createStore(reducer, initialState, responsiveStoreEnhancer)
+const store = createStore(reducer, initialState, responsiveStoreEnhancer)
+
+export default store
+```
+
+Note that if you are also using some [middlewares](http://redux.js.org/docs/advanced/Middleware.html), the call will look more like this:
+
+```js
+import {createSore, applyMiddlewares, compose} from 'redux'
+import {responsiveStoreEnhancer} from 'redux-responsive'
+import reducer from './reducer'
+
+const store = createStore(
+    reducer,
+    compose(
+        responsiveStoreEnhancer,
+        applyMiddlewares(middleware1, middleware2)
+    )
+)
+
+// or, if you have an initial state for the store
+const store = createStore(
+    reducer,
+    initialState,
+    compose(
+        responsiveStoreEnhancer,
+        applyMiddlewares(middleware1, middleware2)
+    )
+)
 
 export default store
 ```
