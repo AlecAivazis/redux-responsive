@@ -1,5 +1,5 @@
 // third party imports
-import isFunction from 'lodash/lang/isFunction'
+import isFunction from 'lodash/isFunction'
 // local imports
 import createResponsiveStateReducer from 'util/createResponsiveStateReducer'
 

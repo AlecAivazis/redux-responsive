@@ -1,5 +1,5 @@
 // third party imports
-import throttle from 'lodash/function/throttle'
+import throttle from 'lodash/throttle'
 // local imports
 import calculateResponsiveState from '../actions/creators/calculateResponsiveState'
 
