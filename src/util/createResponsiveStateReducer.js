@@ -1,7 +1,7 @@
 // third party imports
 import MediaQuery from 'mediaquery'
-import transform from 'lodash/object/transform'
-import reduce from 'lodash/collection/reduce'
+import transform from 'lodash/transform'
+import reduce from 'lodash/reduce'
 // local imports
 import CALCULATE_RESPONSIVE_STATE from '../actions/types/CALCULATE_RESPONSIVE_STATE'
 
