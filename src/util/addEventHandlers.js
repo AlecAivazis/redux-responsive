@@ -27,7 +27,7 @@ export default (store, throttleTime) => {
     // if there is a `window`
     if (typeof window !== 'undefined') {
         // add the resize event listener
-        window.addEventListener('resize', () => throttledHandler())
+        window.addEventListener('resize', throttledHandler)
     }
     // return the store so that the call is transparent
     return store
