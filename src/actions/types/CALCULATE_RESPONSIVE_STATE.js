@@ -1,1 +1,1 @@
-export default 'CALCULATE_RESPONSIVE_STATE'
+export default 'redux-responsive/CALCULATE_RESPONSIVE_STATE'
