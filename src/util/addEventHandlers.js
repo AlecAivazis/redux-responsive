@@ -9,20 +9,25 @@ import calculateResponsiveState from '../actions/creators/calculateResponsiveSta
  * (throttled) window resize event listener (which will dispatch further such
  * actions).
  * @arg {object} store - The redux store.  Really you only need to pass `{dispatch}`.
- * @arg {number} throttleTime - Throttle time (in miliseconds) for the
+ * @arg {object} options - Options.
+ * @arg {number} options.throttleTime - Throttle time (in miliseconds) for the
  * window resize event handler.
+ * @arg {boolean} options.calculateStateInitially - True if the responsive state
+ * must be calculated initially, false otherwise.
  */
-export default (store, throttleTime) => {
+export default (store, options) => {
     // if there is a `window`
     if (typeof window !== 'undefined') {
         // throttled event handler for window resize
         const throttledHandler = throttle(
             // just dispatch action to calculate responsive state
             () => store.dispatch(calculateResponsiveState(window)),
-            throttleTime
+            options.throttleTime
         )
         // initialize the responsive state
-        throttledHandler()
+        if (options.calculateStateInitially) {
+            throttledHandler()
+        }
         // add the resize event listener
         window.addEventListener('resize', throttledHandler)
     }

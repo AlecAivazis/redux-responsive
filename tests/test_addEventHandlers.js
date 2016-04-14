@@ -8,17 +8,29 @@ describe('addEventHandlers', function () {
         const store = {dispatch: () => ({})}
 
         // should return same value it is given
-        expect(addEventHandlers(store)).to.equal(store)
+        expect(addEventHandlers(store, {throttleTime: 100, calculateStateInitially: true})).to.equal(store)
     })
 
 
-    it('calls the dispatch property of the store arg', function () {
-        const dispatchSpy = sinon.spy()
+    it('respects the calculateStateInitially option', function () {
+        const dispatchSpy1 = sinon.spy()
+        const dispatchSpy2 = sinon.spy()
 
-        addEventHandlers({dispatch: dispatchSpy})
+        addEventHandlers(
+            {dispatch: dispatchSpy1},
+            {throttleTime: 100, calculateStateInitially: true}
+        )
 
         // should have triggered our dispatch spy exactly once
-        expect(dispatchSpy).to.have.been.calledOnce
+        expect(dispatchSpy1).to.have.been.calledOnce
+        
+        addEventHandlers(
+            {dispatch: dispatchSpy2},
+            {calculateStateInitially: false}
+        )
+
+        // should not dispatch recalculation
+        expect(!dispatchSpy2.called)
     })
 
 
