@@ -3,15 +3,34 @@ import addEventHandlers from './addEventHandlers'
 
 /**
  * Creates a store enhancer based off an (optional) throttle time.
- * @arg {number} [throttleTime=100] - Throttle time (in miliseconds) for the
- * window resize event handler.
+ * @arg {(object|number)} [options={throttleTime,calculateStateInitially}]
+ * - Options object or the throttle time.
+ * @arg {number} [options.throttleTime=100] - Throttle time (in miliseconds) for
+ * the window resize event handler.
+ * @arg {boolean} [options.calculateStateInitially=true] - True if the responsive
+ * state must be calculated initially, false otherwise.
  * @returns {function} - The store enhancer (which adds event listeners to
  * dispatch actions on window resize).
  */
-export default (throttleTime = 100) =>
+export default (options = {throttleTime: 100, calculateStateInitially: true}) => {
+    // options object normalization
+    const normalizedOptions = {
+        throttleTime: 100,
+        calculateStateInitially: true,
+    }
+    if (typeof options === 'number') {
+        normalizedOptions.throttleTime = options
+    } else if (typeof options.throttleTime !== 'undefined') {
+        normalizedOptions.throttleTime = options.throttleTime
+    }
+    if (typeof options.calculateStateInitially !== 'undefined') {
+        normalizedOptions.calculateStateInitially = options.calculateStateInitially
+    }
+
     // return store enhancer
-    (createStore) =>
+    return (createStore) =>
         // return enhanced version of `createStore`
         (...args) =>
             // return store after adding event handlers
-            addEventHandlers(createStore(...args), throttleTime)
+            addEventHandlers(createStore(...args), normalizedOptions)
+}
