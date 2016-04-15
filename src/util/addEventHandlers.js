@@ -15,17 +15,17 @@ import calculateResponsiveState from '../actions/creators/calculateResponsiveSta
  * @arg {boolean} options.calculateStateInitially - True if the responsive state
  * must be calculated initially, false otherwise.
  */
-export default (store, options) => {
+export default (store, {throttleTime, calculateStateInitially}) => {
     // if there is a `window`
     if (typeof window !== 'undefined') {
         // throttled event handler for window resize
         const throttledHandler = throttle(
             // just dispatch action to calculate responsive state
             () => store.dispatch(calculateResponsiveState(window)),
-            options.throttleTime
+            throttleTime
         )
         // initialize the responsive state
-        if (options.calculateStateInitially) {
+        if (calculateStateInitially) {
             throttledHandler()
         }
         // add the resize event listener
