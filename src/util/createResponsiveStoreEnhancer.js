@@ -1,5 +1,3 @@
-// third party imports
-import assign from 'lodash/assign'
 // local imports
 import addEventHandlers from './addEventHandlers'
 
@@ -13,18 +11,11 @@ import addEventHandlers from './addEventHandlers'
  * @returns {function} - The store enhancer (which adds event listeners to
  * dispatch actions on window resize).
  */
-export default (options) => {
-    const defaultOptions = {
-        throttleTime: 100,
-        calculateStateInitially: true,
-    }
-    // assign default values
-    assign(defaultOptions, options)
-
+export default ({throttleTime = 100, calculateStateInitially = true} = {}) => {
     // return store enhancer
     return (createStore) =>
         // return enhanced version of `createStore`
         (...args) =>
             // return store after adding event handlers
-            addEventHandlers(createStore(...args), defaultOptions)
+            addEventHandlers(createStore(...args), {throttleTime, calculateStateInitially})
 }
