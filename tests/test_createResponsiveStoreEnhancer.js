@@ -5,11 +5,11 @@ import createResponsiveStoreEnhancer from 'util/createResponsiveStoreEnhancer'
 
 
 describe('createResponsiveStoreEnhancer', function () {
-    it('returns a function when given a throttle time', function () {
-        expect(isFunction(createResponsiveStoreEnhancer(500))).to.be.true
+    it('returns a function when given an options object', function () {
+        expect(isFunction(createResponsiveStoreEnhancer({}))).to.be.true
     })
 
-    it('returns a function when not given a throttle time', function () {
+    it('returns a function when not given any options', function () {
         expect(isFunction(createResponsiveStoreEnhancer())).to.be.true
     })
 

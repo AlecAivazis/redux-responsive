@@ -174,3 +174,88 @@ class MyComponent extends React.Component {
     }
 }
 ```
+
+
+# Server-side Rendering
+
+In isomorphic applications we must make sure that the initial markup rendered on both server- and client side
+is the same. Setting the `calculateStateInitially` option of the `createResponsiveStoreEnhancer` factory method
+to `false` tells the library to skip the initial responsive state calculation, so the responsive state will
+contain the default values on both the server- and the client side.
+
+```js
+// store/configureStore.js
+
+import {createStore} from 'redux'
+import {createResponsiveStoreEnhancer} from 'redux-responsive'
+import reducer from './reducer'
+
+const store = createStore(reducer, createResponsiveStoreEnhancer({calculateStateInitially: false}))
+
+export default store
+```
+
+The application should explicitly dispatch the action to recalculate the responsive state later in the application's lifecycle.
+
+```js
+// actions/index.js
+import {CALCULATE_RESPONSIVE_STATE} from 'redux-responsive'
+
+export const calculateResponsiveState = () => {
+  const {innerWidth, innerHeight, matchMedia} = window
+  return {
+    type: CALCULATE_RESPONSIVE_STATE,
+    innerWidth,
+    innerHeight,
+    matchMedia
+  }
+}
+```
+
+```js
+// components/App.js
+
+import React from 'react'
+
+export default class App extends React.Component {
+
+    componentDidMount() {
+        // calculate the responsive state after the component has been mounted
+        this.props.onComponentDidMount()
+    }
+  
+    render() {
+        // ...
+    }
+}
+```
+
+```js
+// containers/AppContainer.js
+
+import {connect} from 'react-redux'
+import App from '../components/App'
+import {calculateResponsiveState} from '../actions'
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        // you can map the responsive state to the component's properties here, ex:
+        // isPermanentNavigationDrawer: state.browser.greaterThan.medium
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onComponentDidMount: () => {
+            dispatch(calculateResponsiveState())
+        },
+    }
+}
+
+const AppContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)
+
+export default AppContainer
+```
