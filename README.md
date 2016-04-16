@@ -1,6 +1,8 @@
 # redux-responsive
 
-A redux reducer for managing the responsive state of your application
+A redux reducer for managing the responsive state of your application.
+
+Semver is strictly followed. For migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).
 
 
 # Why Use a Flux Store for Responsive Behavior?
@@ -10,7 +12,6 @@ redux-responsive **does not require that you use React as your view library**.  
 There are many solutions for cleanly handling responsive designs in React applications. One common approach is to wrap a component in another component which is responsible for handling the behavior and passing the information down as a prop. While this at first seems good and the "react way", as the behavior gets more complicated, this quickly leads to a lot of boilerplate code in a single component. Also, depending on the implementation, it is possible that many copies of the responsive wrapper would create many different resize handlers.
 
 Using a specialized store not only reduces the overall noise in a component, but also guarantees that only a single event listener is listening for resize.
-
 
 # Setup
 
