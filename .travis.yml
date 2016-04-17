@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "5"
+# command to install dependencies
+install:
+  - npm install 
+# command to run tests
+script:
+  - npm run test
+after_success:
+  coveralls
