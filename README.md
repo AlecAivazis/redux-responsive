@@ -193,8 +193,7 @@ import reducer from './reducer'
 
 const store = createStore(
                     reducer, 
-                    createResponsiveStoreEnhancer({calculateStateInitially: false})
-)
+                    createResponsiveStoreEnhancer({calculateStateInitially: false}))
 
 export default store
 ```
@@ -208,13 +207,9 @@ state when the application is rendered by the client.
 
 // external imports
 import ReactDOM from 'react-dom'
-import App from '../components/App'
 import {calculateResponsiveState} from 'redux-responsive'
 // local imports
-import {createStore} from 'localStore'
-
-// create a store for the client
-const store = createStore()
+import store from 'path/to/store'
 
 // render the application
 ReactDOM.render(
