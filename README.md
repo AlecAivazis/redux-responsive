@@ -4,9 +4,6 @@ A redux reducer for managing the responsive state of your application.
 
 [![Build Status](https://travis-ci.org/AlecAivazis/redux-responsive.svg?branch=master)](https://travis-ci.org/AlecAivazis/redux-responsive)
 
-Semver is strictly followed. For migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).
-
-
 # Why Use a Flux Store for Responsive Behavior?
 
 redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used alongside redux, this documentation employs common React patterns.
@@ -181,10 +178,11 @@ class MyComponent extends React.Component {
 
 # Server-side Rendering
 
-In isomorphic applications we must make sure that the initial markup rendered on both server- and client side
-is the same. Setting the `calculateStateInitially` option of the `createResponsiveStoreEnhancer` factory method
-to `false` tells the library to skip the initial responsive state calculation, so the responsive state will
-contain the default values on both the server- and the client side.
+Isomorphic applications must make sure that the sever-rendered markup matches the 
+DOM rendered by the client. Setting the `calculateStateInitially` option in the 
+`createResponsiveStoreEnhancer` factory method to `false` tells the reducer 
+to skip the initial responsive state calculation. The responsive state will
+contain the default values on both the server and the client side.
 
 ```js
 // store/configureStore.js
@@ -193,72 +191,45 @@ import {createStore} from 'redux'
 import {createResponsiveStoreEnhancer} from 'redux-responsive'
 import reducer from './reducer'
 
-const store = createStore(reducer, createResponsiveStoreEnhancer({calculateStateInitially: false}))
+const store = createStore(
+                    reducer, 
+                    createResponsiveStoreEnhancer({calculateStateInitially: false})
+)
 
 export default store
 ```
 
-The application should explicitly dispatch the action to recalculate the responsive state later in the application's lifecycle.
+The application should explicitly dispatch the action to recalculate the responsive 
+state when the application is rendered by the client.
+
 
 ```js
-// actions/index.js
-import {CALCULATE_RESPONSIVE_STATE} from 'redux-responsive'
+// client.js
 
-export const calculateResponsiveState = () => {
-  const {innerWidth, innerHeight, matchMedia} = window
-  return {
-    type: CALCULATE_RESPONSIVE_STATE,
-    innerWidth,
-    innerHeight,
-    matchMedia
-  }
-}
-```
-
-```js
-// components/App.js
-
-import React from 'react'
-
-export default class App extends React.Component {
-
-    componentDidMount() {
-        // calculate the responsive state after the component has been mounted
-        this.props.onComponentDidMount()
-    }
-  
-    render() {
-        // ...
-    }
-}
-```
-
-```js
-// containers/AppContainer.js
-
-import {connect} from 'react-redux'
+// external imports
+import ReactDOM from 'react-dom'
 import App from '../components/App'
-import {calculateResponsiveState} from '../actions'
+import {calculateResponsiveState} from 'redux-responsive'
+// local imports
+import {createStore} from 'localStore'
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        // you can map the responsive state to the component's properties here, ex:
-        // isPermanentNavigationDrawer: state.browser.greaterThan.medium
-    }
-}
+// create a store for the client
+const store = createStore()
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onComponentDidMount: () => {
-            dispatch(calculateResponsiveState())
-        },
-    }
-}
+// render the application
+ReactDOM.render(
+    <Provider store={store}>
+        // ...
+    </Provider>,
+    document.getElementById('app')
+)
 
-const AppContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(App)
+// calculate the initial state
+store.dispatch(calculateResponsiveState())
 
-export default AppContainer
 ```
+
+# Versioning
+
+[Semver](http://semver.org/) is followed as closely as possible. For updates and migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).
+
