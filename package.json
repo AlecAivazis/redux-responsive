@@ -39,6 +39,7 @@
     "karma-webpack": "^1.7.0",
     "lolex": "^1.4.0",
     "mocha": "^2.3.3",
+    "phantomjs-prebuilt": "^2.1.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "vinyl-named": "^1.1.0",
@@ -46,6 +47,7 @@
     "webpack-stream": "^2.1.1"
   },
   "dependencies": {
+    "karma-phantomjs-launcher": "^1.0.0",
     "lodash": "^4.2.1",
     "mediaquery": "0.0.3"
   }
