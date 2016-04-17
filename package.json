@@ -12,8 +12,8 @@
     "Monte Mishkin"
   ],
   "scripts": {
-    "test": "gulp test",
-    "prepublish" : "gulp build-production"
+    "test": "node_modules/gulp/bin/gulp.js test",
+    "prepublish": "node_modules/gulp/bin/gulp.js build-production"
   },
   "license": "MIT",
   "devDependencies": {
@@ -27,8 +27,9 @@
     "eslint-plugin-react": "^3.5.1",
     "gulp": "^3.9.0",
     "gulp-env": "^0.2.0",
-    "karma": "^0.13.10",
+    "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.1",
+    "karma-coverage": "^0.5.5",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.1.1",
