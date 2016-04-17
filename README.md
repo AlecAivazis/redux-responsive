@@ -2,6 +2,8 @@
 
 A redux reducer for managing the responsive state of your application.
 
+[![Build Status](https://travis-ci.org/AlecAivazis/redux-responsive.svg?branch=master)](https://travis-ci.org/AlecAivazis/redux-responsive)
+
 Semver is strictly followed. For migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).
 
 
