@@ -7,6 +7,5 @@ install:
 # command to run tests
 script:
   - npm run test
-
 after_success:
   coveralls
