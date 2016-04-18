@@ -16,11 +16,9 @@ import {CALCULATE_RESPONSIVE_STATE} from '../types'
  * `CALCULATE_RESPONSIVE_STATE`, and will be directly given the two keys taken
  * from the `window` argument.
  */
-export default ({innerWidth, innerHeight, matchMedia} = {}) => {
-    return {
-        type: CALCULATE_RESPONSIVE_STATE,
-        innerWidth,
-        innerHeight,
-        matchMedia,
-    }
-}
+export default ({innerWidth, innerHeight, matchMedia} = {}) => ({
+    type: CALCULATE_RESPONSIVE_STATE,
+    innerWidth,
+    innerHeight,
+    matchMedia,
+})
