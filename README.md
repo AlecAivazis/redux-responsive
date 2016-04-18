@@ -220,7 +220,7 @@ ReactDOM.render(
 )
 
 // calculate the initial state
-store.dispatch(calculateResponsiveState())
+store.dispatch(calculateResponsiveState(window))
 
 ```
 
