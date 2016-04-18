@@ -21,4 +21,4 @@ export default ({innerWidth, innerHeight, matchMedia} = {}) => ({
     innerWidth,
     innerHeight,
     matchMedia,
-});
+})
