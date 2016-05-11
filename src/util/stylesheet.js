@@ -1,5 +1,5 @@
 // external imports
-import {connect} from {}
+import {connect} from 'react-redux'
 import mapValues from 'lodash/mapValues'
 
 /*
