@@ -1,13 +1,15 @@
 // external imports
 import {connect} from 'react-redux'
 import mapValues from 'lodash/mapValues'
+import sortBy from 'lodash/sortBy'
+import 'babel-polyfill'
 
 /*
  styles are passed as objects with the following form:
     elementName: {
         ...normal styles,
         _lessThan_medium: {
-            backgroundColor: 'blue'   
+            backgroundColor: 'blue'
         },
         _greaterThan_large: {
             color: 'red,'
@@ -20,38 +22,86 @@ import mapValues from 'lodash/mapValues'
 
  */
 
-// this function returns true if the browser state matches the one 
-// designated by the pattern. 
-// 
-// patterns are of the form _(comparison)_(size). ie: _lessThan_medium
-const browserMatches = (browser, pattern) => {
-    // figure out the comparison and the size
-    const [comparison, size] = pattern.split('_')
-    // return the value of the appropriate entry in the browser state
-    return comparison == 'equal' ? browser.mediaType == size : browser[comparison][size]
+// retrieve the data for the given pattern
+export const parsePattern = (pattern) => {
+    // separate out the various bits of data
+    const [_, comparison, size] = pattern.split('_')
+    // return the results
+    return {comparison, size}
 }
 
+// this function returns true if the browser state matches the one
+// designated by the pattern.
+//
+// patterns are of the form _(comparison)_(size). ie: _lessThan_medium
+export const browserMatches = (browser, pattern) => {
+    const {comparison, size} = parsePattern(pattern)
+    // return the value of the appropriate entry in the browser state
+    try {
+        return comparison === 'equal' ? browser.mediaType === size : browser[comparison][size] || false
+    // if anything goes wrong
+    } catch (e) {
+        return False
+    }
+}
 
-// this function returns a function that creates a stylesheet according to 
-// the current state of the browser
-const transformStyle = browser => style => {
+// this function sorts the style keys so they are applied in the correct order
+// for less than criteria, the styles are sorted highest to lowest
+// for greater than criteria, the styles are storted lowest to highest
+export const sortKeys = (keys, breakpoints) => (
+    // sort the keys
+    sortBy(keys, (key) => {
+        // if the key is a custom style
+        if (key[0] !== '_') {
+            // deal with it first
+            return 0
+        // otherwise the key is a responsive style
+        } else {
+            // grab the data for the style
+            const {comparison, size} = parsePattern(key)
+            // DRY
+            const nBreakpoints = breakpoints.length
+            // start off sorting by ascending order to match breakpoints
+            let sortValue = breakpoints.indexOf(size) + nBreakpoints
+
+            // make sure equals checks come last
+            if (comparison === 'equal') {
+                // offset it by a lot
+                sortValue =+ 3 * nBreakpoints
+            // make sure lessThans come after greaterThans
+            } else if (comparison === 'lessThan') {
+                // by offsetting them all
+                sortValue =+ 2 * nBreakpoints - sortValue
+            }
+            // return the sort index
+            return sortValue
+        }
+    })
+)
+
+// this function takes the current state of the browser and
+// returns a function that creates a stylesheet to match
+export const transformStyle = browser => style => {
     // the stylesheet
     const stylesheet = {}
+    // sort the breakpoints
+    const breakpoints = Object.keys(browser.breakpoints).sort(
+        // in ascending order
+        (a, b) => browser.breakpoints[a] - browser.breakpoints[b]
+    )
     // sort the keys in reverse alphabetical order so we see modifiers last
-    const keys = Ojects.keys(style).sort().reverse()
+    const keys = sortKeys(Object.keys(style), breakpoints)
     // go over every key in the provided sheet
     for (const key of keys) {
         // if the is not a special one
         if (key[0] !== '_') {
             // add the key to the one we're building up
             stylesheet[key] = style[key]
-        // otherwise we have to process the 
-        } else {
-            // check if the browser matches the state designated by the string
-            if (browserMatches(browser, key)) {
-                // merge the contents of the sub-style into the parent
-                Object.assign(stylesheet, style[key])
-            }
+        // otherwise we have to process the stylesheet
+        // check if the browser matches the state designated by the string
+        } else if (browserMatches(browser, key)) {
+            // merge the contents of the sub-style into the parent
+            Object.assign(stylesheet, style[key])
         }
     }
     // return the stylesheet we've created
@@ -61,17 +111,15 @@ const transformStyle = browser => style => {
 
 // this function calculates the current stylesheet based on the responsive
 // state of the reducer
-const mapStateToPropsFactory = (stylesheet, {reducerName}) => state => (
-    // the current state of the browser
-    const browserState = state[reducerName]
+export const mapStateToPropsFactory = (stylesheet, {reducerName}) => state => (
     // the stylesheet only differs by values of
-    return mapValues(stylesheet, transformStyle(browserState))
+    mapValues(stylesheet, transformStyle(state[reducerName]))
 )
 
 
 // the default options
 const defaultOptions = {
-    reducerName: 'browser'
+    reducerName: 'browser',
 }
 
 // export a higher order component
