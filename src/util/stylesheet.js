@@ -68,7 +68,9 @@ export const sortKeys = (keys, breakpoints) => (
         // make sure equals checks come last
         if (comparison === 'equal') {
             // offset it by a lot
-            sortValue = sortValue + (3 * nBreakpoints)
+            /* eslint-disable space-infix-ops, space-unary-ops */
+            sortValue =+ 3 * nBreakpoints
+            /* eslint-enable space-infix-ops space-unary-ops */
         // make sure lessThans come after greaterThans
         } else if (comparison === 'lessThan') {
             // by offsetting them all and inverting the placement
