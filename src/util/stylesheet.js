@@ -41,7 +41,7 @@ export const browserMatches = (browser, pattern) => {
         return comparison === 'equal' ? browser.mediaType === size : browser[comparison][size] || false
     // if anything goes wrong
     } catch (e) {
-        return False
+        return false
     }
 }
 
@@ -55,27 +55,28 @@ export const sortKeys = (keys, breakpoints) => (
         if (key[0] !== '_') {
             // deal with it first
             return 0
-        // otherwise the key is a responsive style
-        } else {
-            // grab the data for the style
-            const {comparison, size} = parsePattern(key)
-            // DRY
-            const nBreakpoints = breakpoints.length
-            // start off sorting by ascending order to match breakpoints
-            let sortValue = breakpoints.indexOf(size) + nBreakpoints
-
-            // make sure equals checks come last
-            if (comparison === 'equal') {
-                // offset it by a lot
-                sortValue =+ 3 * nBreakpoints
-            // make sure lessThans come after greaterThans
-            } else if (comparison === 'lessThan') {
-                // by offsetting them all
-                sortValue =+ 2 * nBreakpoints - sortValue
-            }
-            // return the sort index
-            return sortValue
         }
+        // otherwise the key is a responsive style
+
+        // grab the data for the style
+        const {comparison, size} = parsePattern(key)
+        // DRY
+        const nBreakpoints = breakpoints.length
+        // start off sorting by ascending order to match breakpoints
+        let sortValue = breakpoints.indexOf(size) + nBreakpoints
+
+        // make sure equals checks come last
+        if (comparison === 'equal') {
+            // offset it by a lot
+            sortValue = sortValue + (3 * nBreakpoints)
+        // make sure lessThans come after greaterThans
+        } else if (comparison === 'lessThan') {
+            // by offsetting them all and inverting the placement
+            sortValue = 2 * nBreakpoints - sortValue
+        }
+
+        // return the sort index
+        return sortValue
     })
 )
 
