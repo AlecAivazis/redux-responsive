@@ -4,7 +4,7 @@ import {
     browserMatches,
     sortKeys,
     transformStyle,
-} from 'util/stylesheet'
+} from 'react/stylesheet'
 
 describe('ReactStyleSheet', function () {
     it("can parse the relevant data from style patterns", function() {
@@ -16,6 +16,7 @@ describe('ReactStyleSheet', function () {
         expect(comparison).to.equal('lessThan')
         expect(size).to.equal('medium')
     })
+
 
     it("can match a browser state with a pattern", function() {
         // the mocked state of the browser reducer
@@ -35,6 +36,7 @@ describe('ReactStyleSheet', function () {
         expect(browserMatches(browser, falsePattern)).to.be.false
         expect(browserMatches(browser, equalPattern)).to.be.true
     })
+
 
     it("can sort style keys in the correct order", function() {
         // the breakpoints to define ordering
@@ -63,6 +65,7 @@ describe('ReactStyleSheet', function () {
             '_equal_medium',
         ])
     })
+
 
     it("can merge responsive styles into base style", function() {
         // the mocked browser state
