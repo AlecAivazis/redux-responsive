@@ -2,7 +2,6 @@
 import {connect} from 'react-redux'
 import mapValues from 'lodash/mapValues'
 import sortBy from 'lodash/sortBy'
-import 'babel-polyfill'
 
 /*
  styles are passed as objects with the following form:

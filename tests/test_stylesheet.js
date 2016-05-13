@@ -4,7 +4,10 @@ import {
     browserMatches,
     sortKeys,
     transformStyle,
-} from 'react/stylesheet'
+} from '../src/components/stylesheet'
+
+// fix the testing environment
+import 'babel-polyfill'
 
 describe('ReactStyleSheet', function () {
     it("can parse the relevant data from style patterns", function() {
@@ -52,7 +55,6 @@ describe('ReactStyleSheet', function () {
             '_greaterThan_medium',
             'border',
         ]
-        console.log(sortKeys(keys, breakpoints).slice(3))
         // make sure the responsive styles came last and are ordered correctly
         // note: there are 3 none responsive styles in the test
         // the correct order for responsive styles
