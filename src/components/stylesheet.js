@@ -115,7 +115,7 @@ export const transformStyle = browser => style => {
 // state of the reducer
 export const mapStateToPropsFactory = (stylesheet, {reducerName}) => state => (
     // the stylesheet only differs by values of
-    mapValues(stylesheet, transformStyle(state[reducerName]))
+    {styles: mapValues(stylesheet, transformStyle(state[reducerName]))}
 )
 
 
