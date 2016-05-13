@@ -1,1 +1,0 @@
-export StyleSheet from './stylesheet'
