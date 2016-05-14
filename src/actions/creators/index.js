@@ -1,5 +1,2 @@
-import calculateResponsiveState from './calculateResponsiveState'
+export calculateResponsiveState from './calculateResponsiveState'
 
-export default {
-    calculateResponsiveState,
-}
