@@ -223,6 +223,51 @@ ReactDOM.render(
 store.dispatch(calculateResponsiveState(window))
 ```
 
+# Higher-Order Components
+
+When building responsive applications in react, it's common to
+implement styles for each breakpoint and then apply them like so:
+
+```jsx
+const commonStyle = {...}
+
+const styles = {
+    element: {
+        ...commonStyle,
+        color: 'blue',
+    },
+    elementThin: {
+        ...commonStyle,
+        color: 'black',
+    }
+}
+
+// somewhere in your component...
+
+<div style={browser.lessThan.medium ? styles.elementThing : styles.element} />
+```
+
+However this become very repetitive rather quickly. To help, redux-responsive
+provides a higher-order component for managing these styles. The follow is
+equivalent to the logic above:
+
+```jsx
+import {StyleSheet} from 'redux-responsive'
+
+const stylesheet = {
+    element: {
+        color: 'blue',
+        _lessThan_medium: {
+            color: 'black',
+        }
+    }
+}
+
+const component = StyleSheet(stylesheet)(({styles}) => (
+    <div style={styles.element} />
+))
+```
+
 
 # Versioning
 
