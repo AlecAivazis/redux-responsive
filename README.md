@@ -178,9 +178,9 @@ class MyComponent extends React.Component {
 
 # Server-side Rendering
 
-Isomorphic applications must make sure that the sever-rendered markup matches the 
-DOM rendered by the client. Setting the `calculateStateInitially` option in the 
-`createResponsiveStoreEnhancer` factory method to `false` tells the reducer 
+Isomorphic applications must make sure that the sever-rendered markup matches the
+DOM rendered by the client. Setting the `calculateStateInitially` option in the
+`createResponsiveStoreEnhancer` factory method to `false` tells the reducer
 to skip the initial responsive state calculation. The responsive state will
 contain the default values on both the server and the client side.
 
@@ -192,13 +192,13 @@ import {createResponsiveStoreEnhancer} from 'redux-responsive'
 import reducer from './reducer'
 
 const store = createStore(
-                    reducer, 
+                    reducer,
                     createResponsiveStoreEnhancer({calculateStateInitially: false}))
 
 export default store
 ```
 
-The application should explicitly dispatch the action to recalculate the responsive 
+The application should explicitly dispatch the action to recalculate the responsive
 state when the application is rendered by the client.
 
 
