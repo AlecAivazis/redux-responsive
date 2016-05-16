@@ -56,6 +56,11 @@ module.exports = {
     output: {
         libraryTarget: 'commonjs2',
     },
+    externals: {
+        React: 'React',
+        redux: 'redux',
+        'react-redux': 'react-redux',
+    },
     plugins: plugins,
     devtool: devtool,
 }
