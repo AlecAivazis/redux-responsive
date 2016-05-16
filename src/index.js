@@ -1,10 +1,13 @@
 // local imports
-export createResponsiveStateReducer from './util/createResponsiveStateReducer'
-export createResponsiveStoreEnhancer from './util/createResponsiveStoreEnhancer'
+import _createResponsiveStateReducer from './util/createResponsiveStateReducer'
+import _createResponsiveStoreEnhancer from './util/createResponsiveStoreEnhancer'
 export {CALCULATE_RESPONSIVE_STATE} from './actions/types'
 export {calculateResponsiveState} from './actions/creators'
 export StyleSheet from './components/stylesheet'
 
+
+export const createResponsiveStateReducer = _createResponsiveStateReducer
+export const createResponsiveStoreEnhancer = _createResponsiveStoreEnhancer
 // provide default responsive state reducer
 export const responsiveStateReducer = createResponsiveStateReducer()
 // provide default responsive store enhancer
