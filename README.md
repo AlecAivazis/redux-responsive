@@ -244,7 +244,7 @@ const styles = {
 
 // somewhere in your component...
 
-<div style={browser.lessThan.medium ? styles.elementThing : styles.element} />
+<div style={browser.lessThan.medium ? styles.elementThin : styles.element} />
 ```
 
 However this become very repetitive rather quickly. To help, redux-responsive
