@@ -1,6 +1,5 @@
 {
   "name": "redux-responsive",
-  "version": "2.0.2",
   "version": "2.1.0",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "build/index.js",
