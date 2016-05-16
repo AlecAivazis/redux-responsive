@@ -202,7 +202,7 @@ The application should explicitly dispatch the action to recalculate the respons
 state when the application is rendered by the client.
 
 
-```js
+```jsx
 // client.js
 
 // external imports
@@ -221,8 +221,66 @@ ReactDOM.render(
 
 // calculate the initial state
 store.dispatch(calculateResponsiveState(window))
-
 ```
+
+# Higher-Order Components
+
+It's a common pattern in react to define all of your styles in a single object like so:
+
+```js
+// all of the styles common to the {element} component
+const elementCommon = {
+    color: 'blue',
+}
+
+const stylesheet = {
+    // default styling...
+    elementDefault: {
+        ...elementCommon,
+        backgroundColor: 'red',
+    },
+    // the style to show when the browser is `thin`
+    elementThin: {
+        ...elementCommon,
+        backgroundColor: 'yellow',
+    }
+}
+```
+and then applying the correct style with something like:
+
+```jsx
+const {elementDefault, elementThing} = stylesheet
+
+// somewhere in your component....
+<div style={browser.lessThan.medium ? styles.smallStyle : styles.largeStyle />
+```
+
+redux-responsive provides a higher order component for declaring your responsive styles alongside the rest of your
+stylesheet. The following is equivalent to the above logic:
+
+
+```jsx
+
+const stylesheet = {
+    element: {
+        // default styling
+        color: 'blue',
+        backgroundColor: 'red',
+        _lessThan_medium: {
+            // this will be applied when the browser is `thin`
+            backgroundColor: 'yellow',
+        }
+    }
+}
+
+
+import {StyleSheet} from 'redux-responsive'
+
+const component = StyleSheet(stylesheet)(({styles, ...otherProps}) => (
+    <div style={styles.element} />
+))
+```
+
 
 # Versioning
 
