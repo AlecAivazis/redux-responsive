@@ -133,6 +133,7 @@ export default (breakpoints = defaultBreakpoints) => {
                 greaterThan: getGreaterThan(innerWidth, breakpoints),
                 mediaType,
                 orientation,
+                breakpoints,
             }
         }
         // otherwise return the previous state
