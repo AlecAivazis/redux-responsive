@@ -3,7 +3,7 @@ import createResponsiveStateReducer from './util/createResponsiveStateReducer'
 import createResponsiveStoreEnhancer from './util/createResponsiveStoreEnhancer'
 import {CALCULATE_RESPONSIVE_STATE} from './actions/types'
 import {calculateResponsiveState} from './actions/creators'
-import StyleSheet from './components'
+import StyleSheet from './components/stylesheet'
 
 export default {
     calculateResponsiveState,
