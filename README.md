@@ -1,8 +1,8 @@
 # redux-responsive
 
-A redux reducer for managing the responsive state of your application.
-
 [![Build Status](https://travis-ci.org/AlecAivazis/redux-responsive.svg?branch=master)](https://travis-ci.org/AlecAivazis/redux-responsive)
+
+A redux reducer for managing the responsive state of your application. Documentation is hosted [here](https://alecaivazis.gitbooks.io/redux-responsive/content/).
 
 # Why Use a Flux Store for Responsive Behavior?
 
