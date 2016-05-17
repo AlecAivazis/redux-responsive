@@ -247,7 +247,7 @@ const styles = {
 <div style={browser.lessThan.medium ? styles.elementThin : styles.element} />
 ```
 
-However this become very repetitive rather quickly. To help, redux-responsive
+However this becomes very repetitive rather quickly. To help, redux-responsive
 provides a higher-order component for managing these styles. The follow is
 equivalent to the logic above:
 
