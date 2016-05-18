@@ -3,7 +3,8 @@ node_js:
   - "5"
 # command to install dependencies
 install:
-  - npm install 
+  - npm install react react-redux
+  - npm install
 # command to run tests
 script:
   - npm run test
