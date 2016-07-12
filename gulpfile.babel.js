@@ -10,25 +10,15 @@ import projectPaths from './config/projectPaths'
 
 
 /**
- * Build entry point.
+ * Build entry points.
  */
-gulp.task('build', ['clean', 'build:core', 'build:react'])
+gulp.task('build', ['build:core', 'build:react'])
+gulp.task('build:prod', ['production', 'build'])
 
 
 /**
- * Watch entry point.
+ * Sets the current chain of tasks to 'production mode'.
  */
-gulp.task('watch', ['clean'], () => {
-    const config = {
-        ...require(projectPaths.webpackConfig),
-        watch: true,
-    }
-
-    return gulp.src(projectPaths.entry)
-               .pipe(named())
-               .pipe(webpack(config))
-               .pipe(gulp.dest(projectPaths.buildDir))
-})
 
 gulp.task('production', () => {
     // set the environment variable
@@ -40,29 +30,16 @@ gulp.task('production', () => {
 })
 
 
-gulp.task('build:core', () => {
-    // build the client
-    return buildFile(projectPaths.entry, 'index')
-})
-
-
-gulp.task('build:react', () => {
-    return buildFile(projectPaths.reactEntry, 'react')
-})
-
-// Production aliases
-
-gulp.task('build:prod', ['production', 'build:core', 'build:react'], () => {
-})
-
+/**
+ * Build the core library.
+ */
+gulp.task('build:core', () => buildFile(projectPaths.entry, 'index'))
 
 
 /**
- * Remove all ouptut files from previous builds.
+ * Build the react run modules.
  */
-gulp.task('clean', () => {
-    del.sync(projectPaths.buildDir)
-})
+gulp.task('build:react', () => buildFile(projectPaths.reactEntry, 'react'))
 
 
 /**
@@ -78,17 +55,6 @@ gulp.task('test', (cb) => {
 })
 
 
-/**
- * Watch source and tests for changes, run tests on change.
- */
-gulp.task('tdd', () => {
-    const server = new karma.Server({
-        configFile: projectPaths.karmaConfig,
-    })
-
-    server.start()
-})
-
 
 // Utilities
 
@@ -98,5 +64,6 @@ const buildFile = (source, name) => (
       .pipe(webpack(require(projectPaths.webpackConfig)))
       .pipe(gulp.dest(projectPaths.buildDir))
 )
+
 
 // end of file
