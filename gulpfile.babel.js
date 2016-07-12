@@ -12,12 +12,7 @@ import projectPaths from './config/projectPaths'
 /**
  * Build entry point.
  */
-gulp.task('build', ['clean'], () => {
-    return gulp.src(projectPaths.entry)
-               .pipe(named())
-               .pipe(webpack(require(projectPaths.webpackConfig)))
-               .pipe(gulp.dest(projectPaths.buildDir))
-})
+gulp.task('build', ['clean', 'build:core', 'build:react'])
 
 
 /**
@@ -35,23 +30,31 @@ gulp.task('watch', ['clean'], () => {
                .pipe(gulp.dest(projectPaths.buildDir))
 })
 
-
-/**
- * Build entry point for production.
- */
-gulp.task('build-production', ['clean'], () => {
+gulp.task('production', () => {
     // set the environment variable
     env({
         vars: {
             NODE_ENV: 'production',
         },
     })
-    // build the client
-    return gulp.src(projectPaths.entry)
-               .pipe(named())
-               .pipe(webpack(require(projectPaths.webpackConfig)))
-               .pipe(gulp.dest(projectPaths.buildDir))
 })
+
+
+gulp.task('build:core', () => {
+    // build the client
+    return buildFile(projectPaths.entry, 'index')
+})
+
+
+gulp.task('build:react', () => {
+    return buildFile(projectPaths.reactEntry, 'react')
+})
+
+// Production aliases
+
+gulp.task('build:prod', ['production', 'build:core', 'build:react'], () => {
+})
+
 
 
 /**
@@ -86,5 +89,14 @@ gulp.task('tdd', () => {
     server.start()
 })
 
+
+// Utilities
+
+const buildFile = (source, name) => (
+  gulp.src(source)
+      .pipe(named(() => name))
+      .pipe(webpack(require(projectPaths.webpackConfig)))
+      .pipe(gulp.dest(projectPaths.buildDir))
+)
 
 // end of file
