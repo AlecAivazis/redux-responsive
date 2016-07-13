@@ -52,7 +52,7 @@ function getLessThanOrEqual(browserWidth, breakpoints, currentMediaType) {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
             // store wether or not it is less than the breakpoint
-            result[mediaType] = browserWidth <= breakpoint && mediaType !== currentMediaType
+            result[mediaType] = browserWidth < breakpoint || mediaType === currentMediaType
         // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
@@ -88,12 +88,12 @@ function getGreaterThan(browserWidth, breakpoints) {
  * keys of the breakpoints object.  The value for each key indicates whether
  * or not the browser width is greater or equal to the breakpoint.
  */
-function getGreaterThanOrEqual(browserWidth, breakpoints) {
+function getGreaterThanOrEqual(browserWidth, breakpoints, currentMediaType) {
     return transform(breakpoints, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
             // store wether or not it is greater than the breakpoint
-            result[mediaType] = browserWidth >= breakpoint
+            result[mediaType] = browserWidth > breakpoint || mediaType === currentMediaType
         } else {
             result[mediaType] = false
         }
@@ -173,7 +173,7 @@ export default (breakpoints = defaultBreakpoints) => {
                 lessThan: getLessThan(innerWidth, breakpoints, mediaType),
                 lessThanOrEqual: getLessThanOrEqual(innerWidth, breakpoints, mediaType),
                 greaterThan: getGreaterThan(innerWidth, breakpoints),
-                greaterThanOrEqual: getGreaterThanOrEqual(innerWidth, breakpoints),
+                greaterThanOrEqual: getGreaterThanOrEqual(innerWidth, breakpoints, mediaType),
                 mediaType,
                 orientation,
                 breakpoints,
