@@ -93,7 +93,7 @@ function getGreaterThanOrEqual(browserWidth, breakpoints) {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
             // store wether or not it is greater than the breakpoint
-            result[mediaType] >= browserWidth > breakpoint
+            result[mediaType] = browserWidth >= breakpoint
         } else {
             result[mediaType] = false
         }
