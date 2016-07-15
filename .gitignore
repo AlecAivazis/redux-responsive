@@ -1,4 +1,4 @@
 node_modules
 coverage/
 index.js
-react.js
+/react.js
