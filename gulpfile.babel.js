@@ -15,6 +15,9 @@ import projectPaths from './config/projectPaths'
 gulp.task('build', ['build:core', 'build:react'])
 gulp.task('build:prod', ['production', 'build'])
 
+gulp.task('build:core', () => buildFile(projectPaths.entry, 'index'))
+gulp.task('build:react', () => buildFile(projectPaths.reactEntry, 'react'))
+
 
 /**
  * Sets the current chain of tasks to 'production mode'.
@@ -28,18 +31,6 @@ gulp.task('production', () => {
         },
     })
 })
-
-
-/**
- * Build the core library.
- */
-gulp.task('build:core', () => buildFile(projectPaths.entry, 'index'))
-
-
-/**
- * Build the react run modules.
- */
-gulp.task('build:react', () => buildFile(projectPaths.reactEntry, 'react'))
 
 
 /**

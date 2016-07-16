@@ -1,3 +1,6 @@
+
+import 'babel-polyfill'
+
 // local imports
 import {
     parsePattern,
@@ -5,9 +8,9 @@ import {
     sortKeys,
     transformStyle,
 } from '../src/components/stylesheet'
-
-// fix the testing environment
-import 'babel-polyfill'
+// import {parsePattern} from 'components/stylesheet'
+// // fix the testing environment
+// import foo from 'components/stylesheet'
 
 describe('ReactStyleSheet', function () {
     it("can parse the relevant data from style patterns", function() {
