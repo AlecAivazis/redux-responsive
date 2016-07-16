@@ -256,7 +256,7 @@ provides a higher-order component for managing these styles. The follow is
 equivalent to the logic above:
 
 ```jsx
-import {StyleSheet} from 'redux-responsive'
+import {StyleSheet} from 'redux-responsive/react'
 
 const stylesheet = {
     element: {
