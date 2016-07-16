@@ -1,8 +1,8 @@
 {
   "name": "redux-responsive",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
-  "main": "build/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aaivazis/redux-responsive.git"
@@ -12,8 +12,8 @@
     "Monte Mishkin"
   ],
   "scripts": {
-    "test": "node_modules/gulp/bin/gulp.js test",
-    "prepublish": "node_modules/gulp/bin/gulp.js build-production"
+    "test": "gulp test",
+    "prepublish": "gulp build:prod"
   },
   "license": "MIT",
   "devDependencies": {
@@ -28,7 +28,7 @@
     "eslint-plugin-react": "^3.5.1",
     "gulp": "^3.9.0",
     "gulp-env": "^0.2.0",
-    "karma": "^0.13.22",
+    "karma": "^1.1.1",
     "karma-chrome-launcher": "^0.2.1",
     "karma-coverage": "^0.5.5",
     "karma-firefox-launcher": "^0.1.6",
@@ -49,6 +49,7 @@
     "webpack-stream": "^2.1.1"
   },
   "dependencies": {
+    "karma": "^1.1.1",
     "lodash": "^4.2.1",
     "mediaquery": "0.0.3",
     "redux": "^3.5.2"

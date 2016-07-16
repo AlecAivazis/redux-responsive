@@ -10,55 +10,26 @@ import projectPaths from './config/projectPaths'
 
 
 /**
- * Build entry point.
+ * Build entry points.
  */
-gulp.task('build', ['clean'], () => {
-    return gulp.src(projectPaths.entry)
-               .pipe(named())
-               .pipe(webpack(require(projectPaths.webpackConfig)))
-               .pipe(gulp.dest(projectPaths.buildDir))
-})
+gulp.task('build', ['build:core', 'build:react'])
+gulp.task('build:prod', ['production', 'build'])
+
+gulp.task('build:core', () => buildFile(projectPaths.entry, 'index'))
+gulp.task('build:react', () => buildFile(projectPaths.reactEntry, 'react'))
 
 
 /**
- * Watch entry point.
+ * Sets the current chain of tasks to 'production mode'.
  */
-gulp.task('watch', ['clean'], () => {
-    const config = {
-        ...require(projectPaths.webpackConfig),
-        watch: true,
-    }
 
-    return gulp.src(projectPaths.entry)
-               .pipe(named())
-               .pipe(webpack(config))
-               .pipe(gulp.dest(projectPaths.buildDir))
-})
-
-
-/**
- * Build entry point for production.
- */
-gulp.task('build-production', ['clean'], () => {
+gulp.task('production', () => {
     // set the environment variable
     env({
         vars: {
             NODE_ENV: 'production',
         },
     })
-    // build the client
-    return gulp.src(projectPaths.entry)
-               .pipe(named())
-               .pipe(webpack(require(projectPaths.webpackConfig)))
-               .pipe(gulp.dest(projectPaths.buildDir))
-})
-
-
-/**
- * Remove all ouptut files from previous builds.
- */
-gulp.task('clean', () => {
-    del.sync(projectPaths.buildDir)
 })
 
 
@@ -75,16 +46,15 @@ gulp.task('test', (cb) => {
 })
 
 
-/**
- * Watch source and tests for changes, run tests on change.
- */
-gulp.task('tdd', () => {
-    const server = new karma.Server({
-        configFile: projectPaths.karmaConfig,
-    })
 
-    server.start()
-})
+// Utilities
+
+const buildFile = (source, name) => (
+  gulp.src(source)
+      .pipe(named(() => name))
+      .pipe(webpack(require(projectPaths.webpackConfig)))
+      .pipe(gulp.dest(projectPaths.buildDir))
+)
 
 
 // end of file

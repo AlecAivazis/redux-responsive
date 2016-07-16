@@ -1,5 +1,5 @@
 // external imports
-import {connect} from 'react-redux'
+// import {connect} from 'react-redux'
 import mapValues from 'lodash/mapValues'
 import sortBy from 'lodash/sortBy'
 
@@ -126,7 +126,7 @@ const defaultOptions = {
 
 // export a higher order component
 export default (stylesheet, opts) => (component) => (
-    connect(
+    require('react-redux').connect( // eslint-disable-line no-undef
         mapStateToPropsFactory(stylesheet, {...defaultOptions, ...opts})
     )(component)
 )
