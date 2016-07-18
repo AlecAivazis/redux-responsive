@@ -115,8 +115,6 @@ The `responsiveStateReducer` (and the reducer returned by `createResponsiveState
 - `orientation`: (*string*) The browser orientation. Has three possible values: "portrait", "landscape", or `null`.
 - `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
 - `greaterThan`: (*object*) An object of booleans that indicate whether the browser is currently greater than a particular breakpoint.
-- `lessThanOrEqual`: (*object*) An object of booleans that indicate whether the browser is currently less than or equal to a particular breakpoint.
-- `greaterThanOrEqual`: (*object*) An object of booleans that indicate whether the browser is currently greater than or equal to a particular breakpoint.
 
 For example, if you put the responsive state under the key `browser` (as is done in the examples above) then you can access the browser's width and current media type, and determine if the browser is wider than the medium breakpoint like so
 
@@ -134,8 +132,6 @@ state.browser.mediaType
 state.browser.orientation
 // true if browser width is greater than the "medium" breakpoint
 state.browser.greaterThan.medium
-// true if the browser is less than or equal to the "medium" breakpoint
-state.browser.lessThanOrEqual.medium
 ```
 
 
