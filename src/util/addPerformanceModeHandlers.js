@@ -24,38 +24,29 @@ export default ({store, window, calculateStateInitially}) => {
     ), false)
 
     // if we couldn't find a responsive reducer at the root of the project
-    // if (!responsiveReducer) {
-    //     throw {
-    //         name: 'Responsive State Error',
-    //         message: 'Could not find responsive state reducer - Performance mode can only '
-    //                  + 'be used if the responsive reducer is at the root of your reducer tree.'
-    //     }
-    // }
+    if (!responsiveReducer) {
+        throw new Error(
+            'Could not find responsive state reducer - Performance mode can only '
+            + 'be used if the responsive reducer is at the root of your reducer tree.'
+        )
+    }
 
     // get the object of breakpoints
     const breakpoints = storeState[responsiveReducer].breakpoints
-
     // get the object of media queries
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
     // for every breakpoint range
     for (const breakpoint of Object.keys(mediaQueries)) {
-
-        // if we are looking at a non-valued breakpoint (like infinity)
-        if (!breakpoints[breakpoint]) {
-            continue
-        }
-
-        // create a media query list
+        // create a media query list for the breakpoint
         const mediaQueryList = window.matchMedia(mediaQueries[breakpoint])
 
         /* eslint-disable no-loop-func */
 
         // whenever any of the media query lists status changes
         mediaQueryList.addListener((query) => {
-            // if its a match
+            // if a new query was matched
             if (query.matches) {
-                console.log('updated media query match')
                 // recaulate the state
                 refreshResponsiveState()
             }

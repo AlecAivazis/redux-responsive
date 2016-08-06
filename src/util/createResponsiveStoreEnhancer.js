@@ -20,6 +20,6 @@ export default ({throttleTime = 100, calculateStateInitially = true, performance
             addEventHandlers(createStore(...args), {
                 throttleTime,
                 calculateStateInitially,
-                performanceMode
+                performanceMode,
             })
 }
