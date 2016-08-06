@@ -109,8 +109,8 @@ export default combineReducers({
 
 The `responsiveStateReducer` (and the reducer returned by `createResponsiveStateReducer`) adds an object with the following keys to the store:
 
-- `width`: (*number*) The browser width.
-- `height`: (*number*) The browser height.
+- `width`: (*number*) The browser width. Note: With PerformanceMode enabled, this will take the value of the most recently matched breakpoint.
+- `height`: (*number*) The browser height. Note: With PerformanceMode enabled, this will take the value of the browser when the most recently matched breakpoint was satisfied.
 - `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
 - `orientation`: (*string*) The browser orientation. Has three possible values: "portrait", "landscape", or `null`.
 - `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
@@ -222,6 +222,32 @@ ReactDOM.render(
 // calculate the initial state
 store.dispatch(calculateResponsiveState(window))
 ```
+
+# Performance Mode
+
+By default, the responsive state of your application is calculated every time
+the browser resizes. This incurs a very high overhead in large or very
+specialized apps. For those situations, redux-responsive provides a flag which
+limits the re-calculation of the responsive state to just when the state
+actually changes. Unfortunately, it relies on ["experimental" technology](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Testing_media_queries#Browser_compatibility) that
+is only supported in modern browsers - hence the default is "off":
+
+
+```js
+// store/configureStore.js
+
+import {createStore} from 'redux'
+import {createResponsiveStoreEnhancer} from 'redux-responsive'
+import reducer from './reducer'
+
+const store = createStore(
+                    reducer,
+                    createResponsiveStoreEnhancer({performanceMode: true}))
+
+export default store
+```
+
+
 
 # Higher-Order Components
 
