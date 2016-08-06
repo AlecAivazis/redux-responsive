@@ -11,11 +11,15 @@ import addEventHandlers from './addEventHandlers'
  * @returns {function} - The store enhancer (which adds event listeners to
  * dispatch actions on window resize).
  */
-export default ({throttleTime = 100, calculateStateInitially = true} = {}) => {
+export default ({throttleTime = 100, calculateStateInitially = true, performanceMode = false} = {}) => {
     // return store enhancer
     return (createStore) =>
         // return enhanced version of `createStore`
         (...args) =>
             // return store after adding event handlers
-            addEventHandlers(createStore(...args), {throttleTime, calculateStateInitially})
+            addEventHandlers(createStore(...args), {
+                throttleTime,
+                calculateStateInitially,
+                performanceMode,
+            })
 }

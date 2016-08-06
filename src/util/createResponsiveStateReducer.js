@@ -127,6 +127,7 @@ export default (breakpoints = defaultBreakpoints) => {
             const orientation = getOrientation(matchMedia)
             // return calculated state
             return {
+                _responsiveState: true,
                 width: innerWidth,
                 height: innerHeight,
                 lessThan: getLessThan(innerWidth, breakpoints, mediaType),

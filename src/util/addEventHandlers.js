@@ -1,8 +1,6 @@
-// third party imports
-import throttle from 'lodash/throttle'
 // local imports
-import calculateResponsiveState from '../actions/creators/calculateResponsiveState'
-
+import addThrottledHandlers from './addThrottledHandlers'
+import addPerformanceModeHandlers from './addPerformanceModeHandlers'
 
 /**
  * Dispatches an action to calculate the responsive state, then kicks of the
@@ -15,21 +13,18 @@ import calculateResponsiveState from '../actions/creators/calculateResponsiveSta
  * @arg {boolean} options.calculateStateInitially - True if the responsive state
  * must be calculated initially, false otherwise.
  */
-export default (store, {throttleTime, calculateStateInitially}) => {
+export default (store, {throttleTime, calculateStateInitially, performanceMode}) => {
     // if there is a `window`
     if (typeof window !== 'undefined') {
-        // throttled event handler for window resize
-        const throttledHandler = throttle(
-            // just dispatch action to calculate responsive state
-            () => store.dispatch(calculateResponsiveState(window)),
-            throttleTime
-        )
-        // initialize the responsive state
-        if (calculateStateInitially) {
-            throttledHandler()
+        // if we need to enable performance mode
+        if (performanceMode) {
+            // add the handlers that only fire when the responsive state changes
+            addPerformanceModeHandlers({store, window, calculateStateInitially})
+        // otherwise we should just add the throttled handlers
+        } else {
+            // add the throttled (continuously evaluated) handlers
+            addThrottledHandlers({store, window, throttleTime, calculateStateInitially})
         }
-        // add the resize event listener
-        window.addEventListener('resize', throttledHandler)
     }
 
     // return the store so that the call is transparent
