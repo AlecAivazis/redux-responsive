@@ -229,8 +229,9 @@ By default, the responsive state of your application is calculated every time
 the browser resizes. This incurs a very high overhead in large or very
 specialized apps. For those situations, redux-responsive provides a flag which
 limits the re-calculation of the responsive state to just when the state
-actually changes. Unfortunately, it relies on ["experimental" technology](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Testing_media_queries#Browser_compatibility) that
-is only supported in modern browsers - hence the default is "off":
+actually changes. When in performance mode, keep in mind that the browswer
+height and width are not continuously updating - they will only reflect the 
+state of the browser when the media query actually changed.
 
 
 ```js
