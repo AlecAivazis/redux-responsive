@@ -37,7 +37,7 @@ export default ({store, window, calculateStateInitially}) => {
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
     // for every breakpoint range
-    Object.keys(mediaQueries).forEach(key => {
+    Object.keys(mediaQueries).forEach(breakpoint => {
         // create a media query list for the breakpoint
         const mediaQueryList = window.matchMedia(mediaQueries[breakpoint])
 
