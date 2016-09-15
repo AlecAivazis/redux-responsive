@@ -1,6 +1,6 @@
 {
   "name": "redux-responsive",
-  "version": "3.1.0",
+  "version": "3.1.4",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
   "repository": {
@@ -13,7 +13,9 @@
   ],
   "scripts": {
     "test": "gulp test",
-    "prepublish": "gulp build:prod"
+    "build": "gulp build",
+    "build:min": "gulp build:prod",
+    "prepublish": "npm run build && npm run build:min"
   },
   "license": "MIT",
   "devDependencies": {

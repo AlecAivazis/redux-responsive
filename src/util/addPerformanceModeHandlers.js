@@ -37,7 +37,7 @@ export default ({store, window, calculateStateInitially}) => {
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
     // for every breakpoint range
-    for (const breakpoint of Object.keys(mediaQueries)) {
+    Object.keys(mediaQueries).forEach(breakpoint => {
         // create a media query list for the breakpoint
         const mediaQueryList = window.matchMedia(mediaQueries[breakpoint])
 
@@ -52,8 +52,7 @@ export default ({store, window, calculateStateInitially}) => {
             }
         })
 
-        /* eslint-enable no-loop-func */
-    }
+    })
 
     // if we are supposed to calculate the initial state
     if (calculateStateInitially) {

@@ -49,12 +49,15 @@ gulp.task('test', (cb) => {
 
 // Utilities
 
-const buildFile = (source, name) => (
-  gulp.src(source)
-      .pipe(named(() => name))
+const buildFile = (source, name) => {
+  // add the min extension if we're running in prod
+  const addedExt = process.env.NODE_ENV === 'production' ? '.min' : ''
+
+  return gulp.src(source)
+      .pipe(named(() => `${name}${addedExt}`))
       .pipe(webpack(require(projectPaths.webpackConfig)))
       .pipe(gulp.dest(projectPaths.buildDir))
-)
+}
 
 
 // end of file
