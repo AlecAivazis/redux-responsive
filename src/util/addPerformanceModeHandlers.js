@@ -19,7 +19,7 @@ export default ({store, window, calculateStateInitially}) => {
     // go through every reducer at the root of the project
     const responsiveReducer = Object.keys(storeState).reduce((prev, current) => (
         // if the reducer contains the responsive state marker then keep it
-        storeState[current]._responsiveState ? current : prev
+        storeState[current] && storeState[current]._responsiveState ? current : prev
     // otherwise the value should be at least falsey
     ), false)
 
