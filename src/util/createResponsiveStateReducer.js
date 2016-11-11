@@ -64,22 +64,23 @@ function getGreaterThan(browserWidth, breakpoints) {
 /**
  * Gets the current media type from the global `window`.
  * @arg {object} mediaQueries - The media queries object.
+ * @arg {string} infinityMediaType - The infinity media type.
  * @returns {string} The window's current media type.  This is the key of the
  * breakpoint that is the next breakpoint larger than the window.
  */
-function getMediaType(matchMedia, mediaQueries) {
+function getMediaType(matchMedia, mediaQueries, infinityMediaType) {
     // if there's no window
     if (typeof matchMedia === 'undefined') {
-        // return the default
-        return defaultMediaType
+        // return the infinity media type
+        return infinityMediaType
     }
 
     // there is a window, so compute the true media type
     return reduce(mediaQueries, (result, query, type) => {
         // return the new type if the query matches otherwise the previous one
         return matchMedia(query).matches ? type : result
-    // use the default media type
-    }, defaultMediaType)
+    // use the infinity media type
+    }, infinityMediaType)
 }
 
 
@@ -111,9 +112,9 @@ function getOrientation(matchMedia) {
 
 
 // export the reducer factory
-export default (breakpoints = defaultBreakpoints) => {
+export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMediaType) => {
     // add `infinity` breakpoint for upper bound
-    breakpoints[defaultMediaType] = Infinity
+    breakpoints[infinityMediaType] = Infinity
     // media queries associated with the breakpoints
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
@@ -122,7 +123,7 @@ export default (breakpoints = defaultBreakpoints) => {
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
-            const mediaType = getMediaType(matchMedia, mediaQueries)
+            const mediaType = getMediaType(matchMedia, mediaQueries, infinityMediaType)
             // the current orientation
             const orientation = getOrientation(matchMedia)
             // return calculated state
