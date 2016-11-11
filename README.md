@@ -12,6 +12,47 @@ There are many solutions for cleanly handling responsive designs in React applic
 
 Using a specialized store not only reduces the overall noise in a component, but also guarantees that only a single event listener is listening for resize.
 
+
+# Example Usage
+
+```js
+// MyComponent.js
+
+import React from 'react'
+import {connect} from 'react-redux'
+
+// grab only the responsive state from the store
+// (assuming you have put the `responsiveStateReducer` under
+//  the key `browser` in your state tree)
+function browserSelector({browser}) {
+    return {browser}
+}
+
+@connect(browserSelector)
+class MyComponent extends React.Component {
+    render() {
+        // grab the responsive state off of props
+        const {browser} = this.props
+
+        let message = `The viewport's current media type is: ${browser.mediaType}.`
+
+        if (browser.lessThan.small) {
+            message += 'Secret message for viewports smaller than than the "small" breakpoint!'
+        } else if (browser.lessThan.medium) {
+            message += 'Secret message for viewports between the "small" and "medium" breakpoints!'
+        } else {
+            message += 'Message for viewports greater than the "medium" breakpoint.'
+        }
+
+        return (
+            <p>
+                {message}
+            </p>
+        )
+    }
+}
+```
+
 # Setup
 
 First, add the reducer somewhere in your reducer tree.  It's just a reducer so you can put it wherever you want! For example, you could put it in your top level call to `combineReducers`.
@@ -104,6 +145,23 @@ export default combineReducers({
 })
 ```
 
+# The Infinity Media Type
+When the browser is wider than the largest breakpoint, it's `mediaType` value is `infinity`. In order to
+change this value, pass a second argument to `createResponsiveStateReducer`:
+
+```es6
+// reducer.js
+
+import {combineReducers} from 'redux'
+import {createResponsiveStateReducer} from 'redux-responsive'
+
+export default combineReducers({
+    browser: createResponsiveStateReducer({
+        // breakpoints...
+    }, "veryBig")
+})
+```
+
 
 # The Responsive State
 
@@ -132,47 +190,6 @@ state.browser.mediaType
 state.browser.orientation
 // true if browser width is greater than the "medium" breakpoint
 state.browser.greaterThan.medium
-```
-
-
-# Example Usage
-
-```js
-// MyComponent.js
-
-import React from 'react'
-import {connect} from 'react-redux'
-
-// grab only the responsive state from the store
-// (assuming you have put the `responsiveStateReducer` under
-//  the key `browser` in your state tree)
-function browserSelector({browser}) {
-    return {browser}
-}
-
-@connect(browserSelector)
-class MyComponent extends React.Component {
-    render() {
-        // grab the responsive state off of props
-        const {browser} = this.props
-
-        let message = `The viewport's current media type is: ${browser.mediaType}.`
-
-        if (browser.lessThan.small) {
-            message += 'Secret message for viewports smaller than than the "small" breakpoint!'
-        } else if (browser.lessThan.medium) {
-            message += 'Secret message for viewports between the "small" and "medium" breakpoints!'
-        } else {
-            message += 'Message for viewports greater than the "medium" breakpoint.'
-        }
-
-        return (
-            <p>
-                {message}
-            </p>
-        )
-    }
-}
 ```
 
 
