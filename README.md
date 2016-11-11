@@ -4,15 +4,6 @@
 
 A redux reducer for managing the responsive state of your application. Documentation is hosted [here](https://alecaivazis.gitbooks.io/redux-responsive/content/).
 
-# Why Use a Flux Store for Responsive Behavior?
-
-redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used alongside redux, this documentation employs common React patterns.
-
-There are many solutions for cleanly handling responsive designs in React applications. One common approach is to wrap a component in another component which is responsible for handling the behavior and passing the information down as a prop. While this at first seems good and the "react way", as the behavior gets more complicated, this quickly leads to a lot of boilerplate code in a single component. Also, depending on the implementation, it is possible that many copies of the responsive wrapper would create many different resize handlers.
-
-Using a specialized store not only reduces the overall noise in a component, but also guarantees that only a single event listener is listening for resize.
-
-
 # Example Usage
 
 ```js
@@ -52,6 +43,15 @@ class MyComponent extends React.Component {
     }
 }
 ```
+
+# Why Use a Flux Store for Responsive Behavior?
+
+redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used alongside redux, this documentation employs common React patterns.
+
+There are many solutions for cleanly handling responsive designs in React applications. One common approach is to wrap a component in another component which is responsible for handling the behavior and passing the information down as a prop. While this at first seems good and the "react way", as the behavior gets more complicated, this quickly leads to a lot of boilerplate code in a single component. Also, depending on the implementation, it is possible that many copies of the responsive wrapper would create many different resize handlers.
+
+Using a specialized store not only reduces the overall noise in a component, but also guarantees that only a single event listener is listening for resize.
+
 
 # Setup
 
@@ -124,44 +124,30 @@ const defaultBreakpoints = {
 ```
 
 
-## Using Custom Breakpoints
+## Performance Mode
 
-You can also create your own reducer based on custom breakpoints:
+By default, the responsive state of your application is calculated every time
+the browser resizes. This incurs a very high overhead in large or very
+specialized apps. For those situations, redux-responsive provides a flag which
+limits the re-calculation of the responsive state to just when the state
+actually changes. When in performance mode, keep in mind that the reducer value
+for browser height and width are not continuously updating - they will only reflect
+the state of the browser when the media query actually changed.
+
 
 ```js
-// reducer.js
+// store/configureStore.js
 
-import {combineReducers} from 'redux'
-import {createResponsiveStateReducer} from 'redux-responsive'
+import {createStore} from 'redux'
+import {createResponsiveStoreEnhancer} from 'redux-responsive'
+import reducer from './reducer'
 
-export default combineReducers({
-    browser: createResponsiveStateReducer({
-        extraSmall: 500,
-        small: 700,
-        medium: 1000,
-        large: 1280,
-        extraLarge: 1400,
-    }),
-})
+const store = createStore(
+                    reducer,
+                    createResponsiveStoreEnhancer({performanceMode: true}))
+
+export default store
 ```
-
-# The Infinity Media Type
-When the browser is wider than the largest breakpoint, it's `mediaType` value is `infinity`. In order to
-change this value, pass a second argument to `createResponsiveStateReducer`:
-
-```es6
-// reducer.js
-
-import {combineReducers} from 'redux'
-import {createResponsiveStateReducer} from 'redux-responsive'
-
-export default combineReducers({
-    browser: createResponsiveStateReducer({
-        // breakpoints...
-    }, "veryBig")
-})
-```
-
 
 # The Responsive State
 
@@ -190,6 +176,47 @@ state.browser.mediaType
 state.browser.orientation
 // true if browser width is greater than the "medium" breakpoint
 state.browser.greaterThan.medium
+```
+
+
+## Using Custom Breakpoints
+
+You can also create your own reducer based on custom breakpoints:
+
+```js
+// reducer.js
+
+import {combineReducers} from 'redux'
+import {createResponsiveStateReducer} from 'redux-responsive'
+
+export default combineReducers({
+    browser: createResponsiveStateReducer({
+        extraSmall: 500,
+        small: 700,
+        medium: 1000,
+        large: 1280,
+        extraLarge: 1400,
+    }),
+})
+```
+
+
+
+## The Infinity Media Type
+When the browser is wider than the largest breakpoint, it's `mediaType` value is `infinity`. In order to
+change this value, pass a second argument to `createResponsiveStateReducer`:
+
+```es6
+// reducer.js
+
+import {combineReducers} from 'redux'
+import {createResponsiveStateReducer} from 'redux-responsive'
+
+export default combineReducers({
+    browser: createResponsiveStateReducer({
+        // breakpoints...
+    }, "veryBig")
+})
 ```
 
 
@@ -239,33 +266,6 @@ ReactDOM.render(
 // calculate the initial state
 store.dispatch(calculateResponsiveState(window))
 ```
-
-# Performance Mode
-
-By default, the responsive state of your application is calculated every time
-the browser resizes. This incurs a very high overhead in large or very
-specialized apps. For those situations, redux-responsive provides a flag which
-limits the re-calculation of the responsive state to just when the state
-actually changes. When in performance mode, keep in mind that the reducer value
-for browser height and width are not continuously updating - they will only reflect
-the state of the browser when the media query actually changed.
-
-
-```js
-// store/configureStore.js
-
-import {createStore} from 'redux'
-import {createResponsiveStoreEnhancer} from 'redux-responsive'
-import reducer from './reducer'
-
-const store = createStore(
-                    reducer,
-                    createResponsiveStoreEnhancer({performanceMode: true}))
-
-export default store
-```
-
-
 
 # Higher-Order Components
 
