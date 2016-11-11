@@ -18,7 +18,8 @@ import {CALCULATE_RESPONSIVE_STATE} from '../types'
  */
 export default ({innerWidth, innerHeight, matchMedia} = {}) => ({
     type: CALCULATE_RESPONSIVE_STATE,
-    innerWidth,
+    //innerWidth,
+    innerWidth: document.documentElement.clientWidth,
     innerHeight,
     matchMedia,
 })
