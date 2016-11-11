@@ -4,7 +4,7 @@
 
 A redux reducer for managing the responsive state of your application. Documentation is hosted [here](https://alecaivazis.gitbooks.io/redux-responsive/content/).
 
-# Example Usage
+# Example
 
 ```js
 // MyComponent.js
