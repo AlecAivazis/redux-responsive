@@ -16,15 +16,21 @@ export default ({store, window, calculateStateInitially}) => {
     // grab the current state of the store
     const storeState = store.getState()
 
-    // go through every reducer at the root of the project
-    const responsiveReducer = Object.keys(storeState).reduce((prev, current) => (
-        // if the reducer contains the responsive state marker then keep it
-        storeState[current] && storeState[current]._responsiveState ? current : prev
-    // otherwise the value should be at least falsey
-    ), false)
+    let responsiveStateKey
+    // if the redux state root is an Immutable.js Iterable
+    if (storeState['@@__IMMUTABLE_ITERABLE__@@'] === true) {
+        responsiveStateKey = storeState.findKey(stateBranch => stateBranch._responsiveState)
+    } else {
+        // go through every reducer at the root of the project
+        responsiveStateKey = Object.keys(storeState).reduce((prev, current) => (
+            // if the reducer contains the responsive state marker then keep it
+            storeState[current] && storeState[current]._responsiveState ? current : prev
+        // otherwise the value should be at least falsey
+        ), false)
+    }
 
     // if we couldn't find a responsive reducer at the root of the project
-    if (!responsiveReducer) {
+    if (!responsiveStateKey) {
         throw new Error(
             'Could not find responsive state reducer - Performance mode can only '
             + 'be used if the responsive reducer is at the root of your reducer tree.'
@@ -32,7 +38,7 @@ export default ({store, window, calculateStateInitially}) => {
     }
 
     // get the object of breakpoints
-    const breakpoints = storeState[responsiveReducer].breakpoints
+    const breakpoints = storeState[responsiveStateKey].breakpoints
     // get the object of media queries
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
