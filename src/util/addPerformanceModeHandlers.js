@@ -38,7 +38,7 @@ export default ({store, window, calculateStateInitially}) => {
     }
 
     // get the object of breakpoints
-    const breakpoints = storeState[responsiveStateKey].breakpoints
+    const breakpoints = storeState['@@__IMMUTABLE_ITERABLE__@@'] ? storeState.get(responsiveStateKey).breakpoints : storeState[responsiveStateKey].breakpoints
     // get the object of media queries
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
