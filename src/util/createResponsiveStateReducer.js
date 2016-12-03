@@ -112,7 +112,7 @@ function getOrientation(matchMedia) {
 
 
 // export the reducer factory
-export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMediaType) => {
+export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMediaType, customVariableFactory = () => {}) => {
     // add `infinity` breakpoint for upper bound
     breakpoints[infinityMediaType] = Infinity
     // media queries associated with the breakpoints
@@ -136,6 +136,7 @@ export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMed
                 mediaType,
                 orientation,
                 breakpoints,
+                ...customVariableFactory({matchMedia, mediaQueries, breakpoints, innerWidth, innerHeight, mediaType, orientation}),
             }
         }
         // otherwise return the previous state
