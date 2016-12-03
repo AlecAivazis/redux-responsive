@@ -220,6 +220,45 @@ export default combineReducers({
 ```
 
 
+
+## Injecting Custom Variables Into State
+You can also add custom variables into the redux-responsive state. For example if you you would like to test screensize with `state.browser.is.small`.
+In order to do this, create a function and pass it to `createResponsiveStateReducer` as the third argument. This function will receave an object with all available data about the viewport:
+
+
+- `matchMedia`: (*object*) The method with which to match media queries. See global  *window.matchMedia*.
+- `mediaQueries`: (*object*) Media queries associated with the breakpoints. See [https://github.com/axyz/mediaquery](https://github.com/axyz/mediaquery)
+- `breakpoints`: (*object*) An object with the configured breakpoints.
+- `innerWidth`: (*number*) The browser width. Note: With PerformanceMode enabled, this will take the value of the most recently matched breakpoint.
+- `innerHeight`: (*number*) The browser height. Note: With PerformanceMode enabled, this will take the value of the browser when the most recently matched breakpoint was satisfied.
+- `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
+- `orientation`: (*string*) The browser orientation. Has three possible values: “portrait”, “landscape”, or null.
+
+```es6
+// reducer.js
+
+import {combineReducers} from 'redux'
+import {createResponsiveStateReducer} from 'redux-responsive'
+import transform from 'lodash/transform'
+
+function getIs(breakpoints, currentMediaType) {
+  return transform(breakpoints, (result, breakpoint, mediaType) => {
+    result[mediaType] = mediaType === currentMediaType;
+  });
+}
+
+const customVariableFactory = ({ breakpoints, mediaType }) => ({
+  is: getIs(breakpoints, mediaType),
+});
+
+export default combineReducers({
+    browser: createResponsiveStateReducer({
+        // breakpoints...
+    }, "veryBig", customVariableFactory)
+})
+```
+
+
 # Server-side Rendering
 
 Isomorphic applications must make sure that the sever-rendered markup matches the
@@ -316,4 +355,3 @@ const component = StyleSheet(stylesheet)(({styles}) => (
 # Versioning
 
 [Semver](http://semver.org/) is followed as closely as possible. For updates and migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).
-
