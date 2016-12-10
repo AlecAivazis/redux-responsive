@@ -2,6 +2,7 @@
 import isFunction from 'lodash/isFunction'
 // local imports
 import createResponsiveStoreEnhancer from 'util/createResponsiveStoreEnhancer'
+import {defaultBreakpoints} from 'util/createResponsiveStateReducer'
 
 
 describe('createResponsiveStoreEnhancer', function () {
@@ -32,6 +33,12 @@ describe('createResponsiveStoreEnhancer', function () {
                 function fakeCreateStore() {
                     return {
                         dispatch: () => {},
+                        getState: () => ({
+                            browser: {
+                                _responsiveState: true,
+                                breakpoints: defaultBreakpoints
+                            }
+                        })
                     }
                 }
 
