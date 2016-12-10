@@ -221,18 +221,11 @@ export default combineReducers({
 
 
 
-## Injecting Custom Variables Into State
-You can also add custom variables into the redux-responsive state. For example if you you would like to test screensize with `state.browser.is.small`.
-In order to do this, create a function and pass it to `createResponsiveStateReducer` as the third argument. This function will receave an object with all available data about the viewport:
-
-
-- `matchMedia`: (*object*) The method with which to match media queries. See global  *window.matchMedia*.
-- `mediaQueries`: (*object*) Media queries associated with the breakpoints. See [https://github.com/axyz/mediaquery](https://github.com/axyz/mediaquery)
-- `breakpoints`: (*object*) An object with the configured breakpoints.
-- `innerWidth`: (*number*) The browser width. Note: With PerformanceMode enabled, this will take the value of the most recently matched breakpoint.
-- `innerHeight`: (*number*) The browser height. Note: With PerformanceMode enabled, this will take the value of the browser when the most recently matched breakpoint was satisfied.
-- `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
-- `orientation`: (*string*) The browser orientation. Has three possible values: “portrait”, “landscape”, or null.
+## Adding custom fields to the responsive state
+In some cases, you may want to add custom fields to the responsive state. For example,
+an application may commonly use the larger of `width` and `height` (called `max`).
+In order to do this, `redux-responsive` lets you pass a function and to `createResponsiveStateReducer`
+as the third argument. This function will recieve an object with the responsive state:
 
 ```es6
 // reducer.js
@@ -241,14 +234,8 @@ import {combineReducers} from 'redux'
 import {createResponsiveStateReducer} from 'redux-responsive'
 import transform from 'lodash/transform'
 
-function getIs(breakpoints, currentMediaType) {
-  return transform(breakpoints, (result, breakpoint, mediaType) => {
-    result[mediaType] = mediaType === currentMediaType;
-  });
-}
-
-const customVariableFactory = ({ breakpoints, mediaType }) => ({
-  is: getIs(breakpoints, mediaType),
+const customVariableFactory = ({ width, height }) => ({
+  max: width > height ? width : height,
 });
 
 export default combineReducers({
