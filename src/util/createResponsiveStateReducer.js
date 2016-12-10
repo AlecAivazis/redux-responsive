@@ -7,7 +7,7 @@ import CALCULATE_RESPONSIVE_STATE from '../actions/types/CALCULATE_RESPONSIVE_ST
 
 
 // default breakpoints
-const defaultBreakpoints = {
+export const defaultBreakpoints = {
     extraSmall: 480,
     small: 768,
     medium: 992,
