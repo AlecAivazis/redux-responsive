@@ -111,7 +111,7 @@ function getOrientation(matchMedia) {
 }
 
 // export the reducer factory
-export default (breakpoints, { infinity = defaultMediaType } = {}) => {
+export default (breakpoints, { infinity = defaultMediaType, extraFields = () => ({}) } = {}) => {
     // accept null values
     if (!breakpoints) {
         breakpoints = defaultBreakpoints // eslint-disable-line
@@ -143,7 +143,10 @@ export default (breakpoints, { infinity = defaultMediaType } = {}) => {
             }
 
             // return calculated state
-            return responsiveState
+            return {
+                ...responsiveState,
+                ...extraFields(responsiveState),
+            }
         }
         // otherwise return the previous state
         return state
