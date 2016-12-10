@@ -22,6 +22,7 @@ const defaultOrientation = null
  * Compute the `lessThan` object based on the browser width.
  * @arg {number} browserWidth - Width of the browser.
  * @arg {object} breakpoints - The breakpoints object.
+ * @arg {currentMediaType} breakpoints - The curent media type.
  * @returns {object} The `lessThan` object.  Its keys are the same as the
  * keys of the breakpoints object.  The value for each key indicates whether
  * or not the browser width is less than the breakpoint.
@@ -32,6 +33,27 @@ function getLessThan(browserWidth, breakpoints, currentMediaType) {
         if (typeof breakpoint === 'number') {
             // store wether or not it is less than the breakpoint
             result[mediaType] = browserWidth < breakpoint && mediaType !== currentMediaType
+        // handle non numerical breakpoints specially
+        } else {
+            result[mediaType] = false
+        }
+    })
+}
+
+/**
+ * Compute the `lessThan` object based on the browser width.
+ * @arg {object} breakpoints - The breakpoints object.
+ * @arg {currentMediaType} breakpoints - The curent media type.
+ * @returns {object} The `lessThan` object.  Its keys are the same as the
+ * keys of the breakpoints object.  The value for each key indicates whether
+ * or not the browser width is less than the breakpoint.
+ */
+function getIs(breakpoints, currentMediaType) {
+    return transform(breakpoints, (result, breakpoint, mediaType) => {
+        // if the breakpoint is a number
+        if (typeof breakpoint === 'number') {
+            // store wether or not it is less than the breakpoint
+            result[mediaType] = mediaType === currentMediaType
         // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
@@ -123,7 +145,7 @@ export default (breakpoints, { infinity = defaultMediaType, extraFields = () => 
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
     // return reducer for handling the responsive state
-    return (state, {type, matchMedia, innerWidth, innerHeight}) => {
+    return (state, {type, matchMedia, innerWidth: width}) => {
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
@@ -133,8 +155,9 @@ export default (breakpoints, { infinity = defaultMediaType, extraFields = () => 
             // build the responsive state
             const responsiveState = {
                 _responsiveState: true,
-                lessThan: getLessThan(innerWidth, breakpoints, mediaType),
-                greaterThan: getGreaterThan(innerWidth, breakpoints),
+                lessThan: getLessThan(width, breakpoints, mediaType),
+                greaterThan: getGreaterThan(width, breakpoints),
+                is: getIs(breakpoints, mediaType),
                 mediaType,
                 orientation,
                 breakpoints,
