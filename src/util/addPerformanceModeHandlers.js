@@ -7,7 +7,7 @@ import calculateResponsiveState from '../actions/creators/calculateResponsiveSta
 
 // this function adds event handlers to the window that only tirgger
 // when the responsive state changes
-export default ({store, window, calculateStateInitially}) => {
+export default ({store, window, calculateInitialState}) => {
     // the function to call when calculating the new responsive state
     function refreshResponsiveState() {
         store.dispatch(calculateResponsiveState(window))
@@ -61,7 +61,7 @@ export default ({store, window, calculateStateInitially}) => {
     })
 
     // if we are supposed to calculate the initial state
-    if (calculateStateInitially) {
+    if (calculateInitialState) {
         // then do so
         refreshResponsiveState()
     }

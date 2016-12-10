@@ -10,20 +10,20 @@ import addPerformanceModeHandlers from './addPerformanceModeHandlers'
  * @arg {object} options - Options.
  * @arg {number} options.throttleTime - Throttle time (in miliseconds) for the
  * window resize event handler.
- * @arg {boolean} options.calculateStateInitially - True if the responsive state
+ * @arg {boolean} options.calculateInitialState - True if the responsive state
  * must be calculated initially, false otherwise.
  */
-export default (store, {throttleTime, calculateStateInitially, performanceMode}) => {
+export default (store, {throttleTime, calculateInitialState, performanceMode}) => {
     // if there is a `window`
     if (typeof window !== 'undefined') {
         // if we need to enable performance mode
         if (performanceMode) {
             // add the handlers that only fire when the responsive state changes
-            addPerformanceModeHandlers({store, window, calculateStateInitially})
+            addPerformanceModeHandlers({store, window, calculateInitialState})
         // otherwise we should just add the throttled handlers
         } else {
             // add the throttled (continuously evaluated) handlers
-            addThrottledHandlers({store, window, throttleTime, calculateStateInitially})
+            addThrottledHandlers({store, window, throttleTime, calculateInitialState})
         }
     }
 
