@@ -126,8 +126,8 @@ export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMed
             const mediaType = getMediaType(matchMedia, mediaQueries, infinityMediaType)
             // the current orientation
             const orientation = getOrientation(matchMedia)
-            // return calculated state
-            return {
+            // build the responsive state
+            const responsiveState = {
                 _responsiveState: true,
                 width: innerWidth,
                 height: innerHeight,
@@ -136,7 +136,12 @@ export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMed
                 mediaType,
                 orientation,
                 breakpoints,
-                ...customVariableFactory({matchMedia, mediaQueries, breakpoints, innerWidth, innerHeight, mediaType, orientation}),
+            }
+
+            // return calculated state
+            return {
+                ...responsiveState,
+                ...customVariableFactory(responsiveState),
             }
         }
         // otherwise return the previous state
