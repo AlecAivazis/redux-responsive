@@ -4,7 +4,7 @@ import throttle from 'lodash/throttle'
 import calculateResponsiveState from '../actions/creators/calculateResponsiveState'
 
 // this function adds throttled responsive handlers to the window
-export default ({store, window, throttleTime, calculateStateInitially}) => {
+export default ({store, window, throttleTime, calculateInitialState}) => {
     // throttled event handler for window resize
     const throttledHandler = throttle(
         // just dispatch action to calculate responsive state
@@ -12,7 +12,7 @@ export default ({store, window, throttleTime, calculateStateInitially}) => {
         throttleTime
     )
     // initialize the responsive state
-    if (calculateStateInitially) {
+    if (calculateInitialState) {
         throttledHandler()
     }
     // add the resize event listener
