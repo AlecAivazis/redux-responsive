@@ -36,13 +36,13 @@ gulp.task('production', () => {
 /**
  * Run the test suite once.
  */
-gulp.task('test', (cb) => {
+gulp.task('test', cb => {
     const server = new karma.Server({
         configFile: projectPaths.karmaConfig,
         singleRun: true
-    }, () => cb())
+    })
 
-    server.start()
+    server.start(cb)
 })
 
 
