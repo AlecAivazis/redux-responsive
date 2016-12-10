@@ -133,8 +133,6 @@ export default (breakpoints, { infinity = defaultMediaType, extraFields = () => 
             // build the responsive state
             const responsiveState = {
                 _responsiveState: true,
-                width: innerWidth,
-                height: innerHeight,
                 lessThan: getLessThan(innerWidth, breakpoints, mediaType),
                 greaterThan: getGreaterThan(innerWidth, breakpoints),
                 mediaType,
