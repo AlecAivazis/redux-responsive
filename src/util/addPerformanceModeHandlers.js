@@ -34,10 +34,11 @@ export default ({store, window, calculateInitialState}) => {
         throw new Error(
             'Could not find responsive state reducer - Performance mode can only '
             + 'be used if the responsive reducer is at the root of your reducer tree.'
+            + 'If you are still running into trouble, please open a ticket on github.'
         )
     }
 
-    // get the object of breakpoints
+    // get the object of breakpoints (handle immutablejs)
     const breakpoints = storeState['@@__IMMUTABLE_ITERABLE__@@'] ? storeState.get(responsiveStateKey).breakpoints : storeState[responsiveStateKey].breakpoints
     // get the object of media queries
     const mediaQueries = MediaQuery.asObject(breakpoints)
