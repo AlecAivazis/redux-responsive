@@ -24,7 +24,7 @@ import sortBy from 'lodash/sortBy'
 // retrieve the data for the given pattern
 export const parsePattern = (pattern) => {
     // separate out the various bits of data
-    const [_, comparison, size] = pattern.split('_')
+    const [comparison, size] = pattern.split('_').slice(1)
     // return the results
     return {comparison, size}
 }
