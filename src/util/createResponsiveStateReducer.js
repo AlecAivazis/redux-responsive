@@ -110,11 +110,15 @@ function getOrientation(matchMedia) {
     }, defaultOrientation)
 }
 
-
 // export the reducer factory
-export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMediaType, customVariableFactory = () => {}) => {
+export default (breakpoints, { infinity = defaultMediaType } = {}) => {
+    // accept null values
+    if (!breakpoints) {
+        breakpoints = defaultBreakpoints // eslint-disable-line
+    }
+
     // add `infinity` breakpoint for upper bound
-    breakpoints[infinityMediaType] = Infinity
+    breakpoints[infinity] = Infinity
     // media queries associated with the breakpoints
     const mediaQueries = MediaQuery.asObject(breakpoints)
 
@@ -123,7 +127,7 @@ export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMed
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
-            const mediaType = getMediaType(matchMedia, mediaQueries, infinityMediaType)
+            const mediaType = getMediaType(matchMedia, mediaQueries, infinity)
             // the current orientation
             const orientation = getOrientation(matchMedia)
             // build the responsive state
@@ -139,10 +143,7 @@ export default (breakpoints = defaultBreakpoints, infinityMediaType = defaultMed
             }
 
             // return calculated state
-            return {
-                ...responsiveState,
-                ...customVariableFactory(responsiveState),
-            }
+            return responsiveState
         }
         // otherwise return the previous state
         return state
