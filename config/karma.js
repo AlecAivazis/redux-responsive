@@ -79,7 +79,7 @@ module.exports = function (config) {
         phantomjsLauncher: {
             // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
             exitOnResourceError: true
-        }
+        },
 
         coverageReporter: {
             type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
