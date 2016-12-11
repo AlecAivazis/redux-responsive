@@ -13,6 +13,7 @@ import projectPaths from './config/projectPaths'
  * Build entry points.
  */
 gulp.task('build', ['build:core', 'build:react'])
+gulp.task('build:dev', ['dev', 'build'])
 gulp.task('build:prod', ['production', 'build'])
 
 gulp.task('build:core', () => buildFile(projectPaths.entry, 'index'))
@@ -22,7 +23,6 @@ gulp.task('build:react', () => buildFile(projectPaths.reactEntry, 'react'))
 /**
  * Sets the current chain of tasks to 'production mode'.
  */
-
 gulp.task('production', () => {
     // set the environment variable
     env({
@@ -34,9 +34,21 @@ gulp.task('production', () => {
 
 
 /**
+ * Sets the current chain of tasks to 'dev mode'.
+ */
+gulp.task('dev', () => {
+    // set the environment variable
+    env({
+        vars: {
+            NODE_ENV: 'dev',
+        },
+    })
+})
+
+/**
  * Run the test suite once.
  */
-gulp.task('test', cb => {
+gulp.task('test', ['dev'], cb => {
     const server = new karma.Server({
         configFile: projectPaths.karmaConfig,
         singleRun: true
