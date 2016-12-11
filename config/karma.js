@@ -11,8 +11,6 @@ var webpackConfig = require(projectPaths.webpackConfig)
 
 // annoying hack to be able to dynamically set keys on object
 var preprocessors = {}
-preprocessors['src/**/*.js'] = ['coverage']
-preprocessors['src/index.js'] = ['webpack']
 preprocessors[projectPaths.testsGlob] = ['webpack', 'sourcemap']
 
 module.exports = function (config) {
@@ -29,7 +27,6 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'src/index.js',
             projectPaths.testsGlob,
         ],
 
