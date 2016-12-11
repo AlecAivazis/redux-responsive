@@ -67,7 +67,7 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['mocha', 'coverage'],
+        reporters: ['mocha', 'coveralls'],
 
         // web server port
         port: 9876,
@@ -79,6 +79,11 @@ module.exports = function (config) {
         phantomjsLauncher: {
             // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
             exitOnResourceError: true
+        }
+
+        coverageReporter: {
+            type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+            dir: 'coverage/'
         }
     }
 
