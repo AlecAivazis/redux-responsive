@@ -27,6 +27,3 @@ before_install:
 script:
   - npm run test
 
-# coveralls
-after_success:
-  coveralls
