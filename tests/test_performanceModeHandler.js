@@ -6,30 +6,7 @@ import isFunction from 'lodash/isFunction'
 import createResponsiveStoreEnhancer from 'util/createResponsiveStoreEnhancer'
 
 
-describe('performanceMode handlers', function () {
-    it('respects the calculateInitialState option', function () {
-        expect(true).to.be.true
-        console.log(window)
-        // const dispatchSpy1 = sinon.spy()
-        // const dispatchSpy2 = sinon.spy()
-
-        // addEventHandlers(
-        //     {dispatch: dispatchSpy1},
-        //     {throttleTime: 100, calculateStateInitially: true}
-        // )
-
-        // // should have triggered our dispatch spy exactly once
-        // expect(dispatchSpy1).to.have.been.calledOnce
-
-        // addEventHandlers(
-        //     {dispatch: dispatchSpy2},
-        //     {calculateStateInitially: false}
-        // )
-
-        // // should not dispatch recalculation
-        // expect(!dispatchSpy2.called)
-    })
-
-
-    it('could use some more tests')
+describe('PerformanceMode handlers', function () {
+    it('respects the calculateInitialState option')
+    it('resizes only when browser width changes to new media query')
 })
