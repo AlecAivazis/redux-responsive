@@ -1,6 +1,6 @@
 {
   "name": "redux-responsive",
-  "version": "3.2.2",
+  "version": "4.0.0",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
   "repository": {
