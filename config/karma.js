@@ -13,9 +13,8 @@ var webpackConfig = require(projectPaths.webpackConfig)
 var preprocessors = {}
 preprocessors[projectPaths.testsGlob] = ['webpack', 'sourcemap']
 
-
 module.exports = function (config) {
-    config.set({
+    var configuration = {
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: projectPaths.rootDir,
 
@@ -52,6 +51,19 @@ module.exports = function (config) {
             noInfo: true,
         },
 
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        browsers: [
+            'Chrome',
+        ],
+
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            },
+        },
+
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -64,18 +76,20 @@ module.exports = function (config) {
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         // logLevel: config.LOG_DISABLE,
 
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [
-            'Chrome',
-            'Firefox',
-        ],
-
         phantomjsLauncher: {
-          // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
-          exitOnResourceError: true
+            // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+            exitOnResourceError: true
         }
-    })
+    }
+
+
+    // if running in travis
+    if (process.env.TRAVIS) {
+        // use the custom browser
+        configuration.browsers = ['Chrome_travis_ci'];
+    }
+
+    config.set(configuration)
 }
 
 
