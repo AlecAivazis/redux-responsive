@@ -4,9 +4,9 @@ import {createStore, combineReducers} from 'redux'
 import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports
 import getBreakpoints from 'util/getBreakpoints'
-import {defaultBreakpoints} from 'util/createResponsiveStateReducer'
-import {responsiveStateReducer} from '../src'
+import createResponsiveStateReducer, {defaultBreakpoints} from 'util/createResponsiveStateReducer'
 
+const responsiveStateReducer = createResponsiveStateReducer()
 
 describe('Breakpoint discovery', function () {
     it('Can find reducer at root', function () {
