@@ -47,6 +47,7 @@
     "lolex": "^1.4.0",
     "mocha": "^2.3.3",
     "phantomjs-prebuilt": "^2.1.7",
+    "react-redux": "^4.4.6",
     "redux-immutablejs": "0.0.8",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
@@ -55,7 +56,6 @@
     "webpack-stream": "^2.1.1"
   },
   "dependencies": {
-    "karma-coveralls": "^1.1.2",
     "lodash": "^4.2.1",
     "mediaquery": "0.0.3",
     "redux": "^3.5.2"
