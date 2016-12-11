@@ -9,6 +9,7 @@ import createResponsiveStoreEnhancer from 'util/createResponsiveStoreEnhancer'
 describe('performanceMode handlers', function () {
     it('respects the calculateInitialState option', function () {
         expect(true).to.be.true
+        console.log(window)
         // const dispatchSpy1 = sinon.spy()
         // const dispatchSpy2 = sinon.spy()
 

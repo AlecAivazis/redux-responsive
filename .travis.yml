@@ -1,12 +1,23 @@
+# language setup
 language: node_js
 node_js:
   - "5"
-# command to install dependencies
-install:
-  - npm install react react-redux
-  - npm install
+
+# setup yarn
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+# prepare the environment for a virtual screen (so browsers can run)
+before_script:
+  - export DISPLAT=99.0
+  - sh -e /etc/init.d/xvfb start
+
 # command to run tests
 script:
   - npm run test
+
+# coveralls
 after_success:
   coveralls
