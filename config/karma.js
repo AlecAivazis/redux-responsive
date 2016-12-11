@@ -67,7 +67,7 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['mocha', 'coverage', 'coveralls'],
+        reporters: ['mocha'],
 
         // web server port
         port: 9876,
@@ -75,21 +75,6 @@ module.exports = function (config) {
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         // logLevel: config.LOG_DISABLE,
-
-        phantomjsLauncher: {
-            // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
-            exitOnResourceError: true
-        },
-
-        coverageReporter: {
-            dir: 'coverage/',
-            includeAllSources: true,
-            reporters: [
-                {type: 'html'},
-                {type: 'lcov'},
-                {type: 'text-summary'},
-            ]
-        },
     }
 
 
@@ -97,6 +82,23 @@ module.exports = function (config) {
     if (process.env.TRAVIS) {
         // use the custom browser
         configuration.browsers = ['Chrome_travis_ci'];
+    }
+
+    // add coverage reports in dev environments
+    if (process.env.NODE_ENV === 'dev' || process.env.TRAVIS) {
+        // add the coverage reporters
+        configuration.coverageReporter = {
+            dir: 'coverage/',
+            includeAllSources: true,
+            reporters: [
+                {type: 'html'},
+                {type: 'lcov'},
+                {type: 'text-summary'},
+            ]
+        }
+
+        // add the coverage reporters
+        configuration.reporters.push('coverage', 'coveralls')
     }
 
     config.set(configuration)
