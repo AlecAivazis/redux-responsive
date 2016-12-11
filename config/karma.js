@@ -13,9 +13,8 @@ var webpackConfig = require(projectPaths.webpackConfig)
 var preprocessors = {}
 preprocessors[projectPaths.testsGlob] = ['webpack', 'sourcemap']
 
-
 module.exports = function (config) {
-    config.set({
+    var configuration = {
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: projectPaths.rootDir,
 
@@ -52,10 +51,23 @@ module.exports = function (config) {
             noInfo: true,
         },
 
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        browsers: [
+            'Chrome',
+        ],
+
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            },
+        },
+
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['mocha', 'coverage'],
+        reporters: ['mocha'],
 
         // web server port
         port: 9876,
@@ -63,20 +75,33 @@ module.exports = function (config) {
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         // logLevel: config.LOG_DISABLE,
+    }
 
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [
-            'PhantomJS',
-            // 'Firefox',
-            // 'Safari',
-        ],
-        
-        phantomjsLauncher: {
-          // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
-          exitOnResourceError: true
+
+    // if running in travis
+    if (process.env.TRAVIS) {
+        // use the custom browser
+        configuration.browsers = ['Chrome_travis_ci'];
+    }
+
+    // add coverage reports in dev environments
+    if (process.env.NODE_ENV === 'dev' || process.env.TRAVIS) {
+        // add the coverage reporters
+        configuration.coverageReporter = {
+            dir: 'coverage/',
+            includeAllSources: true,
+            reporters: [
+                {type: 'html'},
+                {type: 'lcov'},
+                {type: 'text-summary'},
+            ]
         }
-    })
+
+        // add the coverage reporters
+        configuration.reporters.push('coverage', 'coveralls')
+    }
+
+    config.set(configuration)
 }
 
 

@@ -35,6 +35,7 @@ module.exports = {
     eslintConfig: path.join(configDir, 'eslint.json'),
     karmaConfig: path.join(configDir, 'karma.js'),
     webpackConfig: path.join(configDir, 'webpack.js'),
+    babelConfig: path.join(rute, '.babelrc'),
 }
 
 

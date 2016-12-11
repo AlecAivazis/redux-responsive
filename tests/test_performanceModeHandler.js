@@ -1,34 +1,42 @@
-
-
-// third party imports
-import isFunction from 'lodash/isFunction'
+// external imports
+import {createStore, combineReducers} from 'redux'
 // local imports
+import createResponsiveStateReducer from 'util/createResponsiveStateReducer'
 import createResponsiveStoreEnhancer from 'util/createResponsiveStoreEnhancer'
 
+// create default version of the store bits and pieces
+const responsiveStateReducer = createResponsiveStateReducer()
+const responsiveStoreEnhancer = createResponsiveStoreEnhancer()
 
-describe('performanceMode handlers', function () {
-    it('respects the calculateInitialState option', function () {
-        expect(true).to.be.true
-        // const dispatchSpy1 = sinon.spy()
-        // const dispatchSpy2 = sinon.spy()
 
-        // addEventHandlers(
-        //     {dispatch: dispatchSpy1},
-        //     {throttleTime: 100, calculateStateInitially: true}
-        // )
+describe('PerformanceMode handlers', function () {
+    it('calcuates the initial state by default', function() {
+        // create a store with the default behavior
+        const reducer = combineReducers({
+            browser: responsiveStateReducer,
+        })
+        // create the enhanced store
+        const store = createStore(reducer, responsiveStoreEnhancer)
+        // get the current state of the browser
+        const {browser} = store.getState()
 
-        // // should have triggered our dispatch spy exactly once
-        // expect(dispatchSpy1).to.have.been.calledOnce
-
-        // addEventHandlers(
-        //     {dispatch: dispatchSpy2},
-        //     {calculateStateInitially: false}
-        // )
-
-        // // should not dispatch recalculation
-        // expect(!dispatchSpy2.called)
+        // make sure the browser is not in its biggest state (should be opened at 500 px)
+        expect(browser.is.infinity).to.be.false
     })
 
+    it('does not calcuate the initial state when flagged', function() {
+        // create a store with the default behavior
+        const reducer = combineReducers({
+            browser: responsiveStateReducer,
+        })
+        // create the enhanced store
+        const store = createStore(reducer, createResponsiveStoreEnhancer({calculateInitialState: false}))
+        // get the current state of the browser
+        const {browser} = store.getState()
 
-    it('could use some more tests')
+        // make sure the browser is not in its biggest state (should be opened at 500 px)
+        expect(browser.is.infinity).to.be.true
+    })
+
+    it('resizes only when browser width changes to new media query')
 })
