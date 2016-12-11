@@ -123,42 +123,16 @@ const defaultBreakpoints = {
 }
 ```
 
-
-## Performance Mode
-
-By default, the responsive state of your application is calculated every time
-the browser resizes. This incurs a very high overhead in large or very
-specialized apps. For those situations, redux-responsive provides a flag which
-limits the re-calculation of the responsive state to just when the state
-actually changes. When in performance mode, keep in mind that the reducer value
-for browser height and width are not continuously updating - they will only reflect
-the state of the browser when the media query actually changed.
-
-
-```js
-// store/configureStore.js
-
-import {createStore} from 'redux'
-import {createResponsiveStoreEnhancer} from 'redux-responsive'
-import reducer from './reducer'
-
-const store = createStore(
-                    reducer,
-                    createResponsiveStoreEnhancer({performanceMode: true}))
-
-export default store
-```
-
 # The Responsive State
 
 The `responsiveStateReducer` (and the reducer returned by `createResponsiveStateReducer`) adds an object with the following keys to the store:
 
-- `width`: (*number*) The browser width. Note: With PerformanceMode enabled, this will take the value of the most recently matched breakpoint.
-- `height`: (*number*) The browser height. Note: With PerformanceMode enabled, this will take the value of the browser when the most recently matched breakpoint was satisfied.
+
 - `mediaType`: (*string*) The largest breakpoint category that the browser satisfies.
 - `orientation`: (*string*) The browser orientation. Has three possible values: "portrait", "landscape", or `null`.
 - `lessThan`: (*object*) An object of booleans that indicate whether the browser is currently less than a particular breakpoint.
 - `greaterThan`: (*object*) An object of booleans that indicate whether the browser is currently greater than a particular breakpoint.
+- `is`: (*object*) An object of booleans that indicate whether the browser is current that particular breakpoint.
 
 For example, if you put the responsive state under the key `browser` (as is done in the examples above) then you can access the browser's width and current media type, and determine if the browser is wider than the medium breakpoint like so
 
@@ -176,6 +150,8 @@ state.browser.mediaType
 state.browser.orientation
 // true if browser width is greater than the "medium" breakpoint
 state.browser.greaterThan.medium
+// true if browser.mediaType === 'small'
+state.browser.is.small
 ```
 
 
@@ -204,7 +180,7 @@ export default combineReducers({
 
 ## The Infinity Media Type
 When the browser is wider than the largest breakpoint, it's `mediaType` value is `infinity`. In order to
-change this value, pass a second argument to `createResponsiveStateReducer`:
+change this value, add the `infinity` field to the object pass as a second argument to `createResponsiveStateReducer`:
 
 ```es6
 // reducer.js
@@ -213,43 +189,80 @@ import {combineReducers} from 'redux'
 import {createResponsiveStateReducer} from 'redux-responsive'
 
 export default combineReducers({
-    browser: createResponsiveStateReducer({
-        // breakpoints...
-    }, "veryBig")
+    browser: createResponsiveStateReducer(null, {
+        infinity: "veryBig"
+    })
 })
 ```
 
 
 
-## Adding custom fields to the responsive state
-In some cases, you may want to add custom fields to the responsive state. For example,
-an application may commonly use the larger of `width` and `height` (called `max`).
-In order to do this, `redux-responsive` lets you pass a function and to `createResponsiveStateReducer`
-as the third argument. This function will recieve an object with the responsive state:
+## Adding custom/computed fields to the responsive state
+In some cases, you may want to add computed fields to the responsive state. For example,
+an application may frequently need to know when the browser is `greaterThanOrEqual`.
+In order to support this, `redux-responsive` lets you pass a function and to `createResponsiveStateReducer`
+as the `extraFields` key. This function will recieve an object with the responsive state:
 
 ```es6
 // reducer.js
 
 import {combineReducers} from 'redux'
 import {createResponsiveStateReducer} from 'redux-responsive'
-import transform from 'lodash/transform'
-
-const customVariableFactory = ({ width, height }) => ({
-  max: width > height ? width : height,
-});
+import {transform} from 'lodash'
 
 export default combineReducers({
-    browser: createResponsiveStateReducer({
-        // breakpoints...
-    }, "veryBig", customVariableFactory)
+    browser: createResponsiveStateReducer(null, {
+        extraFields: ({ greaterThan, is }) => ({
+            // greaterThanOrEqual is built by transforming greaterThan
+            greaterThanOrEqual: transform((result, value, mediaType) => {
+                // and combining the value with the `is` field
+                result[mediaType] = value && is[mediaType]
+            }, greaterThan),
+        }),
+    })
 })
+```
+
+### Tracking window attributes
+In some cases, you may want to add computed fields to the responsive state. For example,
+an application may need very fine grain values for `width` (or any other browser attribute).
+To accomplish this, the first step is to add the custom field.
+
+```es6
+// reducer.js
+
+import {combineReducers} from 'redux'
+import {createResponsiveStateReducer} from 'redux-responsive'
+import {transform} from 'lodash'
+
+export default combineReducers({
+    browser: createResponsiveStateReducer(null, {
+        extraFields: () => ({
+            width: window.innerWidth
+        }),
+    })
+})
+```
+
+
+For some of those attributes, you will need to add an additional event handler in order
+to atrack the value. To do so, the event handler might look something like:
+
+```es6
+// store.js
+
+import {calculateResponsiveState} from 'redux-responsive'
+
+const store = ...
+
+window.addEventListener('resize', () => store.dispatch(calculateResponsiveState(window)))
 ```
 
 
 # Server-side Rendering
 
 Isomorphic applications must make sure that the sever-rendered markup matches the
-DOM rendered by the client. Setting the `calculateStateInitially` option in the
+DOM rendered by the client. Setting the `calculateInitialState` option in the
 `createResponsiveStoreEnhancer` factory method to `false` tells the reducer
 to skip the initial responsive state calculation. The responsive state will
 contain the default values on both the server and the client side.
@@ -263,7 +276,7 @@ import reducer from './reducer'
 
 const store = createStore(
                     reducer,
-                    createResponsiveStoreEnhancer({calculateStateInitially: false}))
+                    createResponsiveStoreEnhancer({calculateInitialState: false}))
 
 export default store
 ```
