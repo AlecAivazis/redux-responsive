@@ -41,7 +41,7 @@ module.exports = {
                     projectPaths.sourceDir,
                     projectPaths.testsDir,
                 ],
-                query: {stage: 0},
+                query: {extends:projectPaths.babelConfig},
             },
         ],
     },
