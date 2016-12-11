@@ -1,7 +1,12 @@
 // external imports
 import {createStore, combineReducers} from 'redux'
 // local imports
-import {responsiveStoreEnhancer, createResponsiveStoreEnhancer, createResponsiveStateReducer} from 'redux-responsive'
+import {
+    responsiveStoreEnhancer,
+    responsiveStateReducer,
+    createResponsiveStoreEnhancer,
+    createResponsiveStateReducer
+} from '../src'
 
 
 describe('PerformanceMode handlers', function () {
