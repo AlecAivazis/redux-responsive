@@ -62,7 +62,6 @@
     "webpack-stream": "^2.1.1"
   },
   "dependencies": {
-    "babel-plugin-istanbul": "^3.0.0",
     "lodash": "^4.2.1",
     "mediaquery": "0.0.3",
     "redux": "^3.5.2"
