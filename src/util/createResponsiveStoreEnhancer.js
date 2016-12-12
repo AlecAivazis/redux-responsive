@@ -16,7 +16,7 @@ export default ({ calculateInitialState = true } = {}) => {
         const store = createStore(...args)
 
         // if there is a `window`
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined') {
             // add the handlers that only fire when the responsive state changes
             addPerformanceModeHandlers({store, window, calculateInitialState})
         }
