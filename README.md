@@ -142,10 +142,6 @@ For example, if you put the responsive state under the key `browser` (as is done
 // get the current state from the store
 const state = store.getState()
 
-// browser width (e.g. 1400)
-state.browser.width
-// browser height (e.g. 700)
-state.browser.height
 // browser media type (e.g. "large")
 state.browser.mediaType
 // browser orientation (takes a null value on desktops)
