@@ -1,6 +1,7 @@
 # redux-responsive
 
 [![Build Status](https://travis-ci.org/AlecAivazis/redux-responsive.svg?branch=master)](https://travis-ci.org/AlecAivazis/redux-responsive)
+[![Coverage Status](https://coveralls.io/repos/github/AlecAivazis/redux-responsive/badge.svg?branch=master)](https://coveralls.io/github/AlecAivazis/redux-responsive?branch=master)
 
 A redux reducer for managing the responsive state of your application. Documentation is hosted [here](https://alecaivazis.gitbooks.io/redux-responsive/content/).
 
