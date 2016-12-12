@@ -189,6 +189,7 @@ import {combineReducers} from 'redux'
 import {createResponsiveStateReducer} from 'redux-responsive'
 
 export default combineReducers({
+    // passing null to the reducer factory uses the default breakpoints
     browser: createResponsiveStateReducer(null, {
         infinity: "veryBig"
     })
@@ -216,7 +217,7 @@ export default combineReducers({
             // greaterThanOrEqual is built by transforming greaterThan
             greaterThanOrEqual: transform((result, value, mediaType) => {
                 // and combining the value with the `is` field
-                result[mediaType] = value && is[mediaType]
+                result[mediaType] = value || is[mediaType]
             }, greaterThan),
         }),
     })
