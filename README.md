@@ -89,7 +89,7 @@ export default store
 Note that if you are also using some [middlewares](http://redux.js.org/docs/advanced/Middleware.html), the call will look more like this:
 
 ```js
-import {createStore, applyMiddlewares, compose} from 'redux'
+import {createStore, applyMiddleware, compose} from 'redux'
 import {responsiveStoreEnhancer} from 'redux-responsive'
 import reducer from './reducer'
 
@@ -97,7 +97,7 @@ const store = createStore(
     reducer,
     compose(
         responsiveStoreEnhancer,
-        applyMiddlewares(middleware1, middleware2)
+        applyMiddleware(middleware1, middleware2)
     )
 )
 
@@ -107,7 +107,7 @@ const store = createStore(
     initialState,
     compose(
         responsiveStoreEnhancer,
-        applyMiddlewares(middleware1, middleware2)
+        applyMiddleware(middleware1, middleware2)
     )
 )
 
