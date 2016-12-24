@@ -38,10 +38,10 @@ export function getOrderMap(bps) {
         } else if (typeof valueB === 'number' && typeof valueA === 'string') {
             // return the number first
             return 1
-        // otherwise treat it like normal
-        } else {
-            return valueA >= valueB ? 1 : -1
         }
+
+        // otherwise treat it like normal
+        return valueA >= valueB ? 1 : -1
     })
 
     // map the original breakpoint object
@@ -192,7 +192,7 @@ export default (breakpoints, { initialMediaType, infinity = defaultMediaType, ex
     const mediaOrdering = getOrderMap(breakpoints)
 
     // return reducer for handling the responsive state
-    return (state, {type, matchMedia, innerWidth: width}) => {
+    return (state, {type, matchMedia}) => {
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
