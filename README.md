@@ -305,6 +305,16 @@ ReactDOM.render(
 store.dispatch(calculateResponsiveState(window))
 ```
 
+## Setting the initial media type
+
+If you know the initial media type for your application (by doing something like looking at
+the user-agent) you can set the initial media type with the `initialMediaType` key to the
+reducer factory:
+
+```
+const reducer = createResponsiveStateReducer(null, {initialState: 'small'})
+```
+
 # Higher-Order Components
 
 When building responsive applications in react, it's common to
