@@ -188,7 +188,6 @@ export default (breakpoints, { initialMediaType, infinity = defaultMediaType, ex
     breakpoints[infinity] = Infinity
     // media queries associated with the breakpoints
     const mediaQueries = MediaQuery.asObject(breakpoints)
-
     // figure out the ordering
     const mediaOrdering = getOrderMap(breakpoints)
 

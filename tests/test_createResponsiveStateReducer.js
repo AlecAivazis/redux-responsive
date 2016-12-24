@@ -142,7 +142,7 @@ describe('createResponsiveStateReducer', function () {
                 large: true,
                 infinity: true,
             }
-            console.log(store.getState().lessThan, expectedLessThan)
+
             // make sure we were able to correctly inject the initial state
             expect(store.getState().lessThan).to.deep.equal(expectedLessThan)
         })
