@@ -61,12 +61,19 @@ const defaultOrientation = null
  * keys of the breakpoints object.  The value for each key indicates whether
  * or not the browser width is less than the breakpoint.
  */
-function getLessThan(browserWidth, breakpoints, currentMediaType) {
+export function getLessThan(currentMediaType, breakpoints) {
+    // get the ordering of the current media type
+    const currentOrder = computeOrder(currentMediaType, breakpoints)
+
+    //
     return transform(breakpoints, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
+            // figure out the ordering of the media
+            const mediaOrder = computeOrder(mediaType, breakpoints)
+
             // store wether or not it is less than the breakpoint
-            result[mediaType] = browserWidth < breakpoint && mediaType !== currentMediaType
+            result[mediaType] = currentOrder < mediaOrder
         // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
@@ -82,7 +89,7 @@ function getLessThan(browserWidth, breakpoints, currentMediaType) {
  * keys of the breakpoints object.  The value for each key indicates whether
  * or not the browser width is less than the breakpoint.
  */
-function getIs(breakpoints, currentMediaType) {
+export function getIs(currentMediaType, breakpoints) {
     return transform(breakpoints, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
@@ -104,12 +111,19 @@ function getIs(breakpoints, currentMediaType) {
  * keys of the breakpoints object.  The value for each key indicates whether
  * or not the browser width is greater than the breakpoint.
  */
-function getGreaterThan(browserWidth, breakpoints) {
+export function getGreaterThan(currentMediaType, breakpoints) {
+    // get the ordering of the current media type
+    const currentOrder = computeOrder(currentMediaType, breakpoints)
+
     return transform(breakpoints, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
-            // store wether or not it is greater than the breakpoint
-            result[mediaType] = browserWidth > breakpoint
+            // figure out the ordering of the media
+            const mediaOrder = computeOrder(mediaType, breakpoints)
+
+            // store wether or not it is less than the breakpoint
+            result[mediaType] = currentOrder > mediaOrder
+        // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
         }
@@ -189,9 +203,9 @@ export default (breakpoints, { initialState = defaultMediaType, infinity = defau
             // build the responsive state
             const responsiveState = {
                 _responsiveState: true,
-                lessThan: getLessThan(width, breakpoints, mediaType),
-                greaterThan: getGreaterThan(width, breakpoints),
-                is: getIs(breakpoints, mediaType),
+                lessThan: getLessThan(mediaType, breakpoints),
+                greaterThan: getGreaterThan(mediaType, breakpoints),
+                is: getIs(mediaType, breakpoints),
                 mediaType,
                 orientation,
                 breakpoints,

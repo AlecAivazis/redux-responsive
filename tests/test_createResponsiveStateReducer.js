@@ -1,7 +1,12 @@
 // third party imports
 import isFunction from 'lodash/isFunction'
 // local imports
-import createResponsiveStateReducer, { computeOrder } from 'util/createResponsiveStateReducer'
+import createResponsiveStateReducer, {
+    computeOrder,
+    getLessThan,
+    getGreaterThan,
+    getIs,
+} from 'util/createResponsiveStateReducer'
 
 
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
@@ -82,7 +87,7 @@ describe('createResponsiveStateReducer', function () {
         })
 
         describe("when computing breakpoint ordering", function() {
-            // the breakpoints to test again
+            // the breakpoints to test against
             const breakpoints = {
                 small: 500,
                 medium: 800,
@@ -116,7 +121,53 @@ describe('createResponsiveStateReducer', function () {
             })
         })
     })
+    // the breakpoints to test against
+    const breakpoints = {
+        small: 500,
+        medium: 800,
+        large: 1000,
+        foo: 'bar',
+    }
 
+    it('can compute the less than object', function() {
+        // the current media type
+        const currentType = 'medium'
+        // the expectation lessThan
+        const expected = {
+            small: false,
+            medium: false,
+            large: true,
+            foo: false,
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getLessThan(currentType, breakpoints)).to.deep.equal(expected)
+    })
 
-    it('could use some more tests')
+    it('can compute the greater than object', function() {
+        // the current media type
+        const currentType = 'medium'
+        // the expectation lessThan
+        const expected = {
+            small: true,
+            medium: false,
+            large: false,
+            foo: false,
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getGreaterThan(currentType, breakpoints)).to.deep.equal(expected)
+    })
+
+    it('can compute the is object', function() {
+        // the current media type
+        const currentType = 'medium'
+        // the expectation lessThan
+        const expected = {
+            small: false,
+            medium: true,
+            large: false,
+            foo: false,
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getIs(currentType, breakpoints)).to.deep.equal(expected)
+    })
 })
