@@ -19,6 +19,40 @@ const defaultMediaType = 'infinity'
 const defaultOrientation = null
 
 /**
+ * Compute the ordering of the specified breakpoint inside of the breakpoints
+ * object. This ordering is such that large > medium > small
+ * @arg {string} breakpoint - The breakpoint to compute the ordering of.
+ * @arg {object} breakpoints - the object of breakpoints.
+ */
+ export function computeOrder(bp, bps) {
+    // grab the keys from the bp objects
+    const keys = Object.keys(bps)
+    // if the target breakpoint is not in the object
+    if (keys.indexOf(bp) === -1) {
+        throw new Error("Could not find breakpoint " + bp)
+    }
+
+    // return the index of the key
+    return keys.sort((a, b) => {
+        // get the associated values
+        const valueA = bps[a]
+        const valueB = bps[b]
+
+        // if a is a number and b is a string
+        if (typeof valueA === 'number' && typeof valueB === 'string') {
+            // put the number first
+            return -1
+        } else if (typeof valueB === 'number' && typeof valueA === 'string') {
+            // return the number first
+            return 1
+        // otherwise treat it like normal
+        } else {
+            return valueA >= valueB ? 1 : -1
+        }
+    }).indexOf(bp)
+ }
+
+/**
  * Compute the `lessThan` object based on the browser width.
  * @arg {number} browserWidth - Width of the browser.
  * @arg {object} breakpoints - The breakpoints object.
@@ -133,7 +167,7 @@ function getOrientation(matchMedia) {
 }
 
 // export the reducer factory
-export default (breakpoints, { infinity = defaultMediaType, extraFields = () => ({}) } = {}) => {
+export default (breakpoints, { initialState = defaultMediaType, infinity = defaultMediaType, extraFields = () => ({}) } = {}) => {
     // accept null values
     if (!breakpoints) {
         breakpoints = defaultBreakpoints // eslint-disable-line

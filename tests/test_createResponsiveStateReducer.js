@@ -1,7 +1,7 @@
 // third party imports
 import isFunction from 'lodash/isFunction'
 // local imports
-import createResponsiveStateReducer from 'util/createResponsiveStateReducer'
+import createResponsiveStateReducer, { computeOrder } from 'util/createResponsiveStateReducer'
 
 
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
@@ -78,6 +78,41 @@ describe('createResponsiveStateReducer', function () {
 
                 // should return unaltered state
                 expect(reducer(state, action)).to.equal(state)
+            })
+        })
+
+        describe("when computing breakpoint ordering", function() {
+            // the breakpoints to test again
+            const breakpoints = {
+                small: 500,
+                medium: 800,
+                large: 1000,
+                foo: 'bar',
+            }
+
+            it('correctly orders two breakpoints', function() {
+                // figure out the ordering for the smaller one
+                const smallerOrder = computeOrder('small', breakpoints)
+                // figure out the ordering for the larger one
+                const largerOrder = computeOrder('large', breakpoints)
+
+                // make sure the larger order is bigger than the smaller
+                expect(largerOrder > smallerOrder).to.be.true
+            })
+
+            it('correctly order words relative to numbers', function() {
+                // figure out the number order
+                const numberOrder = computeOrder('small', breakpoints)
+                // figure out the word order
+                const wordOrder = computeOrder('foo', breakpoints)
+
+                // make sure the word is larger than the number
+                expect(wordOrder > numberOrder).to.be.true
+            })
+
+            it('throws if breakpoint is not in the breakpoint object', function() {
+                // make sure it barfs
+                expect(() => computeOrder('asdf', breakpoints)).to.throw(Error)
             })
         })
     })
