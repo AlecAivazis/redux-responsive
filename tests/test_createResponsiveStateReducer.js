@@ -1,5 +1,6 @@
 // third party imports
 import isFunction from 'lodash/isFunction'
+import { createStore } from 'redux'
 // local imports
 import createResponsiveStateReducer, {
     computeOrder,
@@ -117,6 +118,38 @@ describe('createResponsiveStateReducer', function () {
             })
         })
     })
+
+    describe('reducer factory', function() {
+
+        const breakpoints = {
+            small: 500,
+            medium: 1000,
+            large: 15000
+        }
+
+        it('correctly injects initial state', function() {
+            // create a reducer with the initial state
+            const reducer = createResponsiveStateReducer(breakpoints, {
+                initialMediaType: 'small',
+            })
+            // create a redux store with the reducer
+            const store = createStore(reducer)
+
+            // the expected value for the lessThan object
+            const expectedLessThan = {
+                small: false,
+                medium: true,
+                large: true,
+                infinity: true,
+            }
+            console.log(store.getState().lessThan, expectedLessThan)
+            // make sure we were able to correctly inject the initial state
+            expect(store.getState().lessThan).to.deep.equal(expectedLessThan)
+        })
+
+
+    })
+
     // the breakpoints to test against
     const breakpoints = {
         small: 0,
@@ -133,7 +166,6 @@ describe('createResponsiveStateReducer', function () {
             medium: false,
             large: true,
         }
-        console.log(getLessThan(currentType, breakpoints))
         // make sure the computed lessThan object matches exepctation
         expect(getLessThan(currentType, breakpoints)).to.deep.equal(expected)
     })
