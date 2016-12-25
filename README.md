@@ -312,7 +312,7 @@ the user-agent) you can set the initial media type with the `initialMediaType` k
 reducer factory:
 
 ```
-const reducer = createResponsiveStateReducer(null, {initialState: 'small'})
+const reducer = createResponsiveStateReducer(null, {initialMediaType: 'small'})
 ```
 
 # Higher-Order Components
