@@ -87,8 +87,7 @@ describe('createResponsiveStateReducer', function () {
                 expect(reducer(state, action)).to.equal(state)
             })
         })
-
-        describe("when computing breakpoint ordering", function() {
+        it('correctly orders two breakpoints', function() {
             // the breakpoints to test against
             const breakpointOrdering = getOrderMap({
                 small: 500,
@@ -97,24 +96,17 @@ describe('createResponsiveStateReducer', function () {
                 foo: 'bar',
             })
 
-            it('correctly orders two breakpoints', function() {
-                // figure out the ordering for the smaller one
-                const smallerOrder = breakpointOrdering['small']
-                // figure out the ordering for the larger one
-                const largerOrder = breakpointOrdering['large']
+            // figure out the ordering for the smaller one
+            const smallerOrder = breakpointOrdering['small']
+            // figure out the ordering for the larger one
+            const largerOrder = breakpointOrdering['large']
 
-                // make sure the larger order is bigger than the smaller
-                expect(largerOrder > smallerOrder).to.be.true
-            })
-
-            it('correctly order words relative to numbers', function() {
-                // figure out the number order
-                const numberOrder = breakpointOrdering['small']
-                // figure out the word order
-                const wordOrder = breakpointOrdering['foo']
-
-                // make sure the word is larger than the number
-                expect(wordOrder > numberOrder).to.be.true
+            // make sure the larger order is bigger than the smaller
+            expect(breakpointOrdering).to.deep.equal({
+                small: 0,
+                medium: 1,
+                large: 2,
+                foo: 3,
             })
         })
     })
@@ -155,6 +147,7 @@ describe('createResponsiveStateReducer', function () {
         small: 0,
         medium: 1,
         large: 2,
+        foo: 'bar',
     }
 
     it('can compute the less than object', function() {
@@ -165,6 +158,7 @@ describe('createResponsiveStateReducer', function () {
             small: false,
             medium: false,
             large: true,
+            foo: false,
         }
         // make sure the computed lessThan object matches exepctation
         expect(getLessThan(currentType, breakpoints)).to.deep.equal(expected)
@@ -178,6 +172,7 @@ describe('createResponsiveStateReducer', function () {
             small: true,
             medium: false,
             large: false,
+            foo: false,
         }
         // make sure the computed lessThan object matches exepctation
         expect(getGreaterThan(currentType, breakpoints)).to.deep.equal(expected)
@@ -191,6 +186,7 @@ describe('createResponsiveStateReducer', function () {
             small: false,
             medium: true,
             large: false,
+            foo: false,
         }
         // make sure the computed lessThan object matches exepctation
         expect(getIs(currentType, breakpoints)).to.deep.equal(expected)
