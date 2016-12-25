@@ -149,10 +149,10 @@ describe('createResponsiveStateReducer', function () {
         large: 2,
         foo: 'bar',
     }
+    // the current media type
+    const currentType = 'medium'
 
     it('can compute the less than object', function() {
-        // the current media type
-        const currentType = 'medium'
         // the expectation lessThan
         const expected = {
             small: false,
@@ -165,8 +165,6 @@ describe('createResponsiveStateReducer', function () {
     })
 
     it('can compute the greater than object', function() {
-        // the current media type
-        const currentType = 'medium'
         // the expectation lessThan
         const expected = {
             small: true,
@@ -179,8 +177,6 @@ describe('createResponsiveStateReducer', function () {
     })
 
     it('can compute the is object', function() {
-        // the current media type
-        const currentType = 'medium'
         // the expectation lessThan
         const expected = {
             small: false,
