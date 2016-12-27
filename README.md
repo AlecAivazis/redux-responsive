@@ -311,7 +311,7 @@ If you know the initial media type for your application (by doing something like
 the user-agent) you can set the initial media type with the `initialMediaType` key to the
 reducer factory:
 
-```
+```es6
 const reducer = createResponsiveStateReducer(null, {initialMediaType: 'small'})
 ```
 
