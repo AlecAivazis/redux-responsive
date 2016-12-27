@@ -1,7 +1,14 @@
 // third party imports
 import isFunction from 'lodash/isFunction'
+import { createStore } from 'redux'
 // local imports
-import createResponsiveStateReducer from 'util/createResponsiveStateReducer'
+import createResponsiveStateReducer, {
+    computeOrder,
+    getLessThan,
+    getGreaterThan,
+    getIs,
+    getOrderMap,
+} from 'util/createResponsiveStateReducer'
 
 
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
@@ -80,8 +87,104 @@ describe('createResponsiveStateReducer', function () {
                 expect(reducer(state, action)).to.equal(state)
             })
         })
+        it('correctly orders two breakpoints', function() {
+            // the breakpoints to test against
+            const breakpointOrdering = getOrderMap({
+                small: 500,
+                medium: 800,
+                large: 1000,
+                foo: 'bar',
+            })
+
+            // figure out the ordering for the smaller one
+            const smallerOrder = breakpointOrdering['small']
+            // figure out the ordering for the larger one
+            const largerOrder = breakpointOrdering['large']
+
+            // make sure the larger order is bigger than the smaller
+            expect(breakpointOrdering).to.deep.equal({
+                small: 0,
+                medium: 1,
+                large: 2,
+                foo: 3,
+            })
+        })
     })
 
+    describe('reducer factory', function() {
 
-    it('could use some more tests')
+        const breakpoints = {
+            small: 500,
+            medium: 1000,
+            large: 15000
+        }
+
+        it('correctly injects initial state', function() {
+            // create a reducer with the initial state
+            const reducer = createResponsiveStateReducer(breakpoints, {
+                initialMediaType: 'small',
+            })
+            // create a redux store with the reducer
+            const store = createStore(reducer)
+
+            // the expected value for the lessThan object
+            const expectedLessThan = {
+                small: false,
+                medium: true,
+                large: true,
+                infinity: true,
+            }
+
+            // make sure we were able to correctly inject the initial state
+            expect(store.getState().lessThan).to.deep.equal(expectedLessThan)
+        })
+
+
+    })
+
+    // the breakpoints to test against
+    const breakpoints = {
+        small: 0,
+        medium: 1,
+        large: 2,
+        foo: 'bar',
+    }
+    // the current media type
+    const currentType = 'medium'
+
+    it('can compute the less than object', function() {
+        // the expectation lessThan
+        const expected = {
+            small: false,
+            medium: false,
+            large: true,
+            foo: false,
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getLessThan(currentType, breakpoints)).to.deep.equal(expected)
+    })
+
+    it('can compute the greater than object', function() {
+        // the expectation lessThan
+        const expected = {
+            small: true,
+            medium: false,
+            large: false,
+            foo: false,
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getGreaterThan(currentType, breakpoints)).to.deep.equal(expected)
+    })
+
+    it('can compute the is object', function() {
+        // the expectation lessThan
+        const expected = {
+            small: false,
+            medium: true,
+            large: false,
+            foo: false,
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getIs(currentType, breakpoints)).to.deep.equal(expected)
+    })
 })
