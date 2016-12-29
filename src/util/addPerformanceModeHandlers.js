@@ -11,7 +11,9 @@ import getBreakpoints from './getBreakpoints'
 export default ({store, window, calculateInitialState}) => {
     // the function to call when calculating the new responsive state
     function refreshResponsiveState() {
+        console.log("refreshing responsive state")
         store.dispatch(calculateResponsiveState(window))
+        console.log(store.getState())
     }
 
     // get the object of media queries corresponding to the breakpoints in the store

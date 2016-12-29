@@ -196,7 +196,10 @@ export default (breakpoints, { initialMediaType, infinity = defaultMediaType, ex
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // the current media type
-            const mediaType = initialMediaType || getMediaType(matchMedia, mediaQueries, infinity)
+            const mediaType = !state && initialMediaType
+                                        ? initialMediaType
+                                        : getMediaType(matchMedia, mediaQueries, infinity)
+
             // the current orientation
             const orientation = getOrientation(matchMedia)
             // build the responsive state

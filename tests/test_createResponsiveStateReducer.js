@@ -1,6 +1,7 @@
 // third party imports
 import isFunction from 'lodash/isFunction'
 import { createStore } from 'redux'
+import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports
 import createResponsiveStateReducer, {
     computeOrder,
@@ -124,6 +125,7 @@ describe('createResponsiveStateReducer', function () {
             const reducer = createResponsiveStateReducer(breakpoints, {
                 initialMediaType: 'small',
             })
+
             // create a redux store with the reducer
             const store = createStore(reducer)
 
@@ -139,7 +141,28 @@ describe('createResponsiveStateReducer', function () {
             expect(store.getState().lessThan).to.deep.equal(expectedLessThan)
         })
 
+        it('correctly injects initialMediaType into immutable reducer', function() {
+            // create a reducer with the initial state
+            const reducer = createResponsiveStateReducer(breakpoints, {
+                initialMediaType: 'small',
+            })
 
+            // create a redux store with the reducer
+            const store = createStore(immutableCombine({
+                browser: reducer
+            }))
+
+            // the expected value for the lessThan object
+            const expectedLessThan = {
+                small: false,
+                medium: true,
+                large: true,
+                infinity: true,
+            }
+
+            // make sure we were able to correctly inject the initial state
+            expect(store.getState().get('browser').lessThan).to.deep.equal(expectedLessThan)
+        })
     })
 
     // the breakpoints to test against
