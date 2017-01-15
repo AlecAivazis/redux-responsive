@@ -57,7 +57,7 @@ Using a specialized store not only reduces the overall noise in a component, but
 
 # Setup
 
-First, add the reducer somewhere in your reducer tree.  It's just a reducer so you can put it wherever you want! For example, you could put it in your top level call to `combineReducers`.
+First, add the reducer to the root of your reducer tree (you can name it whatever you want).
 
 ```js
 // reducer.js
@@ -69,7 +69,9 @@ export default combineReducers({
 })
 ```
 
-Second, you must add the resize handlers to the window.  To do this, use the provided store enhancer.
+Second, you must add required event handlers to keep the responsive state up to date. `redux-responsive` uses 
+[MediaQueryList](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList)s to efficiently update the 
+store only when required. To do this, use the provided store enhancer.
 
 ```js
 // store.js
@@ -198,9 +200,11 @@ export default combineReducers({
 
 ## Adding custom/computed fields to the responsive state
 In some cases, you may want to add computed fields to the responsive state. For example,
-an application may frequently need to know when the browser is `greaterThanOrEqual`.
-In order to support this, `redux-responsive` lets you pass a function and to `createResponsiveStateReducer`
-as the `extraFields` key. This function will recieve an object with the responsive state:
+an application may frequently need to know when the browser is `greaterThanOrEqual` to
+a particular breakpoint. In order to support this, `redux-responsive` lets you pass a 
+function and to `createResponsiveStateReducer` arguments as the `extraFields` key. 
+This function will recieve an object with the responsive state and returns an object
+with the new keys to be injected into the state whenever it is recalculated:
 
 ```es6
 // reducer.js
@@ -223,9 +227,8 @@ export default combineReducers({
 ```
 
 ### Tracking window attributes
-In some cases, you may want to add computed fields to the responsive state. For example,
-an application may need very fine grain values for `width` (or any other browser attribute).
-To accomplish this, the first step is to add the custom field.
+In some cases, you may want to have a `window` attributes tracked in your responsive state (for example, `width`). 
+To accomplish this, the first step is to add the custom field as described above.
 
 ```es6
 // reducer.js
@@ -244,8 +247,10 @@ export default combineReducers({
 ```
 
 
-For some of those attributes, you will need to add an additional event handler in order
-to atrack the value. To do so, the event handler might look something like:
+When doing this, keep in mind that the responsive state enhancer only causes the 
+responsive state to be recalculated when the browser actually transitions between
+states. **It does not recalculate on every resize**. Therefore, you might also need
+to add an event handler that recalculates the state at another time:
 
 ```es6
 // store.js
