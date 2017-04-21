@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/AlecAivazis/redux-responsive/badge.svg?branch=master)](https://coveralls.io/github/AlecAivazis/redux-responsive?branch=master)
 [![npm](https://img.shields.io/npm/v/redux-responsive.svg)](https://www.npmjs.com/package/redux-responsive)
 
-A redux reducer for managing the responsive state of your application. Documentation is hosted [here](https://alecaivazis.gitbooks.io/redux-responsive/content/).
+A redux reducer for managing the responsive state of your application. 
 
 # Example
 
