@@ -32,20 +32,21 @@ if (process.env.NODE_ENV === 'dev' || process.env.TRAVIS) {
 // export webpack configuration object
 module.exports = {
     module: {
-        preLoaders: [
+        // preLoaders: [
+        //     {
+        //         test: /\.js$/,
+        //         loader: 'eslint',
+        //         include: projectPaths.sourceDir,
+        //     },
+        //     ----> config???
+        // ],
+        rules: [
             {
                 test: /\.js$/,
-                loader: 'eslint',
-                include: projectPaths.sourceDir,
-            },
-        ],
-        loaders: [
-            {
-                test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 include: [
                     projectPaths.sourceDir,
-                    projectPaths.testsDir,
+                    projectPaths.exampleDir,
                 ],
                 query: {
                     extends: projectPaths.babelConfig,
@@ -56,12 +57,10 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['', '.js'],
-        root: [projectPaths.sourceDir],
-    },
-    eslint: {
-        configFile: projectPaths.eslintConfig,
-        failOnError: true,
+        modules: [
+            projectPaths.sourceDir,
+            'node_modules',
+        ],
     },
     output: {
         libraryTarget: 'commonjs2',
