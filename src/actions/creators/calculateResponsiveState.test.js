@@ -8,9 +8,9 @@ describe('calculateResponsiveState', function () {
         const action = calculateResponsiveState()
 
         // action should be an object
-        expect(action).to.be.an('object')
+        expect(typeof action).toBe('object')
         // action should have correct type
-        expect(action.type).to.equal(CALCULATE_RESPONSIVE_STATE)
+        expect(action.type).toBe(CALCULATE_RESPONSIVE_STATE)
     })
 
 
@@ -18,9 +18,9 @@ describe('calculateResponsiveState', function () {
         const action = calculateResponsiveState({})
 
         // action should be an object
-        expect(action).to.be.an('object')
+        expect(typeof action).toBe('object')
         // action should have correct type
-        expect(action.type).to.equal(CALCULATE_RESPONSIVE_STATE)
+        expect(action.type).toBe(CALCULATE_RESPONSIVE_STATE)
     })
 
 
@@ -32,9 +32,9 @@ describe('calculateResponsiveState', function () {
         const action = calculateResponsiveState({innerWidth, innerHeight, matchMedia})
 
         // action should be an object
-        expect(action).to.be.an('object')
+        expect(typeof action).toBe('object')
         // action should have correct type
-        expect(action.type).to.equal(CALCULATE_RESPONSIVE_STATE)
+        expect(action.type).toBe(CALCULATE_RESPONSIVE_STATE)
     })
 
 
@@ -48,26 +48,26 @@ describe('calculateResponsiveState', function () {
         const action = calculateResponsiveState({innerWidth, innerHeight, matchMedia})
 
         // action should have same properties as passed to creator
-        expect(action.innerWidth).to.equal(innerWidth)
-        expect(action.innerHeight).to.equal(innerHeight)
-        expect(action.matchMedia).to.equal(matchMedia)
+        expect(action.innerWidth).toBe(innerWidth)
+        expect(action.innerHeight).toBe(innerHeight)
+        expect(action.matchMedia).toBe(matchMedia)
     })
 
 
     it('properly defaults when no arg passed', function () {
         const action = calculateResponsiveState()
 
-        expect(action.innerWidth).to.be.undefined
-        expect(action.innerHeight).to.be.undefined
-        expect(action.matchMedia).to.be.undefined
+        expect(action.innerWidth).toBeUndefined()
+        expect(action.innerHeight).toBeUndefined()
+        expect(action.matchMedia).toBeUndefined()
     })
 
 
     it('properly defaults when empty arg passed', function () {
         const action = calculateResponsiveState({})
 
-        expect(action.innerWidth).to.be.undefined
-        expect(action.innerHeight).to.be.undefined
-        expect(action.matchMedia).to.be.undefined
+        expect(action.innerWidth).toBeUndefined()
+        expect(action.innerHeight).toBeUndefined()
+        expect(action.matchMedia).toBeUndefined()
     })
 })

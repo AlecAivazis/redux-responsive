@@ -1,5 +1,5 @@
 // local imports
-import addPerformanceModeHandlers from './addPerformanceModeHandlers'
+import addPerformanceModeHandlers from './handlers'
 
 /**
  * Creates a store enhancer based off an (optional) throttle time.
