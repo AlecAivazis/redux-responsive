@@ -13,6 +13,7 @@
     "build": "webpack --config config/webpack.js",
     "build:prod": "NODE_ENV=production npm run build",
     "dev": "NODE_ENV=dev webpack-dev-server --inline --hot --config  example/webpack.js",
+    "prepublish": "npm run build && npm run build:prod",
     "test": "NODE_ENV=test jest",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
