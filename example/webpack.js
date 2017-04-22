@@ -3,31 +3,13 @@ var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 // local imports
 var projectPaths = require('../config/projectPaths')
+var baseConfig = require(projectPaths.webpackConfig)
 
 // export webpack configuration object
-module.exports = {
+module.exports = Object.assign({}, baseConfig, {
     entry: './example/index.js',
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                include: [
-                    projectPaths.sourceDir,
-                    projectPaths.exampleDir,
-                ],
-                query: {
-                    extends: projectPaths.babelConfig,
-                },
-            },
-        ],
-    },
-    resolve: {
-        modules: [
-            'node_modules',
-            projectPaths.sourceDir,
-        ],
-    },
+    externals: {},
+    output: {},
     plugins: [
         new HtmlWebpackPlugin({
             template: './example/index.html'
@@ -37,7 +19,7 @@ module.exports = {
             NODE_ENV: process.env.NODE_ENV || 'dev',
         }),
     ],
-}
+})
 
 
 // end of file

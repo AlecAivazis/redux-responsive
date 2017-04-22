@@ -32,15 +32,15 @@ if (process.env.NODE_ENV === 'dev' || process.env.TRAVIS) {
 // export webpack configuration object
 module.exports = {
     module: {
-        // preLoaders: [
-        //     {
-        //         test: /\.js$/,
-        //         loader: 'eslint',
-        //         include: projectPaths.sourceDir,
-        //     },
-        //     ----> config???
-        // ],
         rules: [
+             {
+                test: /\.jsx?$/,
+                enforce: "pre",
+                exclude: /node_modules/,
+                use:[{loader: 'eslint-loader', options: {
+                    configFile: projectPaths.eslintConfig
+                }}]
+            },
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
@@ -58,8 +58,8 @@ module.exports = {
     },
     resolve: {
         modules: [
-            projectPaths.sourceDir,
             'node_modules',
+            projectPaths.sourceDir,
         ],
     },
     output: {
