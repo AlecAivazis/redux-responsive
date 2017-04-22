@@ -113,12 +113,15 @@ export const transformStyle = browser => style => {
 
 // this function calculates the current stylesheet based on the responsive
 // state of the reducer
-export const mapStateToPropsFactory = (stylesheet, {reducerName} = defaultOptions) => (state, ...args) => {
+export const mapStateToPropsFactory = (stylesheet, {reducerName} = defaultOptions) => (state, props) => {
+    // find the relevant state in the reducer
+    const browser = state[reducerName]
+
     // if we are passed a functional stylesheet, hand it the component props, otherwise just use the object
-    const sheet = typeof stylesheet === 'function' ? stylesheet(...args) : stylesheet
+    const sheet = typeof stylesheet === 'function' ? stylesheet(browser, props) : stylesheet
 
     // the stylesheet only differs by values of
-    return {styles: mapValues(sheet, transformStyle(state[reducerName]))}
+    return {styles: mapValues(sheet, transformStyle(browser))}
 }
 
 // the default options
