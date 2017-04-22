@@ -1,5 +1,5 @@
 // local imports
-import addPerformanceModeHandlers from './handlers'
+import addHandlers from './handlers'
 
 /**
  * Creates a store enhancer based off an (optional) throttle time.
@@ -14,11 +14,10 @@ export default ({ calculateInitialState = true } = {}) => {
     return (createStore) => (...args) => {
         // create the store
         const store = createStore(...args)
-
         // if there is a `window`
         if (typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined') {
             // add the handlers that only fire when the responsive state changes
-            addPerformanceModeHandlers({store, window, calculateInitialState})
+            addHandlers({store, window, calculateInitialState})
         }
 
         // return the store so that the call is transparent

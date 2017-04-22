@@ -19,6 +19,10 @@
     "test:coverage:report": "npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.2.1",
+    "mediaquery": "0.0.3"
+  },
   "devDependencies": {
     "babel-core": "^6.20.0",
     "babel-eslint": "^7.1.1",
@@ -39,6 +43,7 @@
     "immutable": "^3.8.1",
     "jest": "^19.0.2",
     "lolex": "^1.4.0",
+    "match-media-mock": "^0.1.0",
     "mocha": "^2.3.3",
     "phantomjs-prebuilt": "^2.1.7",
     "react": "^15.5.4",
@@ -52,10 +57,6 @@
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.3",
     "webpack-stream": "^2.1.1"
-  },
-  "dependencies": {
-    "lodash": "^4.2.1",
-    "mediaquery": "0.0.3"
   },
   "jest": {
     "modulePaths": [
