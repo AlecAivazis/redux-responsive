@@ -106,4 +106,40 @@ describe('ReactStyleSheet', function () {
         // make sure the stylesheet is what we expect
         expect(computedStyle['border']).to.equal(lessThanValue)
     })
+
+
+    it("handles functional stylesheets", function() {
+        // the mocked browser state
+        const browser = {
+            greaterThan: {
+                medium: true,
+                large: false,
+            },
+            lessThan: {
+                medium: false,
+                large: true,
+            },
+            mediaType: 'large',
+            breakpoints: ['medium', 'large']
+        }
+        // the stylesheet
+        const baseValue = 'black'
+        const greaterThanValue = 'blue'
+        const lessThanValue = 'green'
+
+        const stylesheet = () => ({
+            'border': baseValue,
+            '_greaterThan_medium': {
+                'border': greaterThanValue,
+            },
+            '_lessThan_large': {
+                'border': lessThanValue,
+            }
+        })
+        // the tranformer takes the browser state and returns a function that
+        // takes the responsive stylesheet and returns the final one
+        const computedStyle = transformStyle(browser)(stylesheet)
+        // make sure the stylesheet is what we expect
+        expect(computedStyle['border']).to.equal(lessThanValue)
+    })
 })

@@ -124,9 +124,17 @@ const defaultOptions = {
     reducerName: 'browser',
 }
 
+
+
 // export a higher order component
-export default (stylesheet, opts) => (component) => (
-    require('react-redux').connect( // eslint-disable-line no-undef
-        mapStateToPropsFactory(stylesheet, {...defaultOptions, ...opts})
-    )(component)
-)
+export default (stylesheet, opts) => (component) => {
+    // console.log('hello')
+    // if we are passed a functional stylesheet, hand it the component props, otherwise just use the object
+    // const sheet = typeof stylesheet === 'function' ? stylesheet(props) : stylesheet
+
+    return (
+        require('react-redux').connect( // eslint-disable-line no-undef
+            mapStateToPropsFactory(stylesheet, {...defaultOptions, ...opts})
+        )(component)
+    )
+}
