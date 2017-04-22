@@ -9,15 +9,20 @@
   },
   "author": "Alec Aivazis",
   "scripts": {
-    "test": "gulp test",
-    "dev": "webpack-dev-server --inline --hot --config  example/webpack.js --content-base build/",
     "build": "webpack --config config/webpack.js",
-    "build:min": "NODE_ENV=production MINIFY_ASSETS=1 npm run build"
+    "build:min": "MINIFY_ASSETS=1 npm run build:prod",
+    "build:prod": "NODE_ENV=production npm run build",
+    "dev": "webpack-dev-server --inline --hot --config  example/webpack.js",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage",
+    "test:coverage:report": "npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.20.0",
     "babel-eslint": "^7.1.1",
+    "babel-jest": "^19.0.0",
     "babel-loader": "^6.2.9",
     "babel-plugin-istanbul": "^3.0.0",
     "babel-polyfill": "^6.20.0",
@@ -32,6 +37,7 @@
     "eslint-plugin-react": "^3.5.1",
     "html-webpack-plugin": "^2.28.0",
     "immutable": "^3.8.1",
+    "jest": "^19.0.2",
     "lolex": "^1.4.0",
     "mocha": "^2.3.3",
     "phantomjs-prebuilt": "^2.1.7",
@@ -50,5 +56,20 @@
   "dependencies": {
     "lodash": "^4.2.1",
     "mediaquery": "0.0.3"
+  },
+  "jest": {
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/config/__mocks__/styleMock.js"
+    },
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/fbjs"
+    ]
   }
 }
