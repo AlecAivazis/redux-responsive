@@ -12,7 +12,7 @@ var projectPaths = require('./projectPaths')
 var devtool = 'source-map'
 var plugins = []
 
-let entry = {
+var entry = {
     react: projectPaths.reactEntry,
     index: projectPaths.entry,
 }
