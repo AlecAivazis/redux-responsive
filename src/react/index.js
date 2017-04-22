@@ -1,1 +1,1 @@
-export StyleSaheet from './components/stylesheet'
+export StyleSheet from './components/stylesheet'
