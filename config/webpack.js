@@ -16,14 +16,20 @@ if (process.env.NODE_ENV === 'production') {
     // use production configuration instead
     devtool = ''
     plugins.push(
-        new webpack.optimize.UglifyJsPlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.DedupePlugin()
+        new webpack.optimize.UglifyJsPlugin()
     )
 }
 
 // export webpack configuration object
 module.exports = {
+    entry: {
+        react: projectPaths.reactEntry,
+        index: projectPaths.entry,
+    },
+    output: {
+        filename: '[name].js',
+        libraryTarget: 'commonjs2',
+    },
     module: {
         rules: [
              {
@@ -52,9 +58,6 @@ module.exports = {
             'node_modules',
             projectPaths.sourceDir,
         ],
-    },
-    output: {
-        libraryTarget: 'commonjs2',
     },
     externals: {
         React: 'React',
