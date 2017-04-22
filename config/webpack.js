@@ -11,24 +11,50 @@ var projectPaths = require('./projectPaths')
 // default to using development configuration
 var devtool = 'source-map'
 var plugins = []
+
+let entry = {
+    react: projectPaths.reactEntry,
+    index: projectPaths.entry,
+}
+
 // if we are in a production environment
 if (process.env.NODE_ENV === 'production') {
     // use production configuration instead
     devtool = ''
+
+    // optmize the build for production
     plugins.push(
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.LoaderOptionsPlugin({
+            minimize: process.env.MINIFY_ASSETS === '1',
+            debug: false
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            beautify: false,
+            mangle: {
+                screw_ie8: true,
+                keep_fnames: true
+            },
+            compress: {
+                screw_ie8: true
+            },
+            comments: false
+        })
     )
+
+    // add the min extensions
+    entry = {
+        'react.min': projectPaths.reactEntry,
+        'index.min': projectPaths.entry,
+    }
 }
 
 // export webpack configuration object
 module.exports = {
-    entry: {
-        react: projectPaths.reactEntry,
-        index: projectPaths.entry,
-    },
+    entry: entry,
     output: {
         filename: '[name].js',
-        libraryTarget: 'commonjs2',
+        library: 'redux-responsive',
+        libraryTarget: 'umd',
     },
     module: {
         rules: [
