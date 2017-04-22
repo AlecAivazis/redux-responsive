@@ -22,13 +22,6 @@ if (process.env.NODE_ENV === 'production') {
     )
 }
 
-var babelPlugins = []
-// if we are building in a dev environment
-if (process.env.NODE_ENV === 'dev' || process.env.TRAVIS) {
-    babelPlugins.push('istanbul')
-}
-
-
 // export webpack configuration object
 module.exports = {
     module: {
@@ -50,8 +43,6 @@ module.exports = {
                 ],
                 query: {
                     extends: projectPaths.babelConfig,
-                    // instrument the build for coverage on travis
-                    plugins: babelPlugins,
                 },
             },
         ],

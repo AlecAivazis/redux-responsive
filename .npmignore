@@ -4,6 +4,7 @@ gulpfile.babel.js
 package.json
 config/
 coverage/
+example/
 node_modules/
 src/
 tests/
