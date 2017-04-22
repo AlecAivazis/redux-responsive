@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'production') {
     // optmize the build for production
     plugins.push(
         new webpack.LoaderOptionsPlugin({
-            minimize: process.env.MINIFY_ASSETS === '1',
+            minimize: true,
             debug: false
         }),
         new webpack.optimize.UglifyJsPlugin({

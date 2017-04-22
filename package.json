@@ -3,6 +3,7 @@
   "version": "4.1.1",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
+  "module": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aaivazis/redux-responsive.git"
@@ -10,7 +11,6 @@
   "author": "Alec Aivazis",
   "scripts": {
     "build": "webpack --config config/webpack.js",
-    "build:min": "MINIFY_ASSETS=1 npm run build:prod",
     "build:prod": "NODE_ENV=production npm run build",
     "dev": "NODE_ENV=dev webpack-dev-server --inline --hot --config  example/webpack.js",
     "test": "NODE_ENV=test jest",
