@@ -1,6 +1,6 @@
 node_modules
 coverage/
-index.js
-index.min.js
+/index.js
+/index.min.js
 /react.min.js
 /react.js
