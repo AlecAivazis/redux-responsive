@@ -7,7 +7,10 @@ var baseConfig = require(projectPaths.webpackConfig)
 
 // export webpack configuration object
 module.exports = Object.assign({}, baseConfig, {
-    entry: './example/index.js',
+    entry: [
+      'react-hot-loader/patch',
+      './example/index.js',
+    ],
     externals: {},
     output: {},
     plugins: [

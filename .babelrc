@@ -11,6 +11,11 @@
         "react",
         "stage-1"
       ]
+    },
+    "dev":{
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
     }
   }
 }
