@@ -76,6 +76,11 @@
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils",
       "<rootDir>/node_modules/fbjs"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/example/",
+      "<rootDir>/lib/"
     ]
   }
 }
