@@ -3,13 +3,13 @@ import isFunction from 'lodash/isFunction'
 import { createStore } from 'redux'
 import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports
-import createResponsiveStateReducer, {
+import createReducer, {
     computeOrder,
     getLessThan,
     getGreaterThan,
     getIs,
     getOrderMap,
-} from 'util/createResponsiveStateReducer'
+} from './createReducer'
 
 
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
@@ -22,19 +22,19 @@ function randomString(length) {
 }
 
 
-describe('createResponsiveStateReducer', function () {
+describe('createReducer', function () {
     describe('with default breakpoints', function () {
         // assigned in `beforeEach`
         let reducer
 
 
         beforeEach(function () {
-            reducer = createResponsiveStateReducer()
+            reducer = createReducer()
         })
 
 
         it('returns a function', function () {
-            expect(isFunction(reducer)).to.be.true
+            expect(isFunction(reducer)).toBe(true)
         })
     })
 
@@ -62,7 +62,7 @@ describe('createResponsiveStateReducer', function () {
                 breakpoints[mediaType] = breakpoint
             }
             // create reducer based on random breakpoints
-            reducer = createResponsiveStateReducer(breakpoints)
+            reducer = createReducer(breakpoints)
         })
 
 
@@ -72,7 +72,7 @@ describe('createResponsiveStateReducer', function () {
 
 
             it('is a function', function () {
-                expect(isFunction(reducer)).to.be.true
+                expect(isFunction(reducer)).toBe(true)
             })
 
 
@@ -85,7 +85,7 @@ describe('createResponsiveStateReducer', function () {
                 const state = Math.random()
 
                 // should return unaltered state
-                expect(reducer(state, action)).to.equal(state)
+                expect(reducer(state, action)).toBe(state)
             })
         })
         it('correctly orders two breakpoints', function() {
@@ -103,7 +103,7 @@ describe('createResponsiveStateReducer', function () {
             const largerOrder = breakpointOrdering['large']
 
             // make sure the larger order is bigger than the smaller
-            expect(breakpointOrdering).to.deep.equal({
+            expect(breakpointOrdering).toEqual({
                 small: 0,
                 medium: 1,
                 large: 2,
@@ -122,7 +122,7 @@ describe('createResponsiveStateReducer', function () {
 
         it('correctly injects initial state', function() {
             // create a reducer with the initial state
-            const reducer = createResponsiveStateReducer(breakpoints, {
+            const reducer = createReducer(breakpoints, {
                 initialMediaType: 'small',
             })
 
@@ -138,12 +138,12 @@ describe('createResponsiveStateReducer', function () {
             }
 
             // make sure we were able to correctly inject the initial state
-            expect(store.getState().lessThan).to.deep.equal(expectedLessThan)
+            expect(store.getState().lessThan).toEqual(expectedLessThan)
         })
 
         it('correctly injects initialMediaType into immutable reducer', function() {
             // create a reducer with the initial state
-            const reducer = createResponsiveStateReducer(breakpoints, {
+            const reducer = createReducer(breakpoints, {
                 initialMediaType: 'small',
             })
 
@@ -161,7 +161,7 @@ describe('createResponsiveStateReducer', function () {
             }
 
             // make sure we were able to correctly inject the initial state
-            expect(store.getState().get('browser').lessThan).to.deep.equal(expectedLessThan)
+            expect(store.getState().get('browser').lessThan).toEqual(expectedLessThan)
         })
     })
 
@@ -184,7 +184,7 @@ describe('createResponsiveStateReducer', function () {
             foo: false,
         }
         // make sure the computed lessThan object matches exepctation
-        expect(getLessThan(currentType, breakpoints)).to.deep.equal(expected)
+        expect(getLessThan(currentType, breakpoints)).toEqual(expected)
     })
 
     it('can compute the greater than object', function() {
@@ -196,7 +196,7 @@ describe('createResponsiveStateReducer', function () {
             foo: false,
         }
         // make sure the computed lessThan object matches exepctation
-        expect(getGreaterThan(currentType, breakpoints)).to.deep.equal(expected)
+        expect(getGreaterThan(currentType, breakpoints)).toEqual(expected)
     })
 
     it('can compute the is object', function() {
@@ -208,6 +208,6 @@ describe('createResponsiveStateReducer', function () {
             foo: false,
         }
         // make sure the computed lessThan object matches exepctation
-        expect(getIs(currentType, breakpoints)).to.deep.equal(expected)
+        expect(getIs(currentType, breakpoints)).toEqual(expected)
     })
 })

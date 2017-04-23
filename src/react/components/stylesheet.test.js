@@ -7,10 +7,7 @@ import {
     browserMatches,
     sortKeys,
     transformStyle,
-} from '../src/components/stylesheet'
-// import {parsePattern} from 'components/stylesheet'
-// // fix the testing environment
-// import foo from 'components/stylesheet'
+} from './stylesheet'
 
 describe('ReactStyleSheet', function () {
     it("can parse the relevant data from style patterns", function() {
@@ -19,8 +16,8 @@ describe('ReactStyleSheet', function () {
         // grab the relevant data
         const {comparison, size} = parsePattern(pattern)
         // make sure the values match up
-        expect(comparison).to.equal('lessThan')
-        expect(size).to.equal('medium')
+        expect(comparison).toBe('lessThan')
+        expect(size).toBe('medium')
     })
 
 
@@ -38,9 +35,9 @@ describe('ReactStyleSheet', function () {
         const falsePattern = '_greaterThan_large'
         const equalPattern = '_equal_large'
         // make sure the browse matches
-        expect(browserMatches(browser, truePattern)).to.be.true
-        expect(browserMatches(browser, falsePattern)).to.be.false
-        expect(browserMatches(browser, equalPattern)).to.be.true
+        expect(browserMatches(browser, truePattern)).toBe(true)
+        expect(browserMatches(browser, falsePattern)).toBe(false)
+        expect(browserMatches(browser, equalPattern)).toBe(true)
     })
 
 
@@ -62,7 +59,7 @@ describe('ReactStyleSheet', function () {
         // note: there are 3 none responsive styles in the test
         // the correct order for responsive styles
         // lessThan (descending), greaterThan (ascending), equals
-        expect(sortKeys(keys, breakpoints).slice(3)).to.deep.equal([
+        expect(sortKeys(keys, breakpoints).slice(3)).toEqual([
             '_lessThan_large',
             '_lessThan_medium',
             '_greaterThan_medium',
@@ -104,6 +101,42 @@ describe('ReactStyleSheet', function () {
         // takes the responsive stylesheet and returns the final one
         const computedStyle = transformStyle(browser)(stylesheet)
         // make sure the stylesheet is what we expect
-        expect(computedStyle['border']).to.equal(lessThanValue)
+        expect(computedStyle['border']).toBe(lessThanValue)
+    })
+
+
+    it.skip("handles functional stylesheets", function() {
+        // the mocked browser state
+        const browser = {
+            greaterThan: {
+                medium: true,
+                large: false,
+            },
+            lessThan: {
+                medium: false,
+                large: true,
+            },
+            mediaType: 'large',
+            breakpoints: ['medium', 'large']
+        }
+        // the stylesheet
+        const baseValue = 'black'
+        const greaterThanValue = 'blue'
+        const lessThanValue = 'green'
+
+        const stylesheet = () => ({
+            'border': baseValue,
+            '_greaterThan_medium': {
+                'border': greaterThanValue,
+            },
+            '_lessThan_large': {
+                'border': lessThanValue,
+            }
+        })
+        // the tranformer takes the browser state and returns a function that
+        // takes the responsive stylesheet and returns the final one
+        const computedStyle = transformStyle(browser)(stylesheet)
+        // make sure the stylesheet is what we expect
+        expect(computedStyle['border']).toBe(lessThanValue)
     })
 })

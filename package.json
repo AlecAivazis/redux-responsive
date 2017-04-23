@@ -3,25 +3,34 @@
   "version": "4.1.1",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
+  "module": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aaivazis/redux-responsive.git"
   },
   "author": "Alec Aivazis",
-  "contributors": [
-    "Monte Mishkin"
-  ],
   "scripts": {
-    "test": "gulp test",
-    "dev": "gulp build:dev",
-    "build": "gulp build",
-    "build:min": "gulp build:prod",
-    "prepublish": "npm run build && npm run build:min"
+    "build": "webpack --config config/webpack.js",
+    "build:prod": "NODE_ENV=production npm run build",
+    "build:lib": "babel src --out-dir lib",
+    "clean": "rm -rf react.* index.* lib/",
+    "dev": "NODE_ENV=dev webpack-dev-server --inline --hot --config  example/webpack.js",
+    "prepublish": "npm run build && npm run build:prod && npm run build:lib",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage",
+    "test:coverage:report": "npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.2.1",
+    "mediaquery": "0.0.3"
+  },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.20.0",
     "babel-eslint": "^7.1.1",
+    "babel-jest": "^19.0.0",
     "babel-loader": "^6.2.9",
     "babel-plugin-istanbul": "^3.0.0",
     "babel-polyfill": "^6.20.0",
@@ -34,36 +43,44 @@
     "eslint": "^1.6.0",
     "eslint-loader": "^1.1.0",
     "eslint-plugin-react": "^3.5.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-env": "^0.2.0",
+    "html-webpack-plugin": "^2.28.0",
     "immutable": "^3.8.1",
-    "karma": "^1.1.1",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-coverage": "^0.5.5",
-    "karma-coveralls": "^1.1.2",
-    "karma-firefox-launcher": "^0.1.6",
-    "karma-mocha": "^0.2.0",
-    "karma-mocha-reporter": "^1.1.1",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-safari-launcher": "^0.1.1",
-    "karma-sinon-chai": "^1.1.0",
-    "karma-sourcemap-loader": "^0.3.6",
-    "karma-webpack": "^1.7.0",
+    "jest": "^19.0.2",
     "lolex": "^1.4.0",
+    "match-media-mock": "^0.1.0",
     "mocha": "^2.3.3",
     "phantomjs-prebuilt": "^2.1.7",
-    "react-redux": "^4.4.6",
-    "redux-immutablejs": "0.0.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-hot-loader": "next",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-immutablejs": "^0.0.8",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "vinyl-named": "^1.1.0",
-    "webpack": "^1.12.2",
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.3",
     "webpack-stream": "^2.1.1"
   },
-  "dependencies": {
-    "lodash": "^4.2.1",
-    "mediaquery": "0.0.3",
-    "redux": "^3.5.2"
+  "jest": {
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/config/__mocks__/styleMock.js"
+    },
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/fbjs"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/example/",
+      "<rootDir>/lib/"
+    ]
   }
 }

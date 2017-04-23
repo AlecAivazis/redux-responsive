@@ -3,7 +3,7 @@
 // external imports
 import MediaQuery from 'mediaquery'
 // local imports
-import calculateResponsiveState from 'actions/creators/calculateResponsiveState'
+import { calculateResponsiveState } from '../actions/creators'
 import getBreakpoints from './getBreakpoints'
 
 // this function adds event handlers to the window that only tirgger

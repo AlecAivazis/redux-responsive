@@ -1,28 +1,29 @@
 // third party imports
 import isFunction from 'lodash/isFunction'
+import sinon from 'sinon'
 // local imports
-import createResponsiveStoreEnhancer from 'util/createResponsiveStoreEnhancer'
-import {defaultBreakpoints} from 'util/createResponsiveStateReducer'
+import createEnhancer from './createEnhancer'
+import {defaultBreakpoints} from './createReducer'
 
 
-describe('createResponsiveStoreEnhancer', function () {
+describe('createEnhancer', function () {
     it('returns a function when given an options object', function () {
-        expect(isFunction(createResponsiveStoreEnhancer({}))).to.be.true
+        expect(isFunction(createEnhancer({}))).toBe(true)
     })
 
     it('returns a function when not given any options', function () {
-        expect(isFunction(createResponsiveStoreEnhancer())).to.be.true
+        expect(isFunction(createEnhancer())).toBe(true)
     })
 
     describe('the returned store enhancer', function () {
         let enhancer
 
         beforeEach(function () {
-            enhancer = createResponsiveStoreEnhancer()
+            enhancer = createEnhancer()
         })
 
         it('returns a function', function () {
-            expect(isFunction(enhancer())).to.be.true
+            expect(isFunction(enhancer())).toBe(true)
         })
 
         describe('the returned (enhanced) `createStore`', function () {
@@ -35,7 +36,7 @@ describe('createResponsiveStoreEnhancer', function () {
                         dispatch: () => {},
                         getState: () => ({
                             browser: {
-                                _responsiveState: true,
+                                _: true,
                                 breakpoints: defaultBreakpoints
                             }
                         })
@@ -48,7 +49,7 @@ describe('createResponsiveStoreEnhancer', function () {
 
             it('calls the `createStore` given to the enhancer', function () {
                 enhancedCreateStore()
-                expect(createStoreSpy).to.have.been.calledOnce
+                sinon.assert.calledOnce(createStoreSpy)
             })
         })
     })

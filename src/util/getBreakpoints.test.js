@@ -3,31 +3,31 @@ import isFunction from 'lodash/isFunction'
 import {createStore, combineReducers} from 'redux'
 import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports
-import getBreakpoints from 'util/getBreakpoints'
-import createResponsiveStateReducer, {defaultBreakpoints} from 'util/createResponsiveStateReducer'
+import getBreakpoints from './getBreakpoints'
+import createReducer, {defaultBreakpoints} from './createReducer'
 
-const responsiveStateReducer = createResponsiveStateReducer()
+const reducer = createReducer()
 
 describe('Breakpoint discovery', function () {
     it('Can find reducer at root', function () {
         // create a redux store with the reducer at the root
         const store = createStore(combineReducers({
-            browser: responsiveStateReducer
+            browser: reducer
         }))
 
         // make sure we could retrieve the default breakpoints from the store
-        expect(getBreakpoints(store)).to.equal(defaultBreakpoints)
+        expect(getBreakpoints(store)).toBe(defaultBreakpoints)
     })
 
 
     it('Can find immutable js reducers', function() {
         // create a redux store with the reducer at the root
         const store = createStore(immutableCombine({
-            browser: responsiveStateReducer
+            browser: reducer
         }))
 
         // make sure we could retrieve the default breakpoints from the store
-        expect(getBreakpoints(store)).to.equal(defaultBreakpoints)
+        expect(getBreakpoints(store)).toBe(defaultBreakpoints)
     })
 
 
@@ -38,6 +38,6 @@ describe('Breakpoint discovery', function () {
         }))
 
         // make sure this throws an error
-        expect(() => getBreakpoints(store)).to.throw(Error)
+        expect(() => getBreakpoints(store)).toThrowError(Error)
     })
 })

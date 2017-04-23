@@ -23,7 +23,7 @@ function getBreakpoints(store) {
     // if we couldn't find a responsive reducer at the root of the project
     if (!responsiveStateKey) {
         throw new Error(
-            'Could not find responsive state reducer - Performance mode can only '
+            'Could not find responsive state reducer. Currently, redux-responsive can only'
             + 'be used if the responsive reducer is at the root of your reducer tree.'
             + 'If you are still running into trouble, please open a ticket on github.'
         )

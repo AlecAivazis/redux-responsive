@@ -26,9 +26,10 @@ module.exports = {
     sourceDir: sourceDir,
     testsDir: testsDir,
     buildDir: rute,
+    exampleDir: path.join(rute, 'example'),
     // entry points
     entry: path.join(sourceDir, 'index.js'),
-    reactEntry: path.join(sourceDir, 'react.js'),
+    reactEntry: path.join(sourceDir, 'react', 'index.js'),
     // globs
     testsGlob: path.join(testsDir, 'test_*.js'),
     // configuration files
