@@ -2,8 +2,8 @@
 import isFunction from 'lodash/isFunction'
 import sinon from 'sinon'
 // local imports
-import createEnhancer from 'util/createEnhancer'
-import {defaultBreakpoints} from 'util/createReducer'
+import createEnhancer from './createEnhancer'
+import {defaultBreakpoints} from './createReducer'
 
 
 describe('createEnhancer', function () {

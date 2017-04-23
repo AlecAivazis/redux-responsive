@@ -3,8 +3,8 @@ import isFunction from 'lodash/isFunction'
 import {createStore, combineReducers} from 'redux'
 import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports
-import getBreakpoints from 'util/getBreakpoints'
-import createReducer, {defaultBreakpoints} from 'util/createReducer'
+import getBreakpoints from './getBreakpoints'
+import createReducer, {defaultBreakpoints} from './createReducer'
 
 const reducer = createReducer()
 

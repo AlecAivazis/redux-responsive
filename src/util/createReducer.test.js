@@ -9,7 +9,7 @@ import createReducer, {
     getGreaterThan,
     getIs,
     getOrderMap,
-} from 'util/createReducer'
+} from './createReducer'
 
 
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'

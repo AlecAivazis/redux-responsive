@@ -2,8 +2,8 @@
 import {createStore, combineReducers} from 'redux'
 import matchMediaMock from 'match-media-mock'
 // local imports
-import createReducer from 'util/createReducer'
-import createEnhancer from 'util/createEnhancer'
+import createReducer from './createReducer'
+import createEnhancer from './createEnhancer'
 
 // create default version of the store bits and pieces
 const Reducer = createReducer()
