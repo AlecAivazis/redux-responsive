@@ -6,7 +6,7 @@
 
 A redux reducer for managing the responsive state of your application.
 
-# Example
+## Example
 
 ```js
 // MyComponent.js
@@ -46,7 +46,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-# Why Use a Flux Store for Responsive Behavior?
+## Why Use a Flux Store for Responsive Behavior?
 
 redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used alongside redux, this documentation employs common React patterns.
 
@@ -55,7 +55,7 @@ There are many solutions for cleanly handling responsive designs in React applic
 Using a specialized store not only reduces the overall noise in a component, but also guarantees that only a single event listener is listening for resize.
 
 
-# Setup
+## Setup
 
 First, add the reducer to the root of your reducer tree (you can name it whatever you want).
 
@@ -178,7 +178,8 @@ export default combineReducers({
 
 
 
-## The Infinity Media Type
+### The Infinity Media Type
+
 When the browser is wider than the largest breakpoint, it's `mediaType` value is `infinity`. In order to
 change this value, add the `infinity` field to the object pass as a second argument to `createResponsiveStateReducer`:
 
@@ -199,6 +200,7 @@ export default combineReducers({
 
 
 ## Adding custom/computed fields to the responsive state
+
 In some cases, you may want to add computed fields to the responsive state. For example,
 an application may frequently need to know when the browser is `greaterThanOrEqual` to
 a particular breakpoint. In order to support this, `redux-responsive` lets you pass a
@@ -227,6 +229,7 @@ export default combineReducers({
 ```
 
 ### Tracking window attributes
+
 In some cases, you may want to have a `window` attributes tracked in your responsive state (for example, `width`).
 To accomplish this, the first step is to add the custom field as described above.
 
@@ -263,7 +266,7 @@ window.addEventListener('resize', () => store.dispatch(calculateResponsiveState(
 ```
 
 
-# Server-side Rendering
+## Server-side Rendering
 
 Isomorphic applications must make sure that the sever-rendered markup matches the
 DOM rendered by the client. Setting the `calculateInitialState` option in the
@@ -310,7 +313,7 @@ ReactDOM.render(
 store.dispatch(calculateResponsiveState(window))
 ```
 
-## Setting the initial media type
+### Setting the initial media type
 
 If you know the initial media type for your application (by doing something like looking at
 the user-agent) you can set the initial media type with the `initialMediaType` key to the
@@ -320,7 +323,7 @@ reducer factory:
 const reducer = createResponsiveStateReducer(null, {initialMediaType: 'small'})
 ```
 
-# Higher-Order Components
+## Higher-Order Components
 
 When building responsive applications in react, it's common to
 implement styles for each breakpoint and then apply them like so:
@@ -345,20 +348,22 @@ const styles = {
 ```
 
 However this becomes very repetitive rather quickly. To help, redux-responsive
-provides a higher-order component for managing these styles. The follow is
+provides a higher-order component for managing these styles. The `StyleSheet`
+higher-order component takes a function of two arguments, the current state of the
+responsive reducer, and any props passed to the component. The follow is
 equivalent to the logic above:
 
 ```jsx
 import {StyleSheet} from 'redux-responsive/react'
 
-const stylesheet = {
+const stylesheet = (browser, props) => ({
     element: {
         color: 'blue',
         _lessThan_medium: {
             color: 'black',
         }
     }
-}
+})
 
 const component = StyleSheet(stylesheet)(({styles}) => (
     <div style={styles.element} />
@@ -366,6 +371,6 @@ const component = StyleSheet(stylesheet)(({styles}) => (
 ```
 
 
-# Versioning
+## Versioning
 
 [Semver](http://semver.org/) is followed as closely as possible. For updates and migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).
