@@ -1,7 +1,7 @@
 // external imports
 // import {connect} from 'react-redux'
-import mapValues from 'lodash/mapValues'
-import sortBy from 'lodash/sortBy'
+import mapValues from 'lodash.mapvalues'
+import sortBy from 'lodash.sortby'
 
 /*
  styles are passed as objects with the following form:
