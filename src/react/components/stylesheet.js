@@ -1,7 +1,6 @@
 // external imports
 // import {connect} from 'react-redux'
 import mapValues from 'lodash.mapvalues'
-import sortBy from 'lodash.sortby'
 
 /*
  styles are passed as objects with the following form:
@@ -47,13 +46,13 @@ export const browserMatches = (browser, pattern) => {
 // this function sorts the style keys so they are applied in the correct order
 // for less than criteria, the styles are sorted highest to lowest
 // for greater than criteria, the styles are storted lowest to highest
-export const sortKeys = (keys, breakpoints) => (
+export const sortKeys = (keys, breakpoints) => {
     // sort the keys
-    sortBy(keys, (key) => {
+    const mapped = keys.map(key => {
         // if the key is a custom style
         if (key[0] !== '_') {
             // deal with it first
-            return 0
+            return {key, sort: 0}
         }
         // otherwise the key is a responsive style
 
@@ -77,9 +76,11 @@ export const sortKeys = (keys, breakpoints) => (
         }
 
         // return the sort index
-        return sortValue
+        return {key, sort: sortValue}
     })
-)
+
+    return mapped.sort(({sort: sortA}, {sort: sortB}) => sortA - sortB).map(({key}) => key)
+}
 
 // this function takes the current state of the browser and
 // returns a function that creates a stylesheet to match

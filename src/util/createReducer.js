@@ -19,10 +19,10 @@ const defaultOrientation = null
 // a lightweight version of lodash.transform
 const transform = (obj, f) => {
     // a place to mutate
-    let internal = {}
+    const internal = {}
     // basically we have to reduce the keys down to an object and pass the k/v pairs to each f
     Object.keys(obj).forEach(key => f(internal, obj[key], key))
-    //r eturn the object we've been building up
+    // return the object we've been building up
     return internal
 }
 
