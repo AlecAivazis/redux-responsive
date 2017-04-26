@@ -1,6 +1,4 @@
 // external imports
-// import {connect} from 'react-redux'
-import mapValues from 'lodash.mapvalues'
 
 /*
  styles are passed as objects with the following form:
@@ -121,8 +119,16 @@ export const mapStateToPropsFactory = (stylesheet, {reducerName} = defaultOption
     // if we are passed a functional stylesheet, hand it the component props, otherwise just use the object
     const sheet = typeof stylesheet === 'function' ? stylesheet(browser, props) : stylesheet
 
+    // the function to mutate values
+    const transformValue = transformStyle(browser)
+
     // the stylesheet only differs by values of
-    return {styles: mapValues(sheet, transformStyle(browser))}
+    return {
+        styles: Object.keys(sheet).reduce((prev, key) => ({
+            ...prev,
+            [key]: transformValue(sheet[key]),
+        }), {}),
+    }
 }
 
 // the default options

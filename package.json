@@ -24,7 +24,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash.mapvalues": "^4.6.0",
     "mediaquery": "0.0.3"
   },
   "devDependencies": {
