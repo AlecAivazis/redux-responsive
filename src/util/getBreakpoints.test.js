@@ -1,5 +1,4 @@
 // third party imports
-import isFunction from 'lodash/isFunction'
 import {createStore, combineReducers} from 'redux'
 import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports

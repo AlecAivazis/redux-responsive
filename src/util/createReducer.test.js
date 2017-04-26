@@ -1,5 +1,4 @@
 // third party imports
-import isFunction from 'lodash/isFunction'
 import { createStore } from 'redux'
 import { combineReducers as immutableCombine } from 'redux-immutablejs'
 // local imports
@@ -34,7 +33,7 @@ describe('createReducer', function () {
 
 
         it('returns a function', function () {
-            expect(isFunction(reducer)).toBe(true)
+            expect(typeof reducer).toBe('function')
         })
     })
 
@@ -72,7 +71,7 @@ describe('createReducer', function () {
 
 
             it('is a function', function () {
-                expect(isFunction(reducer)).toBe(true)
+                expect(typeof reducer).toBe('function')
             })
 
 

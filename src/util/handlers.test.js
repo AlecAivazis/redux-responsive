@@ -10,7 +10,7 @@ const Reducer = createReducer()
 
 
 describe('PerformanceMode handlers', function () {
-    it('calcuates the initial state by default', function() {
+    it('calculates the initial state by default', function() {
         // create a store with the default behavior
         const reducer = combineReducers({
             browser: Reducer,
@@ -19,11 +19,11 @@ describe('PerformanceMode handlers', function () {
         // add a matchMedia mock for this test
         window.matchMedia = matchMediaMock.create()
         window.matchMedia.setConfig({type: "screen", width: 500})
-
         // create an enhancer with the current value of the window
         const enhancer = createEnhancer()
         // create the enhanced store
         const store = createStore(reducer, enhancer)
+
         // get the current state of the browser
         const {browser} = store.getState()
 

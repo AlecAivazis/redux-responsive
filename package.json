@@ -3,6 +3,7 @@
   "version": "4.3.0",
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
+  "module": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aaivazis/redux-responsive.git"
@@ -12,9 +13,10 @@
     "build": "webpack --config config/webpack.js",
     "build:prod": "NODE_ENV=production npm run build",
     "build:lib": "babel src --out-dir lib",
+    "build:all": "npm run build && npm run build:prod && npm run build:lib",
     "clean": "rm -rf react.* index.* lib/",
     "dev": "NODE_ENV=dev webpack-dev-server --inline --hot --config  example/webpack.js",
-    "prepublish": "npm run build && npm run build:prod && npm run build:lib",
+    "prepublish": "npm run build:all",
     "test": "NODE_ENV=test jest",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
@@ -22,7 +24,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.2.1",
     "mediaquery": "0.0.3"
   },
   "devDependencies": {

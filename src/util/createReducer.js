@@ -1,7 +1,5 @@
 // third party imports
 import MediaQuery from 'mediaquery'
-import transform from 'lodash/transform'
-import reduce from 'lodash/reduce'
 // local imports
 import CALCULATE_RESPONSIVE_STATE from '../actions/types/CALCULATE_RESPONSIVE_STATE'
 
@@ -17,6 +15,16 @@ export const defaultBreakpoints = {
 const defaultMediaType = 'infinity'
 // orientation to default to when no `window` present
 const defaultOrientation = null
+
+// a lightweight version of lodash.transform
+const transform = (obj, f) => {
+    // a place to mutate
+    const internal = {}
+    // basically we have to reduce the keys down to an object and pass the k/v pairs to each f
+    Object.keys(obj).forEach(key => f(internal, obj[key], key))
+    // return the object we've been building up
+    return internal
+}
 
 
 /**
@@ -48,6 +56,7 @@ export function getOrderMap(bps) {
     return transform(bps, (result, breakpoint, mediaType) => {
         // figure out the index of the mediatype
         const index = keys.indexOf(mediaType)
+
         // if there is an entry in the sort for this
         if (index !== -1) {
             // to its index in the sorted list
@@ -143,9 +152,9 @@ function getMediaType(matchMedia, mediaQueries, infinityMediaType) {
     }
 
     // there is a window, so compute the true media type
-    return reduce(mediaQueries, (result, query, type) => {
+    return Object.keys(mediaQueries).reduce((result, query) => {
         // return the new type if the query matches otherwise the previous one
-        return matchMedia(query).matches ? type : result
+        return matchMedia(mediaQueries[query]).matches ? query : result
     // use the infinity media type
     }, infinityMediaType)
 }
@@ -170,9 +179,9 @@ function getOrientation(matchMedia) {
     }
 
     // there is a window, so compute the true orientation
-    return reduce(mediaQueries, (result, query, type) => {
+    return Object.keys(mediaQueries).reduce((result, query) => {
         // return the new type if the query matches otherwise the previous one
-        return matchMedia(query).matches ? type : result
+        return matchMedia(mediaQueries[query]).matches ? mediaQueries[query] : result
     // use the default orientation
     }, defaultOrientation)
 }

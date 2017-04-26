@@ -7,6 +7,7 @@ import {
     browserMatches,
     sortKeys,
     transformStyle,
+    mapStateToPropsFactory,
 } from './stylesheet'
 
 describe('ReactStyleSheet', function () {
@@ -66,6 +67,48 @@ describe('ReactStyleSheet', function () {
             '_greaterThan_large',
             '_equal_medium',
         ])
+    })
+
+    test('can transform an entire stylesheet', function() {
+        // the mocked browser state
+        const browser = {
+            greaterThan: {
+                medium: true,
+                large: false,
+            },
+            lessThan: {
+                medium: false,
+                large: true,
+            },
+            mediaType: 'large',
+            breakpoints: ['medium', 'large']
+        }
+        // the stylesheet
+        const baseValue = 'black'
+        const greaterThanValue = 'blue'
+        const lessThanValue = 'green'
+
+        const style = {
+            'border': baseValue,
+            '_greaterThan_medium': {
+                'border': greaterThanValue,
+            },
+            '_lessThan_large': {
+                'border': lessThanValue,
+            }
+        }
+        const sheet = {
+            style1: style,
+            style2: style,
+        }
+
+        const { styles } = mapStateToPropsFactory(sheet)({browser})
+
+        // sanity check
+        expect(styles.style1).toBeDefined()
+        // make sure the stylesheet is what we expect
+        expect(styles.style1.border).toBe(lessThanValue)
+        expect(styles.style2.border).toBe(lessThanValue)
     })
 
 

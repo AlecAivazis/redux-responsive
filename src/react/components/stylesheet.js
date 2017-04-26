@@ -1,7 +1,4 @@
 // external imports
-// import {connect} from 'react-redux'
-import mapValues from 'lodash/mapValues'
-import sortBy from 'lodash/sortBy'
 
 /*
  styles are passed as objects with the following form:
@@ -47,13 +44,13 @@ export const browserMatches = (browser, pattern) => {
 // this function sorts the style keys so they are applied in the correct order
 // for less than criteria, the styles are sorted highest to lowest
 // for greater than criteria, the styles are storted lowest to highest
-export const sortKeys = (keys, breakpoints) => (
+export const sortKeys = (keys, breakpoints) => {
     // sort the keys
-    sortBy(keys, (key) => {
+    const mapped = keys.map(key => {
         // if the key is a custom style
         if (key[0] !== '_') {
             // deal with it first
-            return 0
+            return {key, sort: 0}
         }
         // otherwise the key is a responsive style
 
@@ -77,9 +74,11 @@ export const sortKeys = (keys, breakpoints) => (
         }
 
         // return the sort index
-        return sortValue
+        return {key, sort: sortValue}
     })
-)
+
+    return mapped.sort(({sort: sortA}, {sort: sortB}) => sortA - sortB).map(({key}) => key)
+}
 
 // this function takes the current state of the browser and
 // returns a function that creates a stylesheet to match
@@ -120,8 +119,16 @@ export const mapStateToPropsFactory = (stylesheet, {reducerName} = defaultOption
     // if we are passed a functional stylesheet, hand it the component props, otherwise just use the object
     const sheet = typeof stylesheet === 'function' ? stylesheet(browser, props) : stylesheet
 
+    // the function to mutate values
+    const transformValue = transformStyle(browser)
+
     // the stylesheet only differs by values of
-    return {styles: mapValues(sheet, transformStyle(browser))}
+    return {
+        styles: Object.keys(sheet).reduce((prev, key) => ({
+            ...prev,
+            [key]: transformValue(sheet[key]),
+        }), {}),
+    }
 }
 
 // the default options
