@@ -154,7 +154,7 @@ function getMediaType(matchMedia, mediaQueries, infinityMediaType) {
     // there is a window, so compute the true media type
     return Object.keys(mediaQueries).reduce((result, query) => {
         // return the new type if the query matches otherwise the previous one
-        return matchMedia(mediaQueries[query]).matches ? mediaQueries[query] : result
+        return matchMedia(mediaQueries[query]).matches ? query : result
     // use the infinity media type
     }, infinityMediaType)
 }
