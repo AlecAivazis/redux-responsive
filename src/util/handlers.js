@@ -10,9 +10,7 @@ import getBreakpoints from './getBreakpoints'
 // when the responsive state changes
 export default ({store, window, calculateInitialState}) => {
     // the function to call when calculating the new responsive state
-    function refreshResponsiveState() {
-        store.dispatch(calculateResponsiveState(window))
-    }
+    const refreshResponsiveState = () => store.dispatch(calculateResponsiveState(window))
 
     // get the object of media queries corresponding to the breakpoints in the store
     const mediaQueries = MediaQuery.asObject(getBreakpoints(store))
@@ -34,6 +32,9 @@ export default ({store, window, calculateInitialState}) => {
         })
 
     })
+
+    // make sure we update the responsive state when the browser changes orientation
+    window.addEventListener('orientationchange', refreshResponsiveState)
 
     // if we are supposed to calculate the initial state
     if (calculateInitialState) {
