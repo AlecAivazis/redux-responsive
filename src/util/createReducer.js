@@ -181,7 +181,7 @@ function getOrientation(matchMedia) {
     // there is a window, so compute the true orientation
     return Object.keys(mediaQueries).reduce((result, query) => {
         // return the new type if the query matches otherwise the previous one
-        return matchMedia(mediaQueries[query]).matches ? mediaQueries[query] : result
+        return matchMedia(mediaQueries[query]).matches ? query : result
     // use the default orientation
     }, defaultOrientation)
 }
