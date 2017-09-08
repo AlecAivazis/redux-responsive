@@ -1,6 +1,6 @@
 // third party imports
 import { createStore } from 'redux'
-import { combineReducers as immutableCombine } from 'redux-immutablejs'
+import { combineReducers as immutableCombine } from 'redux-immutable'
 // local imports
 import createReducer, {
     computeOrder,
