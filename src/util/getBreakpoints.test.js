@@ -1,6 +1,6 @@
 // third party imports
 import {createStore, combineReducers} from 'redux'
-import { combineReducers as immutableCombine } from 'redux-immutablejs'
+import { combineReducers as immutableCombine } from 'redux-immutable'
 // local imports
 import getBreakpoints from './getBreakpoints'
 import createReducer, {defaultBreakpoints} from './createReducer'
