@@ -10,7 +10,15 @@ function getBreakpoints(store) {
     let responsiveStateKey
     // if the redux state root is an Immutable.js Iterable
     if (storeState['@@__IMMUTABLE_ITERABLE__@@'] === true) {
-        responsiveStateKey = storeState.findKey(stateBranch => stateBranch._responsiveState)
+        responsiveStateKey = storeState.findKey(stateBranch => {
+            //  handle responsive state as Immutable Map
+            if (stateBranch['@@__IMMUTABLE_MAP__@@']) {
+                return stateBranch.get('_responsiveState')
+            }
+
+            //  fallback to assuming responsive state as Immutable Record
+            return stateBranch._responsiveState
+        })
     } else {
         // go through every reducer at the root of the project
         responsiveStateKey = Object.keys(storeState).reduce((prev, current) => (
@@ -30,9 +38,19 @@ function getBreakpoints(store) {
     }
 
     // return the breakpoints in the redux store
-    return storeState['@@__IMMUTABLE_ITERABLE__@@']
-            ? storeState.get(responsiveStateKey).breakpoints
-            : storeState[responsiveStateKey].breakpoints
+
+    //	first check/handle if Immutable is being used
+    if (storeState['@@__IMMUTABLE_ITERABLE__@@']) {
+        const responsiveState = storeState.get(responsiveStateKey)
+        // check if Immtable Map is being used, requiring .get()
+        if (responsiveState['@@__IMMUTABLE_MAP__@@']) {
+            return responsiveState.get('breakpoints')
+        }
+        // fallback on assuming Immutable Record is used
+        return responsiveState.breakpoints
+    }
+
+    return storeState[responsiveStateKey].breakpoints
 }
 
 export default getBreakpoints
