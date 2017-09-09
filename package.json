@@ -4,6 +4,7 @@
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
   "module": "lib/index.js",
+  "typings": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/aaivazis/redux-responsive.git"
