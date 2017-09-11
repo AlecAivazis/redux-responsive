@@ -1,21 +1,23 @@
+import {Store, StoreCreator} from 'redux';
+
 declare module 'redux-responsive' {
 
     export interface IBreakPoints {
         extraSmall: number
-        small: number,
-        medium: number,
-        large: number,
-        extraLarge: number,
-        infinity: number,
+        small: number
+        medium: number
+        large: number
+        extraLarge: number
+        infinity: number
     }
 
     export interface IBreakPointResults {
         extraSmall: boolean
-        small: boolean,
-        medium: boolean,
-        large: boolean,
-        extraLarge: boolean,
-        infinity: boolean,
+        small: boolean
+        medium: boolean
+        large: boolean
+        extraLarge: boolean
+        infinity: boolean
     }
 
 
@@ -27,7 +29,6 @@ declare module 'redux-responsive' {
         greaterThan: IBreakPointResults
         is: IBreakPointResults
         breakpoints: IBreakPoints
-
     }
 
     export interface IState {
@@ -40,11 +41,19 @@ declare module 'redux-responsive' {
         extraFields: (breakPoints?: IBreakPoints) => any
     }
 
-    export function createResponsiveStateReducer(breakpoints?: IBreakPoints, options?: IResponsiveReducerOptions)
+    interface IResponsiveStateReducer {
+        (state?: IState, action?: any): IBrowser
+    }
 
-    export function createResponsiveStoreEnhancer(options?: any): any
+    interface IResponsiveStoreEnhancer {
+        (createStore: StoreCreator): Store<any>
+    }
 
-    export function responsiveStateReducer(state?: IState, action?: any): any
+    export function createResponsiveStateReducer(breakpoints?: IBreakPoints, options?: IResponsiveReducerOptions): IResponsiveStateReducer
 
-    export function responsiveStoreEnhancer(): any
+    export function createResponsiveStoreEnhancer(options?: any): IResponsiveStoreEnhancer
+
+    export function responsiveStateReducer(state?: IState, action?: any): IBrowser
+
+    export function responsiveStoreEnhancer(createStore: StoreCreator): Store<any>
 }
