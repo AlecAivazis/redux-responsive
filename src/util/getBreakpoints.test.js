@@ -20,7 +20,7 @@ describe('Breakpoint discovery', function () {
     })
 
 
-    it('Can responsive state in find Immutable.js Map root state', function() {
+    it('Can find responsive state in Immutable.js Map root state', function() {
         // create a redux store with the reducer at the root
         const store = createStore(immutableCombine({
             browser: reducer
@@ -31,7 +31,7 @@ describe('Breakpoint discovery', function () {
     })
 
 
-    it('Can responsive state in find Immutable.js Record root state', function() {
+    it('Can find responsive state in Immutable.js Record root state', function() {
         const StateRecord = Record({
           browser: undefined
         })
