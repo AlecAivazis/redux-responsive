@@ -2,6 +2,8 @@ import {Store, StoreCreator} from 'redux';
 
 declare module 'redux-responsive' {
 
+    import {Action} from 'redux';
+
     export interface IBreakPoints {
         extraSmall: number
         small: number
@@ -41,6 +43,17 @@ declare module 'redux-responsive' {
         extraFields: (breakPoints?: IBreakPoints) => any
     }
 
+    export interface IResponsiveEnhancerOptions {
+        calculateInitialState: boolean
+    }
+
+
+    export interface IResponsiveAction extends Action {
+        innerWidth: number
+        innerHeight: number
+        matchMedia(mediaQuery: string): MediaQueryList;
+    }
+
     interface IResponsiveStateReducer {
         (state?: IState, action?: any): IBrowser
     }
@@ -51,9 +64,9 @@ declare module 'redux-responsive' {
 
     export function createResponsiveStateReducer(breakpoints?: IBreakPoints, options?: IResponsiveReducerOptions): IResponsiveStateReducer
 
-    export function createResponsiveStoreEnhancer(options?: any): IResponsiveStoreEnhancer
+    export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptions): IResponsiveStoreEnhancer
 
-    export function responsiveStateReducer(state?: IState, action?: any): IBrowser
+    export function responsiveStateReducer(state: IState, action: IResponsiveAction): IBrowser
 
     export function responsiveStoreEnhancer(createStore: StoreCreator): Store<any>
 }
