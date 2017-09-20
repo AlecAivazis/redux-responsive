@@ -371,6 +371,11 @@ const component = StyleSheet(stylesheet)(({styles}) => (
 ```
 
 
+## redux-immutable
+This library supports using [redux-immutable](https://www.npmjs.com/package/redux-immutable) to make the **root** of your state an Immutable.js Map or Record.
+
+However, transforming the branch of state managed by `redux-responsive` into Immutable data is not supported, because the `redux-responsive` reducer expects vanilla JS. Please keep this in mind if you're using SSR and transforming your state before hydrating.
+
 ## Versioning
 
 [Semver](http://semver.org/) is followed as closely as possible. For updates and migration instructions, see the [changelog](https://github.com/AlecAivazis/redux-responsive/wiki/Changelog).

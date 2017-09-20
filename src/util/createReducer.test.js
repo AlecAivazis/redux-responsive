@@ -1,6 +1,7 @@
 // third party imports
 import { createStore } from 'redux'
-import { combineReducers as immutableCombine } from 'redux-immutablejs'
+import { combineReducers as immutableCombine } from 'redux-immutable'
+import { Record } from 'immutable'
 // local imports
 import createReducer, {
     computeOrder,
@@ -140,7 +141,7 @@ describe('createReducer', function () {
             expect(store.getState().lessThan).toEqual(expectedLessThan)
         })
 
-        it('correctly injects initialMediaType into immutable reducer', function() {
+        it('correctly injects initialMediaType into immutable (Map) root state', function() {
             // create a reducer with the initial state
             const reducer = createReducer(breakpoints, {
                 initialMediaType: 'small',
@@ -150,6 +151,33 @@ describe('createReducer', function () {
             const store = createStore(immutableCombine({
                 browser: reducer
             }))
+
+            // the expected value for the lessThan object
+            const expectedLessThan = {
+                small: false,
+                medium: true,
+                large: true,
+                infinity: true,
+            }
+
+            // make sure we were able to correctly inject the initial state
+            expect(store.getState().get('browser').lessThan).toEqual(expectedLessThan)
+        })
+
+        it('correctly injects initialMediaType into immutable (Record) root state', function() {
+            // create a reducer with the initial state
+            const reducer = createReducer(breakpoints, {
+                initialMediaType: 'small',
+            })
+
+            const StateRecord = Record({
+              browser: undefined
+            })
+
+            // create a redux store with the reducer
+            const store = createStore(immutableCombine({
+                browser: reducer
+            }, StateRecord))
 
             // the expected value for the lessThan object
             const expectedLessThan = {
