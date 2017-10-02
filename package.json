@@ -4,6 +4,7 @@
   "description": "Utilities for easily creating responsive designs in a redux architecture.",
   "main": "index.js",
   "module": "lib/index.js",
+  "typings": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/aaivazis/redux-responsive.git"
@@ -55,7 +56,7 @@
     "react-hot-loader": "next",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
-    "redux-immutablejs": "^0.0.8",
+    "redux-immutable": "^4.0.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "vinyl-named": "^1.1.0",
