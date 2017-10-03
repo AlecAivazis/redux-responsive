@@ -41,6 +41,7 @@
     "chai": "^3.3.0",
     "coveralls": "^2.11.15",
     "del": "^2.0.2",
+    "dtslint": "^0.1.2",
     "eslint": "^1.6.0",
     "eslint-loader": "^1.1.0",
     "eslint-plugin-react": "^3.5.1",
