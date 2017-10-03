@@ -1,6 +1,10 @@
 // TypeScript Version: 2.1
 
-import { Store, StoreCreator, AnyAction } from 'redux';
+import {
+    AnyAction,
+    Reducer,
+    GenericStoreEnhancer
+} from 'redux';
 
 export interface IBreakPoints {
     extraSmall: number;
@@ -40,18 +44,10 @@ export interface IResponsiveEnhancerOptions {
     calculateInitialState?: boolean;
 }
 
-export interface IResponsiveStateReducer {
-    (state: IBrowser | undefined, action: AnyAction): IBrowser;
-}
+export function createResponsiveStateReducer(breakpoints?: IBreakPoints, options?: IResponsiveReducerOptions): Reducer<IBrowser>;
 
-export interface IResponsiveStoreEnhancer {
-    (createStore: StoreCreator): Store<any>;
-}
+export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptions): GenericStoreEnhancer;
 
-export function createResponsiveStateReducer(breakpoints?: IBreakPoints, options?: IResponsiveReducerOptions): IResponsiveStateReducer;
+export const responsiveStateReducer: Reducer<IBrowser>;
 
-export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptions): IResponsiveStoreEnhancer;
-
-export const responsiveStateReducer: IResponsiveStateReducer;
-
-export const responsiveStoreEnhancer: IResponsiveStoreEnhancer;
+export const responsiveStoreEnhancer: GenericStoreEnhancer;

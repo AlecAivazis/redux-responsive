@@ -5,15 +5,15 @@ import {
     responsiveStoreEnhancer,
     IBrowser,
 } from "redux-responsive";
-import { AnyAction } from "redux";
+import { AnyAction, createStore } from "redux";
 
-// $ExpectType IResponsiveStoreEnhancer
+// $ExpectType GenericStoreEnhancer
 createResponsiveStoreEnhancer();
 
-// $ExpectType IResponsiveStoreEnhancer
+// $ExpectType GenericStoreEnhancer
 createResponsiveStoreEnhancer({});
 
-// $ExpectType IResponsiveStateReducer
+// $ExpectType Reducer<IBrowser>
 createResponsiveStateReducer();
 
 // $ExpectError
@@ -21,7 +21,5 @@ createResponsiveStateReducer({});
 
 declare const action: AnyAction;
 declare const state: IBrowser;
-// $ExpectType IBrowser
-responsiveStateReducer(void 0, action);
 // $ExpectType IBrowser
 responsiveStateReducer(state, action);
