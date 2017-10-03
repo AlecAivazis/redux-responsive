@@ -7,3 +7,5 @@ coverage/
 example/
 node_modules/
 yarn.lock
+types/*
+!types/index.d.ts

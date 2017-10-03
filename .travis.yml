@@ -5,7 +5,7 @@ dist: trusty
 # language setup
 language: node_js
 node_js:
-  - "5"
+  - "7"
 
 # setup yarn
 cache:
@@ -15,5 +15,5 @@ cache:
 
 # command to run tests
 script:
-  - npm run test:coverage:report
+  - npm run test:coverage:report:types
 
