@@ -40,10 +40,12 @@ function findMarker(tree, marker, maxDepth = 20) {
             continue
         }
         const currentObj = getIn(tree, currentPath)
-        if (currentObj[marker]) {
-            return currentPath
+        if (currentObj) {
+            if (currentObj[marker]) {
+                return currentPath
+            }
+            queue.push(...keys(currentObj).map(k => currentPath.concat(k)))
         }
-        queue.push(...keys(currentObj).map(k => currentPath.concat(k)))
     }
     return false
 }
