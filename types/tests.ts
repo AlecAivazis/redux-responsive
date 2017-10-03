@@ -5,7 +5,7 @@ import {
     responsiveStoreEnhancer,
     IBrowser,
 } from "redux-responsive";
-import { AnyAction, createStore } from "redux";
+import { Action, createStore } from "redux";
 
 // $ExpectType GenericStoreEnhancer
 createResponsiveStoreEnhancer();
@@ -19,7 +19,7 @@ createResponsiveStateReducer();
 // $ExpectError
 createResponsiveStateReducer({});
 
-declare const action: AnyAction;
+declare const action: Action;
 declare const state: IBrowser;
 // $ExpectType IBrowser
 responsiveStateReducer(state, action);

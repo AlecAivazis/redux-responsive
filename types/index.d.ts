@@ -1,7 +1,6 @@
 // TypeScript Version: 2.1
 
 import {
-    AnyAction,
     Reducer,
     GenericStoreEnhancer
 } from 'redux';
