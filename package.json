@@ -18,11 +18,12 @@
     "clean": "rm -rf react.* index.* lib/",
     "dev": "NODE_ENV=dev webpack-dev-server --inline --hot --config  example/webpack.js",
     "prepublish": "npm run build:all",
-    "dtslint": "dtslint types",
     "test": "NODE_ENV=test jest",
+    "test:types": "dtslint types",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
-    "test:coverage:report": "npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test:coverage:report": "npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test:coverage:report:types": "npm run test:coverage:report && npm run test:types"
   },
   "license": "MIT",
   "dependencies": {
