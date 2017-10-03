@@ -5,7 +5,7 @@ dist: trusty
 # language setup
 language: node_js
 node_js:
-  - "5"
+  - "7"
 
 # setup yarn
 cache:
