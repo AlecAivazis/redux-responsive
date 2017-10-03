@@ -6,9 +6,9 @@
  */
 function getIn(obj, path) {
     if (obj.getIn) {
-        return obj.getIn(path);
+        return obj.getIn(path)
     }
-    return path.reduce((accum, next) => accum[next], obj);
+    return path.reduce((accum, next) => accum[next], obj)
 }
 
 /**
@@ -19,9 +19,9 @@ function getIn(obj, path) {
 
 function keys(obj) {
     if (obj.keys) {
-        return Array.from(obj.keys());
+        return Array.from(obj.keys())
     }
-    return Object.keys(obj);
+    return Object.keys(obj)
 }
 
 /**
@@ -32,22 +32,20 @@ function keys(obj) {
  * @returns {*}
  */
 function findMarker(tree, marker, maxDepth = 20) {
-    const rootPath = [];
-    let queue = [rootPath];
+    const rootPath = []
+    const queue = [rootPath]
     while (queue.length > 0) {
-        let currentPath = queue.shift();
+        const currentPath = queue.shift()
         if (currentPath.length > maxDepth) {
-            continue;
+            continue
         }
-        let currentObj = getIn(tree, currentPath);
+        const currentObj = getIn(tree, currentPath)
         if (currentObj[marker]) {
-            return currentPath;
+            return currentPath
         }
-        keys(currentObj).forEach(k => {
-            queue.push(currentPath.concat(k));
-        });
+        queue.push(...keys(currentObj).map(k => currentPath.concat(k)))
     }
-    return false;
+    return false
 }
 
 /**
@@ -59,7 +57,7 @@ function getBreakpoints(store) {
     // grab the current state of the store
     const storeState = store.getState()
 
-    let responsiveStatePath = findMarker(storeState, '_responsiveState');
+    const responsiveStatePath = findMarker(storeState, '_responsiveState')
 
     // if we couldn't find a responsive reducer at the root of the project
     if (!responsiveStatePath) {
@@ -70,7 +68,7 @@ function getBreakpoints(store) {
     }
 
     // return the breakpoints in the redux store
-    return getIn(storeState, responsiveStatePath).breakpoints;
+    return getIn(storeState, responsiveStatePath).breakpoints
 }
 
 export default getBreakpoints
