@@ -1,6 +1,6 @@
 // TypeScript Version: 2.1
 
-import { Store, StoreCreator, Action, AnyAction } from 'redux';
+import { Store, StoreCreator, AnyAction } from 'redux';
 
 export interface IBreakPoints {
     extraSmall: number;
@@ -38,12 +38,6 @@ export interface IResponsiveReducerOptions {
 
 export interface IResponsiveEnhancerOptions {
     calculateInitialState?: boolean;
-}
-
-export interface IResponsiveAction extends Action {
-    innerWidth: number;
-    innerHeight: number;
-    matchMedia(mediaQuery: string): MediaQueryList;
 }
 
 export interface IResponsiveStateReducer {
