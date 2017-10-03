@@ -44,6 +44,50 @@ describe('Breakpoint discovery', function () {
         expect(getBreakpoints(store)).toBe(defaultBreakpoints)
     })
 
+    it('Can find responsive state anywhere in the state', function() {
+        const store = createStore(combineReducers({
+            foo: combineReducers({
+                bar: combineReducers({
+                    baz: reducer
+                }),
+                quux: () => true,
+            })
+        }));
+        expect(getBreakpoints(store)).toBe(defaultBreakpoints);
+    })
+
+    it('Can find responsive state anywhere in the ImmutableJS Map', function() {
+        const store = createStore(immutableCombine({
+            foo: immutableCombine({
+                bar: immutableCombine({
+                    baz: reducer
+                }),
+                quux: () => true,
+            })
+        }));
+        expect(getBreakpoints(store)).toBe(defaultBreakpoints);
+    })
+
+
+    it('Can find responsive state anywhere in the ImmutableJS Record', function() {
+        const StateRecord = Record({
+            foo: Record({
+                bar: Record({
+                    baz: undefined,
+                })(),
+                quux: true,
+            })()
+        });
+        const store = createStore(immutableCombine({
+            foo: immutableCombine({
+                bar: immutableCombine({
+                    baz: reducer
+                }),
+                quux: () => true,
+            })
+        }, StateRecord));
+        expect(getBreakpoints(store)).toBe(defaultBreakpoints);
+    })
 
     it('Complains if it cannot find a reducer at root', function() {
         // create a store without the reducer at reducer
