@@ -43,7 +43,7 @@
     "chai": "^3.3.0",
     "coveralls": "^2.11.15",
     "del": "^2.0.2",
-    "dtslint": "^0.1.2",
+    "dtslint": "Microsoft/dtslint#production",
     "eslint": "^1.6.0",
     "eslint-loader": "^1.1.0",
     "eslint-plugin-react": "^3.5.1",
@@ -66,6 +66,9 @@
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.3",
     "webpack-stream": "^2.1.1"
+  },
+  "peerDependencies": {
+    "redux": "^3.6.0"
   },
   "jest": {
     "modulePaths": [
