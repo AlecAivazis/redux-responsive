@@ -50,3 +50,9 @@ export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptio
 export const responsiveStateReducer: Reducer<IBrowser>;
 
 export const responsiveStoreEnhancer: GenericStoreEnhancer;
+
+export interface ICalculateResponsiveStateAction {
+    type: "redux-responsive/CALCULATE_RESPONSIVE_STATE";
+}
+
+export function calculateResponsiveState(window: Window): ICalculateResponsiveStateAction;

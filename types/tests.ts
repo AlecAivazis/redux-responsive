@@ -3,7 +3,7 @@ import {
     createResponsiveStoreEnhancer,
     responsiveStateReducer,
     responsiveStoreEnhancer,
-    IBrowser,
+    IBrowser, calculateResponsiveState,
 } from "redux-responsive";
 import { Action, createStore } from "redux";
 
@@ -23,3 +23,6 @@ declare const action: Action;
 declare const state: IBrowser;
 // $ExpectType IBrowser
 responsiveStateReducer(state, action);
+
+// $ExpectType "redux-responsive/CALCULATE_RESPONSIVE_STATE"
+calculateResponsiveState(window).type;
