@@ -5,7 +5,7 @@
  * @returns {*}
  */
 function getIn(obj, path) {
-    if (obj.getIn) {
+    if (typeof obj.getIn === 'function') {
         return obj.getIn(path)
     }
     return path.reduce((accum, next) => accum[next], obj)
@@ -18,7 +18,7 @@ function getIn(obj, path) {
  */
 
 function keys(obj) {
-    if (obj.keys) {
+    if (typeof obj.keys === 'function') {
         return Array.from(obj.keys())
     }
     return Object.keys(obj)
