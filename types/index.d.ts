@@ -1,52 +1,52 @@
-// TypeScript Version: 2.1
+// TypeScript Version: 2.3
 
 import {
     Reducer,
     GenericStoreEnhancer
 } from 'redux';
 
-export interface IBreakPoints {
-    extraSmall: number;
-    small: number;
-    medium: number;
-    large: number;
-    extraLarge: number;
-    infinity: number;
-}
+export type BreakPointsDefaultNames = "extraSmall" | "small" | "medium" | "large" | "extraLarge" | "infinity";
 
-export interface IBreakPointResults {
-    extraSmall: boolean;
-    small: boolean;
-    medium: boolean;
-    large: boolean;
-    extraLarge: boolean;
-    infinity: boolean;
-}
+export type IBreakPoints<BPNames extends string = BreakPointsDefaultNames> = {
+    [k in BPNames]: number;
+};
 
-export interface IBrowser {
+export type IBreakPointResults<BP = IBreakPoints> = {
+    [k in keyof BP]: boolean;
+};
+
+export interface IBrowser<BP = IBreakPoints> {
     _responsiveState: boolean;
     mediaType: string;
     orientation: string;
-    lessThan: IBreakPointResults;
-    greaterThan: IBreakPointResults;
-    is: IBreakPointResults;
-    breakpoints: IBreakPoints;
+    lessThan: IBreakPointResults<BP>;
+    greaterThan: IBreakPointResults<BP>;
+    is: IBreakPointResults<BP>;
+    breakpoints: BP;
 }
 
-export interface IResponsiveReducerOptions {
+export interface IResponsiveReducerOptions<BP = IBreakPoints> {
     initialMediaType?: string;
     infinity?: string;
-    extraFields?(breakPoints?: IBreakPoints): any;
+    extraFields?(breakPoints?: BP): any;
 }
 
 export interface IResponsiveEnhancerOptions {
     calculateInitialState?: boolean;
 }
 
-export function createResponsiveStateReducer(breakpoints?: IBreakPoints, options?: IResponsiveReducerOptions): Reducer<IBrowser>;
+export function createResponsiveStateReducer<
+    BP extends IBreakPoints<string> = IBreakPoints
+>(breakpoints?: BP, options?: IResponsiveReducerOptions<BP>): Reducer<IBrowser<BP>>;
 
 export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptions): GenericStoreEnhancer;
 
 export const responsiveStateReducer: Reducer<IBrowser>;
 
 export const responsiveStoreEnhancer: GenericStoreEnhancer;
+
+export interface ICalculateResponsiveStateAction {
+    type: "redux-responsive/CALCULATE_RESPONSIVE_STATE";
+}
+
+export function calculateResponsiveState(window: Window): ICalculateResponsiveStateAction;

@@ -3,7 +3,7 @@ import {
     createResponsiveStoreEnhancer,
     responsiveStateReducer,
     responsiveStoreEnhancer,
-    IBrowser,
+    IBrowser, calculateResponsiveState,
 } from "redux-responsive";
 import { Action, createStore } from "redux";
 
@@ -13,13 +13,25 @@ createResponsiveStoreEnhancer();
 // $ExpectType GenericStoreEnhancer
 createResponsiveStoreEnhancer({});
 
-// $ExpectType Reducer<IBrowser>
+// $ExpectType Reducer<IBrowser<IBreakPoints<BreakPointsDefaultNames>>>
 createResponsiveStateReducer();
-
-// $ExpectError
-createResponsiveStateReducer({});
 
 declare const action: Action;
 declare const state: IBrowser;
-// $ExpectType IBrowser
-responsiveStateReducer(state, action);
+// $ExpectType boolean
+responsiveStateReducer(state, action).greaterThan.small;
+
+// $ExpectType "redux-responsive/CALCULATE_RESPONSIVE_STATE"
+calculateResponsiveState(window).type;
+
+const customBreaks = {
+    big: 500,
+    veryBig: 5000,
+    superBig: 50000
+};
+const reducer = createResponsiveStateReducer(customBreaks);
+const store = createStore(reducer);
+// $ExpectType boolean
+store.getState().greaterThan.superBig;
+// $ExpectError
+store.getState().greaterThan.small;
