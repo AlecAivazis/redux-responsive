@@ -98,4 +98,13 @@ describe('Breakpoint discovery', function () {
         // make sure this throws an error
         expect(() => getBreakpoints(store)).toThrowError(Error)
     })
+
+    it('Does not break if state contains \'keys\' or \'getIn\' key somewhere', function() {
+        const store = createStore(combineReducers({
+            keys: () => true,
+            getIn: () => true,
+            browser: reducer,
+        }));
+        expect(() => getBreakpoints(store)).not.toThrowError();
+    })
 })
