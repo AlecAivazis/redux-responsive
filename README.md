@@ -46,7 +46,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-## Why Use a Flux Store for Responsive Behavior?
+## Why Store Responsive State in Redux?
 
 redux-responsive **does not require that you use React as your view library**.  However, since that is what is commonly used alongside redux, this documentation employs common React patterns.
 
