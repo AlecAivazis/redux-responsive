@@ -8,7 +8,7 @@ import {
 export type BreakPointsDefaultNames = "extraSmall" | "small" | "medium" | "large" | "extraLarge" | "infinity";
 
 export type IBreakPoints<BPNames extends string = BreakPointsDefaultNames> = {
-    [k in BPNames]: number;
+    [k in BPNames]: number | string;
 };
 
 export type IBreakPointResults<BP = IBreakPoints> = {
