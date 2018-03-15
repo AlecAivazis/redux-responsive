@@ -3,7 +3,7 @@ import {
     createResponsiveStoreEnhancer,
     responsiveStateReducer,
     responsiveStoreEnhancer,
-    IBrowser, calculateResponsiveState,
+    IBrowser, calculateResponsiveState, IBreakPoints,
 } from "redux-responsive";
 import { Action, createStore } from "redux";
 
@@ -16,15 +16,16 @@ createResponsiveStoreEnhancer({});
 // $ExpectType Reducer<IBrowser<IBreakPoints<BreakPointsDefaultNames>>>
 createResponsiveStateReducer();
 
-declare const action: Action;
-declare const state: IBrowser;
+// $ExpectType Reducer<IBrowser<IBreakPoints<BreakPointsDefaultNames>>>
+createResponsiveStateReducer(void 0, {});
+
 // $ExpectType boolean
-responsiveStateReducer(state, action).greaterThan.small;
+createStore(responsiveStateReducer).getState().greaterThan.small;
 
 // $ExpectType "redux-responsive/CALCULATE_RESPONSIVE_STATE"
 calculateResponsiveState(window).type;
 
-const customBreaks = {
+const customBreaks: IBreakPoints<"big" | "veryBig" | "superBig" | "print"> = {
     big: 500,
     veryBig: 5000,
     superBig: 50000,
@@ -38,3 +39,31 @@ store.getState().greaterThan.superBig;
 store.getState().greaterThan.print;
 // $ExpectError
 store.getState().greaterThan.small;
+
+const reducer2 = createResponsiveStateReducer(void 0, {
+    extraFields(s) {
+        // $ExpectType IBrowser<IBreakPoints<BreakPointsDefaultNames>>
+        s;
+        return { foo: 1 };
+    }
+});
+const store2 = createStore(reducer2);
+// $ExpectType number
+store2.getState().foo;
+// $ExpectError
+store2.getState().bar;
+
+const reducer3 = createResponsiveStateReducer(customBreaks, {
+    extraFields(s) {
+        // $ExpectType IBrowser<IBreakPoints<"big" | "veryBig" | "superBig" | "print">>
+        s;
+        return { foo: 1 };
+    }
+});
+const store3 = createStore(reducer3);
+// $ExpectType number
+store3.getState().foo;
+// $ExpectError
+store3.getState().bar;
+// $ExpectType boolean
+store3.getState().greaterThan.print;
