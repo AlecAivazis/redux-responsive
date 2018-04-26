@@ -58,7 +58,7 @@
     "react-dom": "^15.5.4",
     "react-hot-loader": "next",
     "react-redux": "^5.0.4",
-    "redux": "^3.6.0",
+    "redux": "^4.0.0",
     "redux-immutable": "^4.0.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
@@ -68,7 +68,7 @@
     "webpack-stream": "^2.1.1"
   },
   "peerDependencies": {
-    "redux": "^3.6.0"
+    "redux": "^4.0.0"
   },
   "jest": {
     "modulePaths": [

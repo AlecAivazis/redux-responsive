@@ -1,9 +1,6 @@
 // TypeScript Version: 2.3
 
-import {
-    Reducer,
-    GenericStoreEnhancer
-} from 'redux';
+import { Reducer, StoreEnhancer } from 'redux';
 
 export type BreakPointsDefaultNames = "extraSmall" | "small" | "medium" | "large" | "extraLarge" | "infinity";
 
@@ -51,11 +48,11 @@ export function createResponsiveStateReducer<
     EF = {}
 >(breakpoints: undefined | null, options?: IResponsiveReducerOptions<IBreakPoints, EF>): Reducer<IBrowser & EF>;
 
-export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptions): GenericStoreEnhancer;
+export function createResponsiveStoreEnhancer(options?: IResponsiveEnhancerOptions): StoreEnhancer;
 
 export const responsiveStateReducer: Reducer<IBrowser>;
 
-export const responsiveStoreEnhancer: GenericStoreEnhancer;
+export const responsiveStoreEnhancer: StoreEnhancer;
 
 export interface ICalculateResponsiveStateAction {
     type: "redux-responsive/CALCULATE_RESPONSIVE_STATE";
