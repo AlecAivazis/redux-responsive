@@ -127,6 +127,8 @@ const defaultBreakpoints = {
 }
 ```
 
+###
+
 # The Responsive State
 
 The `responsiveStateReducer` (and the reducer returned by `createResponsiveStateReducer`) adds an object with the following keys to the store:
@@ -375,6 +377,11 @@ const component = StyleSheet(stylesheet)(({styles}) => (
 This library supports using [redux-immutable](https://www.npmjs.com/package/redux-immutable) to make the **root** of your state an Immutable.js Map or Record.
 
 However, transforming the branch of state managed by `redux-responsive` into Immutable data is not supported, because the `redux-responsive` reducer expects vanilla JS. Please keep this in mind if you're using SSR and transforming your state before hydrating.
+
+## FAQ
+
+redux-responsive is returning the wrong breakpoint on mobile devices, what may be causing this?
+> This may be caused by not having the `<meta name="viewport">` tag in the head of your HTML. Adding this code may resolve your issue: `<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">`. Read more [here](https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag) on how it works.
 
 ## Versioning
 
