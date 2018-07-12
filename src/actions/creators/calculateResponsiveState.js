@@ -1,6 +1,5 @@
 // action type
-import {CALCULATE_RESPONSIVE_STATE} from '../types'
-
+import { CALCULATE_RESPONSIVE_STATE } from '../types'
 
 /**
  * Action creator taking window-like object and returning action to calculate
@@ -16,9 +15,9 @@ import {CALCULATE_RESPONSIVE_STATE} from '../types'
  * `CALCULATE_RESPONSIVE_STATE`, and will be directly given the two keys taken
  * from the `window` argument.
  */
-export default ({innerWidth, innerHeight, matchMedia} = {}) => ({
+export default ({ innerWidth, innerHeight, matchMedia } = {}) => ({
     type: CALCULATE_RESPONSIVE_STATE,
     innerWidth,
     innerHeight,
-    matchMedia,
+    matchMedia
 })

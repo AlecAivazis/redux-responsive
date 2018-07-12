@@ -3,13 +3,12 @@ import MediaQuery from 'mediaquery'
 // local imports
 import CALCULATE_RESPONSIVE_STATE from '../actions/types/CALCULATE_RESPONSIVE_STATE'
 
-
 // default breakpoints
 export const defaultBreakpoints = {
     extraSmall: 480,
     small: 768,
     medium: 992,
-    large: 1200,
+    large: 1200
 }
 // media type to default to when no `window` present
 const defaultMediaType = 'infinity'
@@ -25,7 +24,6 @@ const transform = (obj, f) => {
     // return the object we've been building up
     return internal
 }
-
 
 /**
  * Compute a mapping of media type to its ordering where ordering is defined
@@ -83,7 +81,7 @@ export function getLessThan(currentMediaType, breakpointOrder) {
         if (typeof breakpoint === 'number' && breakpointOrder[mediaType]) {
             // store wether or not it is less than the breakpoint
             result[mediaType] = currentOrder < breakpointOrder[mediaType]
-        // handle non numerical breakpoints specially
+            // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
         }
@@ -104,13 +102,12 @@ export function getIs(currentMediaType, breakpoints) {
         if (typeof breakpoint === 'number' && breakpoints[mediaType]) {
             // store wether or not it is less than the breakpoint
             result[mediaType] = mediaType === currentMediaType
-        // handle non numerical breakpoints specially
+            // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
         }
     })
 }
-
 
 /**
  * Compute the `greaterThan` object based on the browser width.
@@ -129,13 +126,12 @@ export function getGreaterThan(currentMediaType, breakpointOrder) {
         if (typeof breakpoint === 'number') {
             // store wether or not it is less than the breakpoint
             result[mediaType] = currentOrder > breakpointOrder[mediaType]
-        // handle non numerical breakpoints specially
+            // handle non numerical breakpoints specially
         } else {
             result[mediaType] = false
         }
     })
 }
-
 
 /**
  * Gets the current media type from the global `window`.
@@ -155,10 +151,9 @@ function getMediaType(matchMedia, mediaQueries, infinityMediaType) {
     return Object.keys(mediaQueries).reduce((result, query) => {
         // return the new type if the query matches otherwise the previous one
         return matchMedia(mediaQueries[query]).matches ? query : result
-    // use the infinity media type
+        // use the infinity media type
     }, infinityMediaType)
 }
-
 
 /**
  * Gets the current media type from the global `window`.
@@ -175,19 +170,22 @@ function getOrientation(matchMedia) {
 
     const mediaQueries = {
         portrait: '(orientation: portrait)',
-        landscape: '(orientation: landscape)',
+        landscape: '(orientation: landscape)'
     }
 
     // there is a window, so compute the true orientation
     return Object.keys(mediaQueries).reduce((result, query) => {
         // return the new type if the query matches otherwise the previous one
         return matchMedia(mediaQueries[query]).matches ? query : result
-    // use the default orientation
+        // use the default orientation
     }, defaultOrientation)
 }
 
 // export the reducer factory
-export default (breakpoints, { initialMediaType, infinity = defaultMediaType, extraFields = () => ({}) } = {}) => {
+export default (
+    breakpoints,
+    { initialMediaType, infinity = defaultMediaType, extraFields = () => ({}) } = {}
+) => {
     // accept null values
     if (!breakpoints) {
         breakpoints = defaultBreakpoints // eslint-disable-line
@@ -201,15 +199,16 @@ export default (breakpoints, { initialMediaType, infinity = defaultMediaType, ex
     const mediaOrdering = getOrderMap(breakpoints)
 
     // return reducer for handling the responsive state
-    return (state, {type, matchMedia}) => {
+    return (state, { type, matchMedia }) => {
         // if told to recalculate state or state has not yet been initialized
         if (type === CALCULATE_RESPONSIVE_STATE || typeof state === 'undefined') {
             // if the state has never been set before and we have an initial type
-            const mediaType = !state && initialMediaType
-                                        // use it
-                                        ? initialMediaType
-                                        // otherwise figure out the media type from the browser
-                                        : getMediaType(matchMedia, mediaQueries, infinity)
+            const mediaType =
+                !state && initialMediaType
+                    ? // use it
+                      initialMediaType
+                    : // otherwise figure out the media type from the browser
+                      getMediaType(matchMedia, mediaQueries, infinity)
             // the current orientation
             const orientation = getOrientation(matchMedia)
             // build the responsive state
@@ -220,13 +219,13 @@ export default (breakpoints, { initialMediaType, infinity = defaultMediaType, ex
                 is: getIs(mediaType, breakpoints),
                 mediaType,
                 orientation,
-                breakpoints,
+                breakpoints
             }
 
             // return calculated state
             return {
                 ...responsiveState,
-                ...extraFields(responsiveState),
+                ...extraFields(responsiveState)
             }
         }
         // otherwise return the previous state

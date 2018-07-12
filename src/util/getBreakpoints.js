@@ -64,8 +64,8 @@ function getBreakpoints(store) {
     // if we couldn't find a responsive reducer at the root of the project
     if (!responsiveStatePath) {
         throw new Error(
-            'Could not find responsive state reducer. '
-            + 'If you are still running into trouble, please open a ticket on github.'
+            'Could not find responsive state reducer. ' +
+                'If you are still running into trouble, please open a ticket on github.'
         )
     }
 

@@ -8,9 +8,8 @@ import createReducer, {
     getLessThan,
     getGreaterThan,
     getIs,
-    getOrderMap,
+    getOrderMap
 } from './createReducer'
-
 
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
 function randomString(length) {
@@ -21,25 +20,21 @@ function randomString(length) {
     return result
 }
 
-
-describe('createReducer', function () {
-    describe('with default breakpoints', function () {
+describe('createReducer', function() {
+    describe('with default breakpoints', function() {
         // assigned in `beforeEach`
         let reducer
 
-
-        beforeEach(function () {
+        beforeEach(function() {
             reducer = createReducer()
         })
 
-
-        it('returns a function', function () {
+        it('returns a function', function() {
             expect(typeof reducer).toBe('function')
         })
     })
 
-
-    describe('with custom breakpoints', function () {
+    describe('with custom breakpoints', function() {
         // number of breakpoints to randomly generate
         const numBreakpoints = Math.floor(10 * Math.random())
         // maximum length of randomly generated media type strings
@@ -51,8 +46,7 @@ describe('createReducer', function () {
         let reducer
         let breakpoints
 
-
-        beforeEach(function () {
+        beforeEach(function() {
             // randomly generate breakpoints object
             breakpoints = {}
             for (var i = 0; i < numBreakpoints; i++) {
@@ -65,18 +59,15 @@ describe('createReducer', function () {
             reducer = createReducer(breakpoints)
         })
 
-
-        describe('the reducer', function () {
+        describe('the reducer', function() {
             // maximum length of randomly generated action type strings
             const actionTypeMaxLength = 50
 
-
-            it('is a function', function () {
+            it('is a function', function() {
                 expect(typeof reducer).toBe('function')
             })
 
-
-            it('returns the input state for unknown actions and state !== undefined', function () {
+            it('returns the input state for unknown actions and state !== undefined', function() {
                 // randomly generate an action
                 const action = {
                     type: randomString(Math.ceil(actionTypeMaxLength * Math.random()))
@@ -94,7 +85,7 @@ describe('createReducer', function () {
                 small: 500,
                 medium: 800,
                 large: 1000,
-                foo: 'bar',
+                foo: 'bar'
             })
 
             // figure out the ordering for the smaller one
@@ -107,13 +98,12 @@ describe('createReducer', function () {
                 small: 0,
                 medium: 1,
                 large: 2,
-                foo: 3,
+                foo: 3
             })
         })
     })
 
     describe('reducer factory', function() {
-
         const breakpoints = {
             small: 500,
             medium: 1000,
@@ -123,7 +113,7 @@ describe('createReducer', function () {
         it('correctly injects initial state', function() {
             // create a reducer with the initial state
             const reducer = createReducer(breakpoints, {
-                initialMediaType: 'small',
+                initialMediaType: 'small'
             })
 
             // create a redux store with the reducer
@@ -134,7 +124,7 @@ describe('createReducer', function () {
                 small: false,
                 medium: true,
                 large: true,
-                infinity: true,
+                infinity: true
             }
 
             // make sure we were able to correctly inject the initial state
@@ -144,20 +134,22 @@ describe('createReducer', function () {
         it('correctly injects initialMediaType into immutable (Map) root state', function() {
             // create a reducer with the initial state
             const reducer = createReducer(breakpoints, {
-                initialMediaType: 'small',
+                initialMediaType: 'small'
             })
 
             // create a redux store with the reducer
-            const store = createStore(immutableCombine({
-                browser: reducer
-            }))
+            const store = createStore(
+                immutableCombine({
+                    browser: reducer
+                })
+            )
 
             // the expected value for the lessThan object
             const expectedLessThan = {
                 small: false,
                 medium: true,
                 large: true,
-                infinity: true,
+                infinity: true
             }
 
             // make sure we were able to correctly inject the initial state
@@ -167,24 +159,29 @@ describe('createReducer', function () {
         it('correctly injects initialMediaType into immutable (Record) root state', function() {
             // create a reducer with the initial state
             const reducer = createReducer(breakpoints, {
-                initialMediaType: 'small',
+                initialMediaType: 'small'
             })
 
             const StateRecord = Record({
-              browser: undefined
+                browser: undefined
             })
 
             // create a redux store with the reducer
-            const store = createStore(immutableCombine({
-                browser: reducer
-            }, StateRecord))
+            const store = createStore(
+                immutableCombine(
+                    {
+                        browser: reducer
+                    },
+                    StateRecord
+                )
+            )
 
             // the expected value for the lessThan object
             const expectedLessThan = {
                 small: false,
                 medium: true,
                 large: true,
-                infinity: true,
+                infinity: true
             }
 
             // make sure we were able to correctly inject the initial state
@@ -197,7 +194,7 @@ describe('createReducer', function () {
         small: 0,
         medium: 1,
         large: 2,
-        foo: 'bar',
+        foo: 'bar'
     }
     // the current media type
     const currentType = 'medium'
@@ -208,7 +205,7 @@ describe('createReducer', function () {
             small: false,
             medium: false,
             large: true,
-            foo: false,
+            foo: false
         }
         // make sure the computed lessThan object matches exepctation
         expect(getLessThan(currentType, breakpoints)).toEqual(expected)
@@ -220,7 +217,7 @@ describe('createReducer', function () {
             small: true,
             medium: false,
             large: false,
-            foo: false,
+            foo: false
         }
         // make sure the computed lessThan object matches exepctation
         expect(getGreaterThan(currentType, breakpoints)).toEqual(expected)
@@ -232,7 +229,7 @@ describe('createReducer', function () {
             small: false,
             medium: true,
             large: false,
-            foo: false,
+            foo: false
         }
         // make sure the computed lessThan object matches exepctation
         expect(getIs(currentType, breakpoints)).toEqual(expected)
