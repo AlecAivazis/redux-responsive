@@ -122,7 +122,6 @@
         "object-curly-spacing": 0,
         "object-shorthand": 0,
         "operator-assignment": [2, "always"],
-        "operator-linebreak": [2, "before"],
         "prefer-const": 2,
         "quote-props": [2, "as-needed"],
         "quotes": [2, "single", "avoid-escape"],
