@@ -79,7 +79,7 @@ export function getLessThan(currentMediaType, breakpointOrder) {
     return transform(breakpointOrder, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number' && breakpointOrder[mediaType]) {
-            // store wether or not it is less than the breakpoint
+            // store whether or not it is less than the breakpoint
             result[mediaType] = currentOrder < breakpointOrder[mediaType]
             // handle non numerical breakpoints specially
         } else {
@@ -98,7 +98,7 @@ export function getLessThan(currentMediaType, breakpointOrder) {
  */
 export function getIs(currentMediaType, breakpoints) {
     return transform(breakpoints, (result, breakpoint, mediaType) => {
-        // store wether or not the current media type matches the breakpoint in the mapping
+        // store whether or not the current media type matches the breakpoint in the mapping
         result[mediaType] = mediaType === currentMediaType
     })
 }
@@ -118,7 +118,7 @@ export function getGreaterThan(currentMediaType, breakpointOrder) {
     return transform(breakpointOrder, (result, breakpoint, mediaType) => {
         // if the breakpoint is a number
         if (typeof breakpoint === 'number') {
-            // store wether or not it is less than the breakpoint
+            // store whether or not it is less than the breakpoint
             result[mediaType] = currentOrder > breakpointOrder[mediaType]
             // handle non numerical breakpoints specially
         } else {

@@ -219,7 +219,7 @@ describe('createReducer', function() {
             large: false,
             foo: false,
         }
-        // make sure the computed lessThan object matches exepctation
+        // make sure the computed greaterThan object matches exepctation
         expect(getGreaterThan(currentType, breakpoints)).toEqual(expected)
     })
 
@@ -231,7 +231,7 @@ describe('createReducer', function() {
             large: false,
             foo: false,
         }
-        // make sure the computed lessThan object matches exepctation
+        // make sure the computed is object matches exepctation
         expect(getIs(currentType, breakpoints)).toEqual(expected)
     })
 
@@ -243,7 +243,7 @@ describe('createReducer', function() {
             large: false,
             foo: true,
         }
-        // make sure the computed lessThan object matches exepctation
+        // make sure the computed is object matches exepctation
         expect(getIs('foo', breakpoints)).toEqual(expected)
     })
 })
