@@ -200,7 +200,7 @@ describe('createReducer', function() {
     const currentType = 'medium'
 
     it('can compute the less than object', function() {
-        // the expectation lessThan
+        // the expected lessThan
         const expected = {
             small: false,
             medium: false,
@@ -212,7 +212,7 @@ describe('createReducer', function() {
     })
 
     it('can compute the greater than object', function() {
-        // the expectation lessThan
+        // the expected greaterThan
         const expected = {
             small: true,
             medium: false,
@@ -224,7 +224,7 @@ describe('createReducer', function() {
     })
 
     it('can compute the is object', function() {
-        // the expectation lessThan
+        // the expected is
         const expected = {
             small: false,
             medium: true,
@@ -236,7 +236,7 @@ describe('createReducer', function() {
     })
 
     it('is object can refer to non-numerical values', function() {
-        // the expectation lessThan
+        // the expected is
         const expected = {
             small: false,
             medium: false,
