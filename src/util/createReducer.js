@@ -98,14 +98,8 @@ export function getLessThan(currentMediaType, breakpointOrder) {
  */
 export function getIs(currentMediaType, breakpoints) {
     return transform(breakpoints, (result, breakpoint, mediaType) => {
-        // if the breakpoint is a number
-        if (typeof breakpoint === 'number' && breakpoints[mediaType]) {
-            // store wether or not it is less than the breakpoint
-            result[mediaType] = mediaType === currentMediaType
-            // handle non numerical breakpoints specially
-        } else {
-            result[mediaType] = false
-        }
+        // store wether or not the current media type matches the breakpoint in the mapping
+        result[mediaType] = mediaType === currentMediaType
     })
 }
 

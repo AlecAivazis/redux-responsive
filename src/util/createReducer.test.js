@@ -234,4 +234,16 @@ describe('createReducer', function() {
         // make sure the computed lessThan object matches exepctation
         expect(getIs(currentType, breakpoints)).toEqual(expected)
     })
+
+    it('is object can refer to non-numerical values', function() {
+        // the expectation lessThan
+        const expected = {
+            small: false,
+            medium: false,
+            large: false,
+            foo: true
+        }
+        // make sure the computed lessThan object matches exepctation
+        expect(getIs('foo', breakpoints)).toEqual(expected)
+    })
 })
