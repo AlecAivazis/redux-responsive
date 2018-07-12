@@ -13,7 +13,7 @@ describe('Breakpoint discovery', function() {
         // create a redux store with the reducer at the root
         const store = createStore(
             combineReducers({
-                browser: reducer
+                browser: reducer,
             })
         )
 
@@ -25,7 +25,7 @@ describe('Breakpoint discovery', function() {
         // create a redux store with the reducer at the root
         const store = createStore(
             immutableCombine({
-                browser: reducer
+                browser: reducer,
             })
         )
 
@@ -35,13 +35,13 @@ describe('Breakpoint discovery', function() {
 
     it('Can find responsive state in Immutable.js Record root state', function() {
         const StateRecord = Record({
-            browser: undefined
+            browser: undefined,
         })
         // create a redux store with the reducer at the root
         const store = createStore(
             immutableCombine(
                 {
-                    browser: reducer
+                    browser: reducer,
                 },
                 StateRecord
             )
@@ -56,10 +56,10 @@ describe('Breakpoint discovery', function() {
             combineReducers({
                 foo: combineReducers({
                     bar: combineReducers({
-                        baz: reducer
+                        baz: reducer,
                     }),
-                    quux: () => true
-                })
+                    quux: () => true,
+                }),
             })
         )
         expect(getBreakpoints(store)).toBe(defaultBreakpoints)
@@ -70,10 +70,10 @@ describe('Breakpoint discovery', function() {
             immutableCombine({
                 foo: immutableCombine({
                     bar: immutableCombine({
-                        baz: reducer
+                        baz: reducer,
                     }),
-                    quux: () => true
-                })
+                    quux: () => true,
+                }),
             })
         )
         expect(getBreakpoints(store)).toBe(defaultBreakpoints)
@@ -83,20 +83,20 @@ describe('Breakpoint discovery', function() {
         const StateRecord = Record({
             foo: Record({
                 bar: Record({
-                    baz: undefined
+                    baz: undefined,
                 })(),
-                quux: true
-            })()
+                quux: true,
+            })(),
         })
         const store = createStore(
             immutableCombine(
                 {
                     foo: immutableCombine({
                         bar: immutableCombine({
-                            baz: reducer
+                            baz: reducer,
                         }),
-                        quux: () => true
-                    })
+                        quux: () => true,
+                    }),
                 },
                 StateRecord
             )
@@ -108,7 +108,7 @@ describe('Breakpoint discovery', function() {
         // create a store without the reducer at reducer
         const store = createStore(
             combineReducers({
-                hello: () => true
+                hello: () => true,
             })
         )
 
@@ -121,7 +121,7 @@ describe('Breakpoint discovery', function() {
             combineReducers({
                 keys: () => true,
                 getIn: () => true,
-                browser: reducer
+                browser: reducer,
             })
         )
         expect(() => getBreakpoints(store)).not.toThrowError()

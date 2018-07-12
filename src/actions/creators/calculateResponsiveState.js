@@ -19,5 +19,5 @@ export default ({ innerWidth, innerHeight, matchMedia } = {}) => ({
     type: CALCULATE_RESPONSIVE_STATE,
     innerWidth,
     innerHeight,
-    matchMedia
+    matchMedia,
 })

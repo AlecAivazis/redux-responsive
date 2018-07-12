@@ -32,7 +32,8 @@
         "tabWidth": 4,
         "semi": false,
         "singleQuote": true,
-        "printWidth": 100
+        "printWidth": 100,
+        "trailingComma": "es5"
     },
     "dependencies": {
         "mediaquery": "0.0.3"

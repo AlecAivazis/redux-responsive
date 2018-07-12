@@ -6,7 +6,7 @@ import {
     browserMatches,
     sortKeys,
     transformStyle,
-    mapStateToPropsFactory
+    mapStateToPropsFactory,
 } from './stylesheet'
 
 describe('ReactStyleSheet', function() {
@@ -25,9 +25,9 @@ describe('ReactStyleSheet', function() {
         const browser = {
             greaterThan: {
                 medium: true,
-                large: false
+                large: false,
             },
-            mediaType: 'large'
+            mediaType: 'large',
         }
         // the pattern to test
         const truePattern = '_greaterThan_medium'
@@ -51,7 +51,7 @@ describe('ReactStyleSheet', function() {
             '_lessThan_large',
             '_equal_medium',
             '_greaterThan_medium',
-            'border'
+            'border',
         ]
         // make sure the responsive styles came last and are ordered correctly
         // note: there are 3 none responsive styles in the test
@@ -62,7 +62,7 @@ describe('ReactStyleSheet', function() {
             '_lessThan_medium',
             '_greaterThan_medium',
             '_greaterThan_large',
-            '_equal_medium'
+            '_equal_medium',
         ])
     })
 
@@ -71,14 +71,14 @@ describe('ReactStyleSheet', function() {
         const browser = {
             greaterThan: {
                 medium: true,
-                large: false
+                large: false,
             },
             lessThan: {
                 medium: false,
-                large: true
+                large: true,
             },
             mediaType: 'large',
-            breakpoints: ['medium', 'large']
+            breakpoints: ['medium', 'large'],
         }
         // the stylesheet
         const baseValue = 'black'
@@ -88,15 +88,15 @@ describe('ReactStyleSheet', function() {
         const style = {
             border: baseValue,
             _greaterThan_medium: {
-                border: greaterThanValue
+                border: greaterThanValue,
             },
             _lessThan_large: {
-                border: lessThanValue
-            }
+                border: lessThanValue,
+            },
         }
         const sheet = {
             style1: style,
-            style2: style
+            style2: style,
         }
 
         const { styles } = mapStateToPropsFactory(sheet)({ browser })
@@ -113,14 +113,14 @@ describe('ReactStyleSheet', function() {
         const browser = {
             greaterThan: {
                 medium: true,
-                large: false
+                large: false,
             },
             lessThan: {
                 medium: false,
-                large: true
+                large: true,
             },
             mediaType: 'large',
-            breakpoints: ['medium', 'large']
+            breakpoints: ['medium', 'large'],
         }
         // the stylesheet
         const baseValue = 'black'
@@ -130,11 +130,11 @@ describe('ReactStyleSheet', function() {
         const stylesheet = {
             border: baseValue,
             _greaterThan_medium: {
-                border: greaterThanValue
+                border: greaterThanValue,
             },
             _lessThan_large: {
-                border: lessThanValue
-            }
+                border: lessThanValue,
+            },
         }
         // the tranformer takes the browser state and returns a function that
         // takes the responsive stylesheet and returns the final one

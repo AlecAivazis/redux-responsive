@@ -131,16 +131,16 @@ export const mapStateToPropsFactory = (stylesheet, { reducerName } = defaultOpti
         styles: Object.keys(sheet).reduce(
             (prev, key) => ({
                 ...prev,
-                [key]: transformValue(sheet[key])
+                [key]: transformValue(sheet[key]),
             }),
             {}
-        )
+        ),
     }
 }
 
 // the default options
 const defaultOptions = {
-    reducerName: 'browser'
+    reducerName: 'browser',
 }
 
 // export a higher order component

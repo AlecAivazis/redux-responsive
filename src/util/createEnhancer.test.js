@@ -35,9 +35,9 @@ describe('createEnhancer', function() {
                         getState: () => ({
                             browser: {
                                 _: true,
-                                breakpoints: defaultBreakpoints
-                            }
-                        })
+                                breakpoints: defaultBreakpoints,
+                            },
+                        }),
                     }
                 }
 

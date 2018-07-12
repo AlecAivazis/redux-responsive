@@ -8,7 +8,7 @@ export const defaultBreakpoints = {
     extraSmall: 480,
     small: 768,
     medium: 992,
-    large: 1200
+    large: 1200,
 }
 // media type to default to when no `window` present
 const defaultMediaType = 'infinity'
@@ -164,7 +164,7 @@ function getOrientation(matchMedia) {
 
     const mediaQueries = {
         portrait: '(orientation: portrait)',
-        landscape: '(orientation: landscape)'
+        landscape: '(orientation: landscape)',
     }
 
     // there is a window, so compute the true orientation
@@ -213,13 +213,13 @@ export default (
                 is: getIs(mediaType, breakpoints),
                 mediaType,
                 orientation,
-                breakpoints
+                breakpoints,
             }
 
             // return calculated state
             return {
                 ...responsiveState,
-                ...extraFields(responsiveState)
+                ...extraFields(responsiveState),
             }
         }
         // otherwise return the previous state

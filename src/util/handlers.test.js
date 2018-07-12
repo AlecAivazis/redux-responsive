@@ -12,7 +12,7 @@ describe('PerformanceMode handlers', function() {
     it('calculates the initial state by default', function() {
         // create a store with the default behavior
         const reducer = combineReducers({
-            browser: Reducer
+            browser: Reducer,
         })
 
         // add a matchMedia mock for this test
@@ -35,7 +35,7 @@ describe('PerformanceMode handlers', function() {
     it('does not calcuate the initial state when flagged', function() {
         // create a store with the default behavior
         const reducer = combineReducers({
-            browser: Reducer
+            browser: Reducer,
         })
         // create the enhanced store
         const store = createStore(reducer, createEnhancer({ calculateInitialState: false }))
