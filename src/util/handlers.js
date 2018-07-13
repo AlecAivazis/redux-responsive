@@ -8,7 +8,7 @@ import getBreakpoints from './getBreakpoints'
 
 // this function adds event handlers to the window that only tirgger
 // when the responsive state changes
-export default ({store, window, calculateInitialState}) => {
+export default ({ store, window, calculateInitialState }) => {
     // the function to call when calculating the new responsive state
     const refreshResponsiveState = () => store.dispatch(calculateResponsiveState(window))
 
@@ -23,14 +23,13 @@ export default ({store, window, calculateInitialState}) => {
         /* eslint-disable no-loop-func */
 
         // whenever any of the media query lists status changes
-        mediaQueryList.addListener((query) => {
+        mediaQueryList.addListener(query => {
             // if a new query was matched
             if (query.matches) {
                 // recaulate the state
                 refreshResponsiveState()
             }
         })
-
     })
 
     // make sure we update the responsive state when the browser changes orientation

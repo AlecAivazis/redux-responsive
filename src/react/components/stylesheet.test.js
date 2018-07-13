@@ -1,4 +1,3 @@
-
 import 'babel-polyfill'
 
 // local imports
@@ -10,24 +9,23 @@ import {
     mapStateToPropsFactory,
 } from './stylesheet'
 
-describe('ReactStyleSheet', function () {
-    it("can parse the relevant data from style patterns", function() {
+describe('ReactStyleSheet', function() {
+    it('can parse the relevant data from style patterns', function() {
         // the pattern to test
         const pattern = '_lessThan_medium'
         // grab the relevant data
-        const {comparison, size} = parsePattern(pattern)
+        const { comparison, size } = parsePattern(pattern)
         // make sure the values match up
         expect(comparison).toBe('lessThan')
         expect(size).toBe('medium')
     })
 
-
-    it("can match a browser state with a pattern", function() {
+    it('can match a browser state with a pattern', function() {
         // the mocked state of the browser reducer
         const browser = {
             greaterThan: {
                 medium: true,
-                large: false
+                large: false,
             },
             mediaType: 'large',
         }
@@ -41,8 +39,7 @@ describe('ReactStyleSheet', function () {
         expect(browserMatches(browser, equalPattern)).toBe(true)
     })
 
-
-    it("can sort style keys in the correct order", function() {
+    it('can sort style keys in the correct order', function() {
         // the breakpoints to define ordering
         const breakpoints = ['medium', 'large']
         // the keys (unsorted)
@@ -81,7 +78,7 @@ describe('ReactStyleSheet', function () {
                 large: true,
             },
             mediaType: 'large',
-            breakpoints: ['medium', 'large']
+            breakpoints: ['medium', 'large'],
         }
         // the stylesheet
         const baseValue = 'black'
@@ -89,20 +86,20 @@ describe('ReactStyleSheet', function () {
         const lessThanValue = 'green'
 
         const style = {
-            'border': baseValue,
-            '_greaterThan_medium': {
-                'border': greaterThanValue,
+            border: baseValue,
+            _greaterThan_medium: {
+                border: greaterThanValue,
             },
-            '_lessThan_large': {
-                'border': lessThanValue,
-            }
+            _lessThan_large: {
+                border: lessThanValue,
+            },
         }
         const sheet = {
             style1: style,
             style2: style,
         }
 
-        const { styles } = mapStateToPropsFactory(sheet)({browser})
+        const { styles } = mapStateToPropsFactory(sheet)({ browser })
 
         // sanity check
         expect(styles.style1).toBeDefined()
@@ -111,8 +108,7 @@ describe('ReactStyleSheet', function () {
         expect(styles.style2.border).toBe(lessThanValue)
     })
 
-
-    it("can merge responsive styles into base style", function() {
+    it('can merge responsive styles into base style', function() {
         // the mocked browser state
         const browser = {
             greaterThan: {
@@ -124,7 +120,7 @@ describe('ReactStyleSheet', function () {
                 large: true,
             },
             mediaType: 'large',
-            breakpoints: ['medium', 'large']
+            breakpoints: ['medium', 'large'],
         }
         // the stylesheet
         const baseValue = 'black'
@@ -132,13 +128,13 @@ describe('ReactStyleSheet', function () {
         const lessThanValue = 'green'
 
         const stylesheet = {
-            'border': baseValue,
-            '_greaterThan_medium': {
-                'border': greaterThanValue,
+            border: baseValue,
+            _greaterThan_medium: {
+                border: greaterThanValue,
             },
-            '_lessThan_large': {
-                'border': lessThanValue,
-            }
+            _lessThan_large: {
+                border: lessThanValue,
+            },
         }
         // the tranformer takes the browser state and returns a function that
         // takes the responsive stylesheet and returns the final one

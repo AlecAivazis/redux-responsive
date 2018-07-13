@@ -7,14 +7,13 @@ var webpack = require('webpack')
 // local imports
 var projectPaths = require('./projectPaths')
 
-
 // default to using development configuration
 var devtool = 'source-map'
 var plugins = []
 
 var entry = {
     react: projectPaths.reactEntry,
-    index: projectPaths.entry,
+    index: projectPaths.entry
 }
 
 // if we are in a production environment
@@ -44,7 +43,7 @@ if (process.env.NODE_ENV === 'production') {
     // add the min extensions
     entry = {
         'react.min': projectPaths.reactEntry,
-        'index.min': projectPaths.entry,
+        'index.min': projectPaths.entry
     }
 }
 
@@ -54,45 +53,43 @@ module.exports = {
     output: {
         filename: '[name].js',
         library: 'redux-responsive',
-        libraryTarget: 'umd',
+        libraryTarget: 'umd'
     },
     module: {
         rules: [
-             {
+            {
                 test: /\.jsx?$/,
-                enforce: "pre",
+                enforce: 'pre',
                 exclude: /node_modules/,
-                use:[{loader: 'eslint-loader', options: {
-                    configFile: projectPaths.eslintConfig
-                }}]
+                use: [
+                    {
+                        loader: 'eslint-loader',
+                        options: {
+                            configFile: projectPaths.eslintConfig
+                        }
+                    }
+                ]
             },
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                include: [
-                    projectPaths.sourceDir,
-                    projectPaths.exampleDir,
-                ],
+                include: [projectPaths.sourceDir, projectPaths.exampleDir],
                 query: {
-                    extends: projectPaths.babelConfig,
-                },
-            },
-        ],
+                    extends: projectPaths.babelConfig
+                }
+            }
+        ]
     },
     resolve: {
-        modules: [
-            'node_modules',
-            projectPaths.sourceDir,
-        ],
+        modules: ['node_modules', projectPaths.sourceDir]
     },
     externals: {
         React: 'React',
         redux: 'redux',
-        'react-redux': 'react-redux',
+        'react-redux': 'react-redux'
     },
     plugins: plugins,
-    devtool: devtool,
+    devtool: devtool
 }
-
 
 // end of file

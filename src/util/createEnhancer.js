@@ -11,13 +11,13 @@ import addHandlers from './handlers'
  */
 export default ({ calculateInitialState = true } = {}) => {
     // return the store enhancer (an enhanced version of `createStore`)
-    return (createStore) => (...args) => {
+    return createStore => (...args) => {
         // create the store
         const store = createStore(...args)
         // if there is a `window`
         if (typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined') {
             // add the handlers that only fire when the responsive state changes
-            addHandlers({store, window, calculateInitialState})
+            addHandlers({ store, window, calculateInitialState })
         }
 
         // return the store so that the call is transparent

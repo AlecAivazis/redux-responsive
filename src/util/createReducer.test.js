@@ -11,7 +11,6 @@ import createReducer, {
     getOrderMap,
 } from './createReducer'
 
-
 const possibleChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'
 function randomString(length) {
     let result = ''
@@ -21,25 +20,21 @@ function randomString(length) {
     return result
 }
 
-
-describe('createReducer', function () {
-    describe('with default breakpoints', function () {
+describe('createReducer', function() {
+    describe('with default breakpoints', function() {
         // assigned in `beforeEach`
         let reducer
 
-
-        beforeEach(function () {
+        beforeEach(function() {
             reducer = createReducer()
         })
 
-
-        it('returns a function', function () {
+        it('returns a function', function() {
             expect(typeof reducer).toBe('function')
         })
     })
 
-
-    describe('with custom breakpoints', function () {
+    describe('with custom breakpoints', function() {
         // number of breakpoints to randomly generate
         const numBreakpoints = Math.floor(10 * Math.random())
         // maximum length of randomly generated media type strings
@@ -51,8 +46,7 @@ describe('createReducer', function () {
         let reducer
         let breakpoints
 
-
-        beforeEach(function () {
+        beforeEach(function() {
             // randomly generate breakpoints object
             breakpoints = {}
             for (var i = 0; i < numBreakpoints; i++) {
@@ -65,21 +59,18 @@ describe('createReducer', function () {
             reducer = createReducer(breakpoints)
         })
 
-
-        describe('the reducer', function () {
+        describe('the reducer', function() {
             // maximum length of randomly generated action type strings
             const actionTypeMaxLength = 50
 
-
-            it('is a function', function () {
+            it('is a function', function() {
                 expect(typeof reducer).toBe('function')
             })
 
-
-            it('returns the input state for unknown actions and state !== undefined', function () {
+            it('returns the input state for unknown actions and state !== undefined', function() {
                 // randomly generate an action
                 const action = {
-                    type: randomString(Math.ceil(actionTypeMaxLength * Math.random()))
+                    type: randomString(Math.ceil(actionTypeMaxLength * Math.random())),
                 }
                 // non-undefined input state
                 const state = Math.random()
@@ -113,11 +104,10 @@ describe('createReducer', function () {
     })
 
     describe('reducer factory', function() {
-
         const breakpoints = {
             small: 500,
             medium: 1000,
-            large: 15000
+            large: 15000,
         }
 
         it('correctly injects initial state', function() {
@@ -148,9 +138,11 @@ describe('createReducer', function () {
             })
 
             // create a redux store with the reducer
-            const store = createStore(immutableCombine({
-                browser: reducer
-            }))
+            const store = createStore(
+                immutableCombine({
+                    browser: reducer,
+                })
+            )
 
             // the expected value for the lessThan object
             const expectedLessThan = {
@@ -171,13 +163,18 @@ describe('createReducer', function () {
             })
 
             const StateRecord = Record({
-              browser: undefined
+                browser: undefined,
             })
 
             // create a redux store with the reducer
-            const store = createStore(immutableCombine({
-                browser: reducer
-            }, StateRecord))
+            const store = createStore(
+                immutableCombine(
+                    {
+                        browser: reducer,
+                    },
+                    StateRecord
+                )
+            )
 
             // the expected value for the lessThan object
             const expectedLessThan = {
@@ -203,7 +200,7 @@ describe('createReducer', function () {
     const currentType = 'medium'
 
     it('can compute the less than object', function() {
-        // the expectation lessThan
+        // the expected lessThan
         const expected = {
             small: false,
             medium: false,
@@ -215,26 +212,38 @@ describe('createReducer', function () {
     })
 
     it('can compute the greater than object', function() {
-        // the expectation lessThan
+        // the expected greaterThan
         const expected = {
             small: true,
             medium: false,
             large: false,
             foo: false,
         }
-        // make sure the computed lessThan object matches exepctation
+        // make sure the computed greaterThan object matches exepctation
         expect(getGreaterThan(currentType, breakpoints)).toEqual(expected)
     })
 
     it('can compute the is object', function() {
-        // the expectation lessThan
+        // the expected is
         const expected = {
             small: false,
             medium: true,
             large: false,
             foo: false,
         }
-        // make sure the computed lessThan object matches exepctation
+        // make sure the computed is object matches exepctation
         expect(getIs(currentType, breakpoints)).toEqual(expected)
+    })
+
+    it('is object can refer to non-numerical values', function() {
+        // the expected is
+        const expected = {
+            small: false,
+            medium: false,
+            large: false,
+            foo: true,
+        }
+        // make sure the computed is object matches exepctation
+        expect(getIs('foo', breakpoints)).toEqual(expected)
     })
 })

@@ -19,11 +19,11 @@
  */
 
 // retrieve the data for the given pattern
-export const parsePattern = (pattern) => {
+export const parsePattern = pattern => {
     // separate out the various bits of data
     const [comparison, size] = pattern.split('_').slice(1)
     // return the results
-    return {comparison, size}
+    return { comparison, size }
 }
 
 // this function returns true if the browser state matches the one
@@ -31,11 +31,13 @@ export const parsePattern = (pattern) => {
 //
 // patterns are of the form _(comparison)_(size). ie: _lessThan_medium
 export const browserMatches = (browser, pattern) => {
-    const {comparison, size} = parsePattern(pattern)
+    const { comparison, size } = parsePattern(pattern)
     // return the value of the appropriate entry in the browser state
     try {
-        return comparison === 'equal' ? browser.mediaType === size : browser[comparison][size] || false
-    // if anything goes wrong
+        return comparison === 'equal'
+            ? browser.mediaType === size
+            : browser[comparison][size] || false
+        // if anything goes wrong
     } catch (e) {
         return false
     }
@@ -50,12 +52,12 @@ export const sortKeys = (keys, breakpoints) => {
         // if the key is a custom style
         if (key[0] !== '_') {
             // deal with it first
-            return {key, sort: 0}
+            return { key, sort: 0 }
         }
         // otherwise the key is a responsive style
 
         // grab the data for the style
-        const {comparison, size} = parsePattern(key)
+        const { comparison, size } = parsePattern(key)
         // DRY
         const nBreakpoints = breakpoints.length
         // start off sorting by ascending order to match breakpoints
@@ -65,19 +67,19 @@ export const sortKeys = (keys, breakpoints) => {
         if (comparison === 'equal') {
             // offset it by a lot
             /* eslint-disable space-infix-ops, space-unary-ops */
-            sortValue =+ 3 * nBreakpoints
+            sortValue = +3 * nBreakpoints
             /* eslint-enable space-infix-ops space-unary-ops */
-        // make sure lessThans come after greaterThans
+            // make sure lessThans come after greaterThans
         } else if (comparison === 'lessThan') {
             // by offsetting them all and inverting the placement
             sortValue = 2 * nBreakpoints - sortValue
         }
 
         // return the sort index
-        return {key, sort: sortValue}
+        return { key, sort: sortValue }
     })
 
-    return mapped.sort(({sort: sortA}, {sort: sortB}) => sortA - sortB).map(({key}) => key)
+    return mapped.sort(({ sort: sortA }, { sort: sortB }) => sortA - sortB).map(({ key }) => key)
 }
 
 // this function takes the current state of the browser and
@@ -98,8 +100,8 @@ export const transformStyle = browser => style => {
         if (key[0] !== '_') {
             // add the key to the one we're building up
             stylesheet[key] = style[key]
-        // otherwise we have to process the stylesheet
-        // check if the browser matches the state designated by the string
+            // otherwise we have to process the stylesheet
+            // check if the browser matches the state designated by the string
         } else if (browserMatches(browser, key)) {
             // merge the contents of the sub-style into the parent
             Object.assign(stylesheet, style[key])
@@ -109,10 +111,12 @@ export const transformStyle = browser => style => {
     return stylesheet
 }
 
-
 // this function calculates the current stylesheet based on the responsive
 // state of the reducer
-export const mapStateToPropsFactory = (stylesheet, {reducerName} = defaultOptions) => (state, props) => {
+export const mapStateToPropsFactory = (stylesheet, { reducerName } = defaultOptions) => (
+    state,
+    props
+) => {
     // find the relevant state in the reducer
     const browser = state[reducerName]
 
@@ -124,10 +128,13 @@ export const mapStateToPropsFactory = (stylesheet, {reducerName} = defaultOption
 
     // the stylesheet only differs by values of
     return {
-        styles: Object.keys(sheet).reduce((prev, key) => ({
-            ...prev,
-            [key]: transformValue(sheet[key]),
-        }), {}),
+        styles: Object.keys(sheet).reduce(
+            (prev, key) => ({
+                ...prev,
+                [key]: transformValue(sheet[key]),
+            }),
+            {}
+        ),
     }
 }
 
@@ -137,8 +144,8 @@ const defaultOptions = {
 }
 
 // export a higher order component
-export default (stylesheet, opts) => (component) => (
-    require('react-redux').connect( // eslint-disable-line no-undef
-        mapStateToPropsFactory(stylesheet, {...defaultOptions, ...opts})
+export default (stylesheet, opts) => component =>
+    require('react-redux').connect(
+        // eslint-disable-line no-undef
+        mapStateToPropsFactory(stylesheet, { ...defaultOptions, ...opts })
     )(component)
-)

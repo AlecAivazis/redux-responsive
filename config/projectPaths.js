@@ -6,7 +6,6 @@
 // node imports
 var path = require('path')
 
-
 // project root directory
 var rute = path.join(__dirname, '..')
 // source directory
@@ -17,7 +16,6 @@ var testsDir = path.join(rute, 'tests')
 var buildDir = path.join(rute, 'build')
 // configuration directory
 var configDir = path.join(rute, 'config')
-
 
 // export the project paths|globs object
 module.exports = {
@@ -36,8 +34,7 @@ module.exports = {
     eslintConfig: path.join(configDir, 'eslint.json'),
     karmaConfig: path.join(configDir, 'karma.js'),
     webpackConfig: path.join(configDir, 'webpack.js'),
-    babelConfig: path.join(rute, '.babelrc'),
+    babelConfig: path.join(rute, '.babelrc')
 }
-
 
 // end of file
