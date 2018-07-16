@@ -6,9 +6,6 @@ export interface IResponsiveEnhancer {
     <S>(next: StoreEnhancerStoreCreator<S>): StoreEnhancerStoreCreator<S>
 }
 
-// export type GenericStoreEnhancer = <S>(next: StoreEnhancerStoreCreator<S>) => StoreEnhancerStoreCreator<S>;
-// export type StoreEnhancerStoreCreator<S> = (reducer: Reducer<S>, preloadedState?: S) => Store<S>;
-
 export type BreakPointsDefaultNames =
     | 'extraSmall'
     | 'small'
