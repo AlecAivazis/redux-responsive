@@ -7,17 +7,14 @@ import {
 } from "redux-responsive";
 import { Action, createStore } from "redux";
 
-// $ExpectType StoreEnhancer<{}, {}>
+// $ExpectType IResponsiveEnhancer
 createResponsiveStoreEnhancer();
 
-// $ExpectType StoreEnhancer<{}, {}>
+// $ExpectType IResponsiveEnhancer
 createResponsiveStoreEnhancer({});
 
-// $ExpectType Reducer<IBrowser<IBreakPoints<BreakPointsDefaultNames>>, AnyAction>
-createResponsiveStateReducer();
-
-// $ExpectType Reducer<IBrowser<IBreakPoints<BreakPointsDefaultNames>>, AnyAction>
-createResponsiveStateReducer(void 0, {});
+// $ExpectType string
+createStore(responsiveStateReducer, responsiveStoreEnhancer).getState().orientation;
 
 // $ExpectType boolean
 createStore(responsiveStateReducer).getState().greaterThan.small;
