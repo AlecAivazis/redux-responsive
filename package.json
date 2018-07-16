@@ -24,7 +24,7 @@
         "test:coverage": "npm run test -- --coverage",
         "test:coverage:report": "npm run test:coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
         "test:coverage:report:types": "npm run test:coverage:report && npm run test:types",
-        "__internal__prettier": "prettier 'src/**/*.js'",
+        "__internal__prettier": "prettier 'src/**/*.js' 'types/**/*'",
         "format": "npm run __internal__prettier -- --write"
     },
     "license": "MIT",
