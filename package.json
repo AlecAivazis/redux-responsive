@@ -1,6 +1,6 @@
 {
     "name": "redux-responsive",
-    "version": "4.3.7",
+    "version": "4.3.8",
     "description": "Utilities for easily creating responsive designs in a redux architecture.",
     "main": "index.js",
     "module": "lib/index.js",
