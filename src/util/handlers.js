@@ -33,7 +33,13 @@ export default ({ store, window, calculateInitialState }) => {
     })
 
     // make sure we update the responsive state when the browser changes orientation
-    window.addEventListener('orientationchange', refreshResponsiveState)
+    window.addEventListener('orientationchange', () => {
+        const afterOrientationChange = () => {
+            refreshResponsiveState()
+            window.removeEventListener('resize', afterOrientationChange)
+        }
+        window.addEventListener('resize', afterOrientationChange)
+    })
 
     // if we are supposed to calculate the initial state
     if (calculateInitialState) {
